@@ -8,7 +8,7 @@ class TestTCPConnection(unittest.TestCase):
     PORT = 8888
 
     def setUp(self):
-        self.server = TCPServer.TCPServer(self.HOST, self.PORT)
+        self.server = TCPServer.TCPServer(self.PORT)
         self.client = TCPClient.TCPClient(self.HOST, self.PORT)
         self.server.accept()
         self.data = "12345"
@@ -45,7 +45,3 @@ class TestTCPConnection(unittest.TestCase):
         self.server.write(output)
         output = self.client.read()
         self.assertEqual(self.data, output)
-
-
-if __name__ == '__main__':
-    unittest.main()
