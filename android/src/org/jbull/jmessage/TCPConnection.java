@@ -37,10 +37,13 @@ public class TCPConnection {
     }
 
     public void write(byte[] bytes) throws IOException {
-        sock.getOutputStream().write(bytes);
+        OutputStream os = sock.getOutputStream();
+        os.write(bytes);
+        os.flush();
     }
 
     public int read(byte[] buffer) throws IOException {
+        // TODO: make sure all bytes are read and test this
         //char[] charBuff = new char[buffer.length];
         int n = sock.getInputStream().read(buffer, 0, buffer.length);
         //int n = reader.read(charBuff, 0, charBuff.length);

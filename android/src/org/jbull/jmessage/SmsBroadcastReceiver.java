@@ -10,21 +10,23 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 
 public class SmsBroadcastReceiver extends BroadcastReceiver{
 
     private final SmsManager SMS = SmsManager.getDefault();
-    private SmsHandler smsHandler;
+    private CommunicationManager<GeneratedMessage> commManager;
     private Context context;
 
-    public SmsBroadcastReceiver(SmsHandler smsHandler) {
+    public SmsBroadcastReceiver(CommunicationManager<GeneratedMessage> commManager) {
         super();
-        this.smsHandler = smsHandler;
+        this.commManager = commManager;
     }
 
     @Override
@@ -40,18 +42,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     final Message.Contact sender = getContactByNumber(currentMessage.getDisplayOriginatingAddress());
                     final String message = currentMessage.getDisplayMessageBody();
                     final long timeMs = currentMessage.getTimestampMillis();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Log.w("jMessage", "handling sms");
-                                smsHandler.handleSms(sender, message, timeMs);
-                                Log.w("jMessage", "sms handled");
-                            } catch (IOException e) {
-                                Log.e("jMessage", "error handling send of sms to desktop", e);
-                            }
-                        }
-                    }).start();
+                    Log.w("jMessage", "handling sms");
+                    Message.SmsMessage msg = MessageHandler.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
+                    commManager.send(msg);
+                    Log.w("jMessage", "sms handled");
                 }
             }
         } catch (Exception e) {
@@ -72,9 +66,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
         cur.moveToFirst();
         String contactId = cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup._ID));
         String name = cur.getString(cur.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-        Message.Contact.Builder contactBuilder = Message.Contact.newBuilder()
-                .setPhoneNumber(phoneNumber)
-                .setName(name);
+
+        ByteString imageData = null;
         Uri photoUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, Long.parseLong(contactId));
         InputStream input = Contacts.openContactPhotoInputStream(context.getContentResolver(), photoUri);
         if (input != null) {
@@ -86,12 +79,12 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     buffer.write(data, 0, nRead);
                 }
                 buffer.flush();
-                contactBuilder.setImage(ByteString.copyFrom(buffer.toByteArray()));
+                imageData = ByteString.copyFrom(buffer.toByteArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return contactBuilder.build();
+        return MessageHandler.createContact(name, phoneNumber, imageData);
     }
 
     private void smsError(Exception e) {

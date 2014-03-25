@@ -1,19 +1,39 @@
 package org.jbull.jmessage;
 
-import android.content.Intent;
-import android.util.Log;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by jordan on 3/18/14.
  */
 public class MessageHandler {
-    private static int msgNum = 0;
 
-    public static void sendMessage(String host, int port, GeneratedMessage msg) throws IOException {
-        TCPConnection conn = new TCPConnection(host, port);
+    public static Message.SetupMessage createSetupMessage() {
+        return Message.SetupMessage.getDefaultInstance();
+    }
+
+    public static Message.SmsMessage createSmsMessage(Message.Contact sender, String content, long timeMs, ArrayList<Message.Contact> recipents) {
+        Message.SmsMessage sms = Message.SmsMessage.newBuilder()
+                .setTimeStamp(timeMs)
+                .setSender(sender)
+                .setContent(content)
+                .addAllRecipents(recipents)
+                .build();
+        return sms;
+    }
+
+    public static Message.Contact createContact(String name, String phoneNumber, ByteString imageData) {
+        Message.Contact contact = Message.Contact.newBuilder()
+                .setPhoneNumber(phoneNumber)
+                .setName(name)
+                .setImage(imageData)
+                .build();
+        return contact;
+    }
+
+    public  static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
         Message.Header.Type type = null;
         if (msg instanceof Message.SetupMessage) {
             type = Message.Header.Type.SETUPMESSAGE;
@@ -23,44 +43,10 @@ public class MessageHandler {
             type = Message.Header.Type.CONTACT;
         }
         Message.Header header = Message.Header.newBuilder()
-                .setMsgNum(++msgNum)
+                .setMsgNum(msgNum)
                 .setLength(msg.toByteArray().length)
                 .setType(type)
                 .build();
-        byte[] headerData = header.toByteArray();
-
-        conn.write(headerData);
-        byte[] buffer = new byte[headerData.length];
-        // TODO make sure right amount of bytes are read or timeout and handle
-        Log.w("jMessage", "read " + Integer.toString(conn.read(buffer)) + " bytes should be " + Integer.toString(headerData.length));
-        if (byteEquivalent(headerData, buffer)) {
-            Log.w("jMessage", "sending msg");
-            conn.reconnect();
-            conn.write(msg.toByteArray());
-            Log.w("jMessage", "msg written");
-        } else {
-            Log.e("jMessage", "error reading ack of header");
-        }
-        conn.close();
-    }
-
-    private static boolean byteEquivalent(byte[] a, byte[] b) {
-        int size;
-        if (a.length >= b.length)
-            size = b.length;
-        else
-            size = a.length;
-        for (int i = 0; i < size; i++) {
-            if (a[i] != b[i])
-                return false;
-        }
-        return true;
-    }
-
-    public static Message.SetupMessage createSetupMessage() {
-        return Message.SetupMessage.newBuilder()
-                .setVersion(1)
-                .setApplicationName("jMessage")
-                .build();
+        return header;
     }
 }
