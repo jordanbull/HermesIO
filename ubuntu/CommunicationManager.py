@@ -1,5 +1,4 @@
-import message_pb2
-import time
+import MessageHelper
 
 class CommunicationManager:
     LISTENING = 1
@@ -23,10 +22,7 @@ class CommunicationManager:
         while self.mode == self.SENDING and self.queue_size() > 0:
             msg = self.dequeue()
             self.sender.send(msg)
-        send_done_msg = message_pb2.Mode()
-        send_done_msg.lastUpdate = int(round(time.time() * 1000))
-        send_done_msg.currentTimestamp = send_done_msg.lastUpdate
-        send_done_msg.serverSend = False
+        send_done_msg = MessageHelper.create_mode()
         self.sender.send(send_done_msg)
         self.switch_mode(self.LISTENING)
 
