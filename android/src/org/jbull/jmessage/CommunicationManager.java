@@ -44,7 +44,7 @@ public class CommunicationManager<T> {
         this.sendPeriod = sendPeriodMs;
     }
 
-    public synchronized void listenLoop() {
+    public synchronized void listenLoop() throws IOException {
         Mode curMode = mode;
         while (curMode == Mode.LISTENING) {
             curMode = listener.listen();
@@ -107,6 +107,6 @@ public class CommunicationManager<T> {
     }
 
     public static interface Listener {
-        public Mode listen();
+        public Mode listen() throws IOException;
     }
 }

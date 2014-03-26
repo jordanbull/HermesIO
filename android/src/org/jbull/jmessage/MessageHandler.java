@@ -2,6 +2,7 @@ package org.jbull.jmessage;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,8 @@ import java.util.ArrayList;
  * Created by jordan on 3/18/14.
  */
 public class MessageHandler {
+    // auto-detect the length of a header
+    public static final int HEADER_LENGTH = createHeader(createSetupMessage(), 1).toByteArray().length;
 
     public static Message.SetupMessage createSetupMessage() {
         return Message.SetupMessage.getDefaultInstance();
@@ -25,12 +28,12 @@ public class MessageHandler {
     }
 
     public static Message.Contact createContact(String name, String phoneNumber, ByteString imageData) {
-        Message.Contact contact = Message.Contact.newBuilder()
+        Message.Contact.Builder builder = Message.Contact.newBuilder()
                 .setPhoneNumber(phoneNumber)
-                .setName(name)
-                .setImage(imageData)
-                .build();
-        return contact;
+                .setName(name);
+        if (imageData != null)
+            builder.setImage(imageData);
+        return builder.build();
     }
 
     public  static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
@@ -48,5 +51,24 @@ public class MessageHandler {
                 .setType(type)
                 .build();
         return header;
+    }
+
+    public static Message.Mode createModeMessage(boolean serverSend, long lastUpdated) {
+        return Message.Mode.newBuilder()
+                .setCurrentTimestamp(System.currentTimeMillis())
+                .setServerSend(serverSend)
+                .setLastUpdate(lastUpdated)
+                .build();
+    }
+
+    public static GeneratedMessage constructFromBytes(Message.Header.Type type, byte[] buffer) throws InvalidProtocolBufferException {
+        if (type == Message.Header.Type.SMSMESSAGE) {
+            return Message.SmsMessage.parseFrom(buffer);
+        } else if (type == Message.Header.Type.MODE) {
+            return Message.Mode.parseFrom(buffer);
+        }
+        assert false;
+        // TODO: throw a relevant exception
+        return null;
     }
 }
