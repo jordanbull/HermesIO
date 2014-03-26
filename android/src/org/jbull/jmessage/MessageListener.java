@@ -10,13 +10,13 @@ import java.io.IOException;
 public class MessageListener implements CommunicationManager.Listener {
     private final String host;
     private final int port;
-    private final InstructionHandler instructionHandler;
+    private final MessageReactor messageReactor;
     private long lastUpdate = 0;
 
-    public MessageListener(String host, int port, InstructionHandler handler) {
+    public MessageListener(String host, int port, MessageReactor handler) {
         this.host = host;
         this.port = port;
-        this.instructionHandler = handler;
+        this.messageReactor = handler;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MessageListener implements CommunicationManager.Listener {
         conn.close();
         Message.Header.Type type = header.getType();
         GeneratedMessage msg = MessageHelper.constructFromBytes(type, buffer);
-        if (instructionHandler.executeMessage(type, msg)) {
+        if (messageReactor.executeMessage(type, msg)) {
             return CommunicationManager.Mode.LISTENING;
         } else {
             return CommunicationManager.Mode.SENDING;
@@ -41,7 +41,7 @@ public class MessageListener implements CommunicationManager.Listener {
     }
 
 
-    public static interface InstructionHandler {
+    public static interface MessageReactor {
         /**
          * Executes any actions that should be performed as a result of receiving msg from the server
          * @param type the type of message received

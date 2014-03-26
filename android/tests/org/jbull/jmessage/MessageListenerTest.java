@@ -19,7 +19,7 @@ public class MessageListenerTest extends TestCase {
         TestInstrHandler trueInstrHandler = new TestInstrHandler(true);
         final MessageListener trueListener = new MessageListener(HOST, PORT, trueInstrHandler);
         /* Test that the process of reading a header and message and passing it to the
-           InstructionHandler
+           MessageReactor
          */
         Thread t = new Thread(new Runnable() {
             @Override
@@ -76,7 +76,7 @@ public class MessageListenerTest extends TestCase {
         conn.close();
     }
 
-    public class TestInstrHandler implements MessageListener.InstructionHandler {
+    public class TestInstrHandler implements MessageListener.MessageReactor {
         private final boolean returnVal;
         public Message.Header.Type recentType;
         public GeneratedMessage recentMsg;
