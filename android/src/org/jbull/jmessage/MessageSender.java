@@ -31,12 +31,12 @@ public class MessageSender implements CommunicationManager.Sender<GeneratedMessa
             conn.reconnect();
             conn.write(msg.toByteArray());
         } else {
-            throw new RuntimeException("Error reading header as a mtach");
+            throw new RuntimeException("Error reading header as a match");
         }
         conn.close();
     }
 
-    private static boolean byteEquivalent(byte[] a, byte[] b) {
+    public static boolean byteEquivalent(byte[] a, byte[] b) {
         int size;
         if (a.length >= b.length)
             size = b.length;
