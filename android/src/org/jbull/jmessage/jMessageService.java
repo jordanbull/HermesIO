@@ -16,6 +16,7 @@ public class jMessageService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private String ip;
     private final int PORT = 8888;
+    private final int SEND_PERIOD = 1000;
     private Intent intent;
 
     @Override
@@ -29,15 +30,9 @@ public class jMessageService extends Service {
         } catch (Exception e) {
 
         }
-        CommunicationManager.Listener dummyListener = new CommunicationManager.Listener() {
-            @Override
-            public CommunicationManager.Mode listen() {
-                throw new RuntimeException("This is a dummy Listener");
-            }
-        };
+        MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler());
         MessageSender sender = new MessageSender(ip, 8888);
-        //only sneds right now
-        CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(dummyListener, sender, -1);
+        CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
         try {
             Log.w("jMessage", "sending setup");
             commManager.switchMode(CommunicationManager.Mode.SENDING);
