@@ -43,7 +43,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     final String message = currentMessage.getDisplayMessageBody();
                     final long timeMs = currentMessage.getTimestampMillis();
                     Log.w("jMessage", "handling sms");
-                    Message.SmsMessage msg = MessageHandler.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
+                    Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
                     commManager.send(msg);
                     Log.w("jMessage", "sms handled");
                 }
@@ -84,7 +84,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                 e.printStackTrace();
             }
         }
-        return MessageHandler.createContact(name, phoneNumber, imageData);
+        return MessageHelper.createContact(name, phoneNumber, imageData);
     }
 
     private void smsError(Exception e) {

@@ -32,8 +32,8 @@ public class MessageListenerTest extends TestCase {
             }
         });
         t.start();
-        Message.SmsMessage sms = MessageHandler.createSmsMessage(
-                MessageHandler.createContact(
+        Message.SmsMessage sms = MessageHelper.createSmsMessage(
+                MessageHelper.createContact(
                         "name",
                         "phoneNumber",
                         null),
@@ -65,7 +65,7 @@ public class MessageListenerTest extends TestCase {
 
     private void sendSmsToListener(TCPConnection.TCPServer server, Message.SmsMessage sms) throws IOException {
         TCPConnection conn = server.accept();
-        Message.Header header = MessageHandler.createHeader(sms, 1);
+        Message.Header header = MessageHelper.createHeader(sms, 1);
         conn.write(header.toByteArray());
         byte[] buffer = new byte[header.toByteArray().length];
         conn.read(buffer);

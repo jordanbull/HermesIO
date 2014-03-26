@@ -1,6 +1,5 @@
 package org.jbull.jmessage;
 
-import android.util.Log;
 import com.google.protobuf.GeneratedMessage;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class MessageSender implements CommunicationManager.Sender<GeneratedMessa
     @Override
     public void send(GeneratedMessage msg) throws IOException {
         TCPConnection conn = new TCPConnection(host, port);
-        Message.Header header = MessageHandler.createHeader(msg, ++msgNum);
+        Message.Header header = MessageHelper.createHeader(msg, ++msgNum);
         byte[] headerData = header.toByteArray();
 
         conn.write(headerData);

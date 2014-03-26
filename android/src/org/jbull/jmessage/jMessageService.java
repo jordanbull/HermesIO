@@ -41,7 +41,7 @@ public class jMessageService extends Service {
         try {
             Log.w("jMessage", "sending setup");
             commManager.switchMode(CommunicationManager.Mode.SENDING);
-            commManager.send(MessageHandler.createSetupMessage());
+            commManager.send(MessageHelper.createSetupMessage());
             Log.w("jMessage", "setup sent");
         } catch (IOException e) {
             throw new RuntimeException("Error starting the CommunicationManager", e);

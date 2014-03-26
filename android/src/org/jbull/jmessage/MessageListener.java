@@ -22,7 +22,7 @@ public class MessageListener implements CommunicationManager.Listener {
     @Override
     public CommunicationManager.Mode listen() throws IOException {
         TCPConnection conn = new TCPConnection(host, port);
-        byte[] headerBytes = new byte[MessageHandler.HEADER_LENGTH]; //hopefully headers are never longer than this
+        byte[] headerBytes = new byte[MessageHelper.HEADER_LENGTH]; //hopefully headers are never longer than this
         conn.read(headerBytes);
         Message.Header header = Message.Header.parseFrom(headerBytes);
         conn.write(header.toByteArray());
@@ -32,7 +32,7 @@ public class MessageListener implements CommunicationManager.Listener {
         conn.read(buffer);
         conn.close();
         Message.Header.Type type = header.getType();
-        GeneratedMessage msg = MessageHandler.constructFromBytes(type, buffer);
+        GeneratedMessage msg = MessageHelper.constructFromBytes(type, buffer);
         if (instructionHandler.executeMessage(type, msg)) {
             return CommunicationManager.Mode.LISTENING;
         } else {

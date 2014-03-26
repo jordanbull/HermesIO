@@ -29,8 +29,8 @@ public class MessageSenderTest extends TestCase {
     public void testSend() throws Exception {
         TCPConnection.TCPServer server = TCPConnection.createTCPServer(PORT);
         final MessageSender sender = new MessageSender("localhost", PORT);
-        final GeneratedMessage msg = MessageHandler.createSetupMessage();
-        Message.Header header = MessageHandler.createHeader(msg, 1);
+        final GeneratedMessage msg = MessageHelper.createSetupMessage();
+        Message.Header header = MessageHelper.createHeader(msg, 1);
         new Thread(new Runnable() {
             @Override
             public void run() {

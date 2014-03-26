@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by jordan on 3/18/14.
  */
-public class MessageHandler {
+public class MessageHelper {
     // auto-detect the length of a header
     public static final int HEADER_LENGTH = createHeader(createSetupMessage(), 1).toByteArray().length;
 
