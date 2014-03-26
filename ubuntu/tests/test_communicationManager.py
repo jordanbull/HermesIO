@@ -8,7 +8,7 @@ class TestCommunicationManager(unittest.TestCase):
 
     def setUp(self):
         self.sender = TestSender()
-        self.comm = CommunicationManager.CommunicationManager(TestListener(), self.sender)
+        self.send_comm = CommunicationManager.CommunicationManager(StopListener(), self.sender)
         self.msg1 = "msg1"
         self.msg2 = "msg2"
         self.empty_queue = []
@@ -21,50 +21,53 @@ class TestCommunicationManager(unittest.TestCase):
     """
 
     def test_enqueue(self):
-        self.assertEqual(self.empty_queue, self.comm.queued_msgs)
-        self.comm.enqueue(self.msg1)
-        self.assertEqual(self.queue_msg1, self.comm.queued_msgs)
-        self.comm.enqueue(self.msg2)
-        self.assertEqual(self.queue_2msgs, self.comm.queued_msgs)
+        self.assertEqual(self.empty_queue, self.send_comm.queued_msgs)
+        self.send_comm.enqueue(self.msg1)
+        self.assertEqual(self.queue_msg1, self.send_comm.queued_msgs)
+        self.send_comm.enqueue(self.msg2)
+        self.assertEqual(self.queue_2msgs, self.send_comm.queued_msgs)
 
     def test_dequeue(self):
-        self.comm.enqueue(self.msg1)
-        self.comm.enqueue(self.msg2)
-        self.assertEqual(self.queue_2msgs, self.comm.queued_msgs)
-        msg = self.comm.dequeue()
+        self.send_comm.enqueue(self.msg1)
+        self.send_comm.enqueue(self.msg2)
+        self.assertEqual(self.queue_2msgs, self.send_comm.queued_msgs)
+        msg = self.send_comm.dequeue()
         self.assertEqual(self.msg1, msg)
-        self.assertEqual(self.queue_msg2, self.comm.queued_msgs)
-        msg = self.comm.dequeue()
+        self.assertEqual(self.queue_msg2, self.send_comm.queued_msgs)
+        msg = self.send_comm.dequeue()
         self.assertEqual(self.msg2, msg)
-        self.assertEqual(self.empty_queue, self.comm.queued_msgs)
+        self.assertEqual(self.empty_queue, self.send_comm.queued_msgs)
 
     def test_queue_size(self):
-        s = self.comm.queue_size()
+        s = self.send_comm.queue_size()
         self.assertEqual(0, s)
-        self.comm.enqueue(self.msg1)
-        s = self.comm.queue_size()
+        self.send_comm.enqueue(self.msg1)
+        s = self.send_comm.queue_size()
         self.assertEqual(1, s)
-        self.comm.enqueue(self.msg1)
-        s = self.comm.queue_size()
+        self.send_comm.enqueue(self.msg1)
+        s = self.send_comm.queue_size()
         self.assertEqual(2, s)
-        self.comm.dequeue()
-        s = self.comm.queue_size()
+        self.send_comm.dequeue()
+        s = self.send_comm.queue_size()
         self.assertEqual(1, s)
-        self.comm.dequeue()
-        s = self.comm.queue_size()
+        self.send_comm.dequeue()
+        s = self.send_comm.queue_size()
         self.assertEqual(0, s)
 
     def test_send(self):
-        self.comm.mode = self.comm.SENDING
-        self.comm.enqueue(self.msg1)
-        self.comm.enqueue(self.msg2)
-        self.comm.send()
-        self.assertEqual(self.queue_2msgs, self.sender.sent_msgs)
+        self.send_comm.mode = self.send_comm.SENDING
+        self.send_comm.enqueue(self.msg1)
+        self.send_comm.enqueue(self.msg2)
+        self.send_comm.send()
+        self.assertEqual(self.queue_2msgs, self.sender.sent_msgs[:2])
 
 
-class TestListener:
+class StopListener:
     def __init__(self):
         self.msgs_read = []
+
+    def listen(self):
+        return CommunicationManager.CommunicationManager.STOPPED
 
 
 class TestSender:
