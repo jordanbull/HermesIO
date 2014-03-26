@@ -5,10 +5,10 @@ msg_num = 0
 
 
 def create_header(msg):
-    if msg.isinstance(message_pb2.SmsMessage):
-        msg_type = message_pb2.Header.Type.SMSMESSAGE
-    elif msg.isinstance(message_pb2.Mode):
-        msg_type = message_pb2.Header.Type.Mode
+    if isinstance(msg, message_pb2.SmsMessage):
+        msg_type = message_pb2.Header.SMSMESSAGE
+    elif isinstance(msg, message_pb2.Mode):
+        msg_type = message_pb2.Header.MODE
     else:
         assert False
     global msg_num
@@ -28,7 +28,7 @@ def create_sms(to_number, content, from_number="", to_name=""):
     recipent.phoneNumber = to_number
     recipent.name = to_name
     sms.content = content
-    sender = sms.sender.add()
+    sender = sms.sender
     sender.phoneNumber = from_number
     sender.name = "me"
     return sms
