@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 public class CommunicationManager<T> {
 
@@ -57,7 +58,16 @@ public class CommunicationManager<T> {
     public void send(T msg) throws IOException {
         queue.add(msg);
         if (mode == Mode.SENDING) {
-            flushMessages();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        flushMessages();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }).start();
         }
     }
 
@@ -67,28 +77,28 @@ public class CommunicationManager<T> {
         }
     }
 
-    public void startSendTimer(final Thread t) {
+    public void startSendTimer(final Semaphore s) throws InterruptedException {
         if (sendPeriod >= 0) {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     mode = Mode.LISTENING;
-                    t.notify();
+                    s.release();
                 }
             }, sendPeriod);
         }
     }
 
     public void loop(Mode toMode) throws IOException, InterruptedException {
-        Thread t = Thread.currentThread();
+        Semaphore s = new Semaphore(0);
         if (toMode != null)
             mode = toMode;
         while (mode != Mode.STOPPED) {
             if (mode == Mode.SENDING) {
-                startSendTimer(t);
+                startSendTimer(s);
                 flushMessages();
-                t.wait();
+                s.acquire();
             } else if (mode == Mode.LISTENING) {
                 //TODO this is not synchronized
 

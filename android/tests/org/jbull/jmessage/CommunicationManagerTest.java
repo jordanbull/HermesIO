@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by jordan on 3/25/14.
@@ -75,7 +76,7 @@ public class CommunicationManagerTest extends TestCase {
         assertEquals(CommunicationManager.Mode.STOPPED, manager.getMode());
         manager.setMode(CommunicationManager.Mode.SENDING);
         assertEquals(CommunicationManager.Mode.SENDING, manager.getMode());
-        manager.startSendTimer(Thread.currentThread());
+        manager.startSendTimer(new Semaphore(0));
         Thread.sleep(600);
         assertEquals(CommunicationManager.Mode.LISTENING, manager.getMode());
     }

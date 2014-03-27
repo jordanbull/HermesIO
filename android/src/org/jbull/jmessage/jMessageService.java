@@ -32,15 +32,25 @@ public class jMessageService extends Service {
         }
         MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler(this));
         MessageSender sender = new MessageSender(ip, 8888);
-        CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
+        final CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
         try {
             Log.w("jMessage", "sending setup");
-            commManager.loop(CommunicationManager.Mode.SENDING);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        commManager.loop(CommunicationManager.Mode.SENDING);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error starting the CommunicationManager", e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException("Error starting the CommunicationManager", e);
+                    }
+                }
+            }).start();
+
             commManager.send(MessageHelper.createSetupMessage());
             Log.w("jMessage", "setup sent");
         } catch (IOException e) {
-            throw new RuntimeException("Error starting the CommunicationManager", e);
-        } catch (InterruptedException e) {
             throw new RuntimeException("Error starting the CommunicationManager", e);
         }
         smsBroadcastReceiver = new SmsBroadcastReceiver(commManager);
