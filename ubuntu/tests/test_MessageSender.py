@@ -6,7 +6,7 @@ import MessageHelper
 from multiprocessing import Process
 
 
-class TestTCPConnection(unittest.TestCase):
+class TestMessageSender(unittest.TestCase):
     PORT = 8888
 
     def setUp(self):
