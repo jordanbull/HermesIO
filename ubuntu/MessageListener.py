@@ -25,13 +25,13 @@ class MessageListener:
 
     def handle_incoming_message(self, header_data):
         length, msg_type = self.read_header(header_data)
-        print "received header"
+        print "received header: " + str(msg_type)
         print length
         n_read = 0
         msg_data = ''
         self.server.accept()
         while n_read < length:
-            print "n_read" + str(n_read )
+            print "n_read " + str(n_read)
             msg_data += self.server.read()
             n_read = len(msg_data)
         return message_types[msg_type](msg_data)

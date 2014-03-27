@@ -12,8 +12,6 @@ class TCPServer:
 
     def accept(self):
         self.sock, addr = self.servsock.accept()
-        print "accepted connection from:"
-        print addr
 
     def read(self, size=SIZE):
         data = self.sock.recv(size)
