@@ -96,6 +96,10 @@ public class CommunicationManager<T> {
             startSendTimer();
             flushMessages();
         } else if (toMode == Mode.LISTENING) {
+            //TODO this is not synchronized
+
+            Message.Mode modeMessage = MessageHelper.createModeMessage(true, System.currentTimeMillis());
+            sender.send(modeMessage);
             listenLoop();
         } else {
             assert toMode == Mode.STOPPED;

@@ -36,7 +36,7 @@ public class MessageHelper {
         return builder.build();
     }
 
-    public  static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
+    public static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
         Message.Header.Type type = null;
         if (msg instanceof Message.SetupMessage) {
             type = Message.Header.Type.SETUPMESSAGE;
@@ -44,6 +44,11 @@ public class MessageHelper {
             type = Message.Header.Type.SMSMESSAGE;
         } else if (msg instanceof Message.Contact) {
             type = Message.Header.Type.CONTACT;
+        } else if (msg instanceof Message.Mode) {
+            type = Message.Header.Type.MODE;
+        } else {
+            // Should never get here
+            assert false;
         }
         Message.Header header = Message.Header.newBuilder()
                 .setMsgNum(msgNum)
