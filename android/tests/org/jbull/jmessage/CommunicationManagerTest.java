@@ -25,13 +25,15 @@ public class CommunicationManagerTest extends TestCase {
     public void testListenLoop() throws Exception {
         // listens only once and never sends
         CommunicationManager<String> comm = new CommunicationManager<String>(listenOnce, sender, 0);
-        comm.switchMode(CommunicationManager.Mode.LISTENING);
+        comm.setMode(CommunicationManager.Mode.LISTENING);
+        comm.listenLoop();
         assertEquals(1, listenOnce.counter);
         assertEquals(0, sender.counter);
 
         // will loop until Communication manger returns SENDING
         comm = new CommunicationManager<String>(listenTwice, sender, 0);
-        comm.switchMode(CommunicationManager.Mode.LISTENING);
+        comm.setMode(CommunicationManager.Mode.LISTENING);
+        comm.listenLoop();
         assertEquals(2, listenTwice.counter);
         assertEquals(0, sender.counter);
     }
@@ -43,27 +45,27 @@ public class CommunicationManagerTest extends TestCase {
         commSender.flushMessages();
         // nothing should be sent while not in sending mode
         assertEquals(0, sender.counter);
-        commSender.switchMode(CommunicationManager.Mode.SENDING);
+        commSender.setMode(CommunicationManager.Mode.SENDING);
+        commSender.flushMessages();
         assertEquals(2, sender.counter);
         Assert.assertArrayEquals(new String[]{"1","2"}, sender.sentMsgs.toArray());
     }
 
     public void testSend() throws Exception {
         CommunicationManager<String> commSender = new CommunicationManager<String>(listenOnce, sender, -1);
-        // doesn't send without a message to send
-        commSender.switchMode(CommunicationManager.Mode.SENDING);
         assertEquals(0, sender.counter);
-        commSender.switchMode(CommunicationManager.Mode.STOPPED);
         // make sure the queue is flushed and in order only once sending starts
+        commSender.setMode(CommunicationManager.Mode.SENDING);
         commSender.send("1");
+        assertEquals(1, sender.counter);
         commSender.send("2");
-        assertEquals(0, sender.counter);
-        commSender.switchMode(CommunicationManager.Mode.SENDING);
-        assertEquals(0, listenOnce.counter);
         assertEquals(2, sender.counter);
-        Assert.assertArrayEquals(new String[]{"1", "2"}, sender.sentMsgs.toArray());
-        // make sure messages are sent immediately when in send mode
         commSender.send("3");
+        assertEquals(3, sender.counter);
+        Assert.assertArrayEquals(new String[]{"1","2","3"}, sender.sentMsgs.toArray());
+        //does not send when not in sending mode
+        commSender.setMode(CommunicationManager.Mode.STOPPED);
+        commSender.send("4");
         assertEquals(3, sender.counter);
         Assert.assertArrayEquals(new String[]{"1","2","3"}, sender.sentMsgs.toArray());
     }
@@ -71,8 +73,9 @@ public class CommunicationManagerTest extends TestCase {
     public void testStartSendTimer() throws Exception {
         CommunicationManager<String> manager = new CommunicationManager<String>(listenOnce, sender, 500);
         assertEquals(CommunicationManager.Mode.STOPPED, manager.getMode());
-        manager.switchMode(CommunicationManager.Mode.SENDING);
+        manager.setMode(CommunicationManager.Mode.SENDING);
         assertEquals(CommunicationManager.Mode.SENDING, manager.getMode());
+        manager.startSendTimer(Thread.currentThread());
         Thread.sleep(600);
         assertEquals(CommunicationManager.Mode.LISTENING, manager.getMode());
     }

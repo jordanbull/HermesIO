@@ -16,6 +16,10 @@ public class CommunicationManager<T> {
         return mode;
     }
 
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
     private Mode mode;
     private final Listener listener;
     private final Sender sender;
@@ -45,25 +49,15 @@ public class CommunicationManager<T> {
     }
 
     public synchronized void listenLoop() throws IOException {
-        Mode curMode = mode;
-        while (curMode == Mode.LISTENING) {
-            curMode = listener.listen();
+        while (mode == Mode.LISTENING) {
+            mode = listener.listen();
         }
     }
 
-    public synchronized void send(T msg) {
+    public void send(T msg) throws IOException {
         queue.add(msg);
         if (mode == Mode.SENDING) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        flushMessages();
-                    } catch (IOException e) {
-                        new RuntimeException("Error flushing messages in send", e);
-                    }
-                }
-            }).start();
+            flushMessages();
         }
     }
 
@@ -73,36 +67,37 @@ public class CommunicationManager<T> {
         }
     }
 
-    public void startSendTimer() {
+    public void startSendTimer(final Thread t) {
         if (sendPeriod >= 0) {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    try {
-                        switchMode(Mode.LISTENING);
-                    } catch (IOException e) {
-                        // TODO: handle better
-                        e.printStackTrace();
-                    }
+                    mode = Mode.LISTENING;
+                    t.notify();
                 }
             }, sendPeriod);
         }
     }
 
-    public void switchMode(Mode toMode) throws IOException {
-        mode = toMode;
-        if (toMode == Mode.SENDING) {
-            startSendTimer();
-            flushMessages();
-        } else if (toMode == Mode.LISTENING) {
-            //TODO this is not synchronized
+    public void loop(Mode toMode) throws IOException, InterruptedException {
+        Thread t = Thread.currentThread();
+        if (toMode != null)
+            mode = toMode;
+        while (mode != Mode.STOPPED) {
+            if (mode == Mode.SENDING) {
+                startSendTimer(t);
+                flushMessages();
+                t.wait();
+            } else if (mode == Mode.LISTENING) {
+                //TODO this is not synchronized
 
-            Message.Mode modeMessage = MessageHelper.createModeMessage(true, System.currentTimeMillis());
-            sender.send(modeMessage);
-            listenLoop();
-        } else {
-            assert toMode == Mode.STOPPED;
+                Message.Mode modeMessage = MessageHelper.createModeMessage(true, System.currentTimeMillis());
+                sender.send(modeMessage);
+                listenLoop();
+            } else {
+                assert mode == Mode.STOPPED;
+            }
         }
     }
 
