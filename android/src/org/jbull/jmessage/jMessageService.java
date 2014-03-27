@@ -30,7 +30,7 @@ public class jMessageService extends Service {
         } catch (Exception e) {
 
         }
-        MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler());
+        MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler(this));
         MessageSender sender = new MessageSender(ip, 8888);
         CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
         try {
