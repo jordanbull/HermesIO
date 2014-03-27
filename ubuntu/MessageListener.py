@@ -13,11 +13,15 @@ class MessageListener:
     def listen(self):
         self.server.accept()
         data = self.server.read()
+        start_sending = False
         if data:
-            self.handle_incoming_message(data)
+            start_sending = self.handle_incoming_message(data)
         self.server.close_sock()
         #TODO return send if receive send
-        return CommunicationManager.CommunicationManager.LISTENING
+        if start_sending:
+            return CommunicationManager.CommunicationManager.SENDING
+        else:
+            return CommunicationManager.CommunicationManager.LISTENING
 
     def handle_incoming_message(self, header_data):
         length, msg_type = self.read_header(header_data)
@@ -30,7 +34,7 @@ class MessageListener:
             print "n_read" + str(n_read )
             msg_data += self.server.read()
             n_read = len(msg_data)
-        message_types[msg_type](msg_data)
+        return message_types[msg_type](msg_data)
 
     def read_header(self, data):
         header = message_pb2.Header()
@@ -44,6 +48,7 @@ def setup(data):
     msg = message_pb2.SetupMessage()
     msg.ParseFromString(data)
     print "received data:", msg
+    return False
 
 
 def incoming_sms(data):
@@ -52,7 +57,16 @@ def incoming_sms(data):
     print sms.sender.name
     print sms.content
     notifications.notify_sms(sms.sender.name, sms.content, sms.sender.image)
+    return False
+
+
+def incoming_mode(data):
+    mode = message_pb2.Mode()
+    mode.ParseFromString(data)
+    print mode
+    return mode.serverSend
 
 message_types = {message_pb2.Header.SMSMESSAGE: incoming_sms,
                      message_pb2.Header.SETUPMESSAGE: setup,
+                     message_pb2.Header.MODE: incoming_mode,
                      }
