@@ -1,5 +1,6 @@
 import MessageHelper
 
+
 class CommunicationManager:
     LISTENING = 1
     SENDING = 2
@@ -13,31 +14,31 @@ class CommunicationManager:
         self.sender = sender
 
     def listen(self):
-        cur_mode = self.mode
-        while cur_mode == self.LISTENING:
-            cur_mode = self.listener.listen()
-        self.switch_mode(cur_mode)
+        while self.mode == self.LISTENING:
+            self.mode = self.listener.listen()
 
     def send(self):
         while self.mode == self.SENDING and self.queue_size() > 0:
             msg = self.dequeue()
             self.sender.send(msg)
+        self.mode = self.LISTENING
+
+    def done_sending(self):
         send_done_msg = MessageHelper.create_mode()
         self.sender.send(send_done_msg)
-        self.switch_mode(self.LISTENING)
 
-    def switch_mode(self, to_mode):
-        self.mode = to_mode
-        if to_mode == self.LISTENING:
-            self.listen()
-        elif to_mode == self.SENDING:
-            self.send()
-        elif to_mode == self.STOPPED:
-            i = 1
-            # do nothing
-        else:
-            assert False
-            #should not reach
+    def loop(self):
+        while not self.mode == self.STOPPED:
+            if self.mode == self.LISTENING:
+                self.listen()
+            elif self.mode == self.SENDING:
+                self.send()
+                self.done_sending()
+            elif self.mode == self.STOPPED:
+                break
+            else:
+                assert False
+                #should not reach
 
     def enqueue(self, msg):
         self.queued_msgs.append(msg)

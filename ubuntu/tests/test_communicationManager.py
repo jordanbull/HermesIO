@@ -1,5 +1,8 @@
 import unittest
 import CommunicationManager
+import mock
+from mock import call
+from mock import Mock
 
 __author__ = 'jordan'
 
@@ -7,72 +10,53 @@ __author__ = 'jordan'
 class TestCommunicationManager(unittest.TestCase):
 
     def setUp(self):
-        self.sender = TestSender()
-        self.send_comm = CommunicationManager.CommunicationManager(StopListener(), self.sender)
+        self.mock_sender = mock.MagicMock()
+        self.mock_listener = mock.MagicMock()
+        self.comm = CommunicationManager.CommunicationManager(self.mock_listener, self.mock_sender)
         self.msg1 = "msg1"
         self.msg2 = "msg2"
-        self.empty_queue = []
-        self.queue_msg1 = [self.msg1]
-        self.queue_msg2 = [self.msg2]
-        self.queue_2msgs = [self.msg1, self.msg2]
-
-    """
-        def tearDown(self):
-    """
-
-    def test_enqueue(self):
-        self.assertEqual(self.empty_queue, self.send_comm.queued_msgs)
-        self.send_comm.enqueue(self.msg1)
-        self.assertEqual(self.queue_msg1, self.send_comm.queued_msgs)
-        self.send_comm.enqueue(self.msg2)
-        self.assertEqual(self.queue_2msgs, self.send_comm.queued_msgs)
 
     def test_dequeue(self):
-        self.send_comm.enqueue(self.msg1)
-        self.send_comm.enqueue(self.msg2)
-        self.assertEqual(self.queue_2msgs, self.send_comm.queued_msgs)
-        msg = self.send_comm.dequeue()
-        self.assertEqual(self.msg1, msg)
-        self.assertEqual(self.queue_msg2, self.send_comm.queued_msgs)
-        msg = self.send_comm.dequeue()
-        self.assertEqual(self.msg2, msg)
-        self.assertEqual(self.empty_queue, self.send_comm.queued_msgs)
+        self.comm.enqueue(self.msg1)
+        self.comm.enqueue(self.msg2)
+
+        self.assertEqual(self.msg1, self.comm.dequeue())
+        self.assertEqual(self.msg2, self.comm.dequeue())
+        self.assertEqual(0, self.comm.queue_size())
 
     def test_queue_size(self):
-        s = self.send_comm.queue_size()
-        self.assertEqual(0, s)
-        self.send_comm.enqueue(self.msg1)
-        s = self.send_comm.queue_size()
-        self.assertEqual(1, s)
-        self.send_comm.enqueue(self.msg1)
-        s = self.send_comm.queue_size()
-        self.assertEqual(2, s)
-        self.send_comm.dequeue()
-        s = self.send_comm.queue_size()
-        self.assertEqual(1, s)
-        self.send_comm.dequeue()
-        s = self.send_comm.queue_size()
-        self.assertEqual(0, s)
+        self.assertEqual(0, self.comm.queue_size())
+        self.comm.enqueue(self.msg1)
+        self.assertEqual(1, self.comm.queue_size())
+        self.comm.enqueue(self.msg1)
+        self.assertEqual(2, self.comm.queue_size())
+        self.comm.dequeue()
+        self.assertEqual(1, self.comm.queue_size())
+        self.comm.dequeue()
+        self.assertEqual(0, self.comm.queue_size())
 
     def test_send(self):
-        self.send_comm.mode = self.send_comm.SENDING
-        self.send_comm.enqueue(self.msg1)
-        self.send_comm.enqueue(self.msg2)
-        self.send_comm.send()
-        self.assertEqual(self.queue_2msgs, self.sender.sent_msgs[:2])
+        self.comm.enqueue(self.msg1)
+        self.comm.enqueue(self.msg2)
+        self.comm.mode = self.comm.SENDING
+        self.comm.send()
+        calls = self.mock_sender.send.call_args_list
+        expected = [mock.call(self.msg1), mock.call(self.msg2)]
+        self.assertTrue(calls == expected)
 
+    def test_listen(self):
+        self.mock_listener.listen.return_value=self.comm.SENDING
+        self.comm.mode = self.comm.LISTENING
+        self.comm.listen()
+        self.mock_listener.listen.assert_called_once_with()
+        self.assertEqual(self.comm.SENDING, self.comm.mode)
 
-class StopListener:
-    def __init__(self):
-        self.msgs_read = []
-
-    def listen(self):
-        return CommunicationManager.CommunicationManager.STOPPED
-
-
-class TestSender:
-    def __init__(self):
-        self.sent_msgs = []
-
-    def send(self, msg):
-        self.sent_msgs.append(msg)
+        modes = [self.comm.LISTENING, self.comm.SENDING]
+        def side_effect():
+            return modes.pop(0)
+        self.mock_listener.listen = mock.MagicMock(side_effect=side_effect)
+        self.comm.listener = self.mock_listener
+        self.comm.mode = self.comm.LISTENING
+        self.comm.listen()
+        self.assertEqual(self.mock_listener.listen.mock_calls, [call(), call()])
+        self.assertEqual(self.comm.SENDING, self.comm.mode)
