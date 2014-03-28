@@ -9,6 +9,10 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
  * Created by jordan on 3/18/14.
  */
@@ -102,6 +106,7 @@ public class LocalTCPConnectionTest extends TestCase {
         assertEquals(ackNum, sendResponses[0].getMsgNum());
 
         //TODO: test exception occurs
+        //can't seem to test this
     }
 
     private void readFromConn(byte[] data, int ackNum) throws IOException {
@@ -119,7 +124,7 @@ public class LocalTCPConnectionTest extends TestCase {
     public void testClientRead() throws Exception {
         final TCPConnection.ReceiveResponse[] receiveResponses = new TCPConnection.ReceiveResponse[1];
         final int msgNum = (int) Math.random() * 9999;
-        Thread sendThread = new Thread(new Runnable() {
+        Thread receiveThread = new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -131,9 +136,9 @@ public class LocalTCPConnectionTest extends TestCase {
                 }, 0);
             }
         });
-        sendThread.start();
-        int receivedMsgNum = sendToConn(data1);
-        sendThread.join();
+        receiveThread.start();
+        int receivedMsgNum = sendToConn(data1, false);
+        receiveThread.join();
         assertEquals(msgNum, receivedMsgNum);
         assertTrue(receiveResponses[0].isSuccess());
         assertEquals(0, receiveResponses[0].getNumRetries());
@@ -141,24 +146,97 @@ public class LocalTCPConnectionTest extends TestCase {
         Assert.assertArrayEquals(data1, receiveResponses[0].getData());
         assertEquals(msgNum, receiveResponses[0].getMsgNum());
 
-        //TODO: test retry on error
+        // Handles exceptions as expected
+        receiveThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                receiveResponses[0] = client.receive(data1.length, new TCPConnection.MsgNumParser() {
+                    @Override
+                    public int parseMsgNum(byte[] serializedMsg) throws IOException {
+                        throw new IOException();
+                    }
+                }, 0);
+            }
+        });
+        receiveThread.start();
+        try {
+            sendToConn(data1, true);
+        } catch (IOException e) {
+            //intentionally thrown
+        }
+        receiveThread.join();
+        assertFalse(receiveResponses[0].isSuccess());
+        assertEquals(0, receiveResponses[0].getNumRetries());
+        assertTrue(receiveResponses[0].getExceptions().get(0) instanceof IOException);
+        Assert.assertArrayEquals(null, receiveResponses[0].getData());
+        assertEquals(-1, receiveResponses[0].getMsgNum());
+
+        // test retries until success and only until success
+        final TCPConnection.MsgNumParser mockParser = mock(TCPConnection.MsgNumParser.class);
+        when(mockParser.parseMsgNum(data1)).thenThrow(new IOException()).thenReturn(msgNum);
+        receiveThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                receiveResponses[0] = client.receive(data1.length, mockParser, 3);
+            }
+        });
+        receiveThread.start();
+        try {
+            sendToConn(data1, true);
+        } catch (IOException e) {
+            //intentionally thrown
+        }
+        sendToConn(data1, false);
+        receiveThread.join();
+        assertTrue(receiveResponses[0].isSuccess());
+        assertEquals(1, receiveResponses[0].getNumRetries());
+        assertTrue(receiveResponses[0].getExceptions().get(0) instanceof IOException);
+        assertEquals(1, receiveResponses[0].getExceptions().size());
+        Assert.assertArrayEquals(data1, receiveResponses[0].getData());
+        assertEquals(msgNum, receiveResponses[0].getMsgNum());
+
+        //test retries up to numRetries times
+        doThrow(new IOException()).when(mockParser).parseMsgNum(data1);
+        receiveThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                receiveResponses[0] = client.receive(data1.length, mockParser, 3);
+            }
+        });
+        receiveThread.start();
+        try {sendToConn(data1, true);} catch (IOException e) {/*intentionally thrown*/}
+        try {sendToConn(data1, true);} catch (IOException e) {/*intentionally thrown*/}
+        try {sendToConn(data1, true);} catch (IOException e) {/*intentionally thrown*/}
+        try {sendToConn(data1, true);} catch (IOException e) {/*intentionally thrown*/}
+        receiveThread.join();
+        assertFalse(receiveResponses[0].isSuccess());
+        assertEquals(3, receiveResponses[0].getNumRetries());
+        assertEquals(4, receiveResponses[0].getExceptions().size());
+        for (Exception e : receiveResponses[0].getExceptions())
+            assertTrue(e instanceof IOException);
+        Assert.assertArrayEquals(null, receiveResponses[0].getData());
+        assertEquals(-1, receiveResponses[0].getMsgNum());
     }
 
     /*
      returns the msg number received from the ack
      */
-    private int sendToConn(byte[] data) throws IOException {
+    private int sendToConn(byte[] data, boolean crash) throws IOException {
         Socket s = server.accept();
         OutputStream os = s.getOutputStream();
         os.write(data);
         os.flush();
         s.close();
+        if (crash)
+            throw new IOException();
         byte[] buffer = new byte[MessageHelper.ackMessageSize()];
         s = server.accept();
         s.getInputStream().read(buffer);
         s.close();
         return MessageHelper.readNumFromSerializedAck(buffer);
-
     }
 
 }

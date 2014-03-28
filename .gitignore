@@ -2,5 +2,5 @@
 android/out
 */.idea
 *.pyc
-
-
+*.iml
+android/jMessage.iml

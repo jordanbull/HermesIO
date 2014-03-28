@@ -43,8 +43,6 @@ public class TCPConnection {
                 }
             }
         } catch (IOException e) {
-            // TODO handle retries and such
-            e.printStackTrace();
             if (numRetries > 0) {
                 numRetries--;
                 return send(data, msgNum, numRetries).incrementRetries().addException(e);
@@ -57,11 +55,14 @@ public class TCPConnection {
 
     public ReceiveResponse receive(int numBytes, MsgNumParser msgNumParser, int numRetries) {
         try {
+            /* read message */
             byte[] data = new byte[numBytes];
             Socket s = new Socket(host, port);
             s.getInputStream().read(data);
             s.close();
+            /* parse message number */
             int msgNum = msgNumParser.parseMsgNum(data);
+            /* create and send ack */
             byte[] ackBytes = MessageHelper.createAck(msgNum).toByteArray();
             s = new Socket(host, port);
             OutputStream os = s.getOutputStream();
@@ -135,6 +136,6 @@ public class TCPConnection {
     }
 
     public interface MsgNumParser {
-        public int parseMsgNum(byte[] serializedMsg);
+        public int parseMsgNum(byte[] serializedMsg) throws IOException;
     }
 }
