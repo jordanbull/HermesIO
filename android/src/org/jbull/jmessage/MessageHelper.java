@@ -83,6 +83,10 @@ public class MessageHelper {
                 .build();
     }
 
+    public static int ackMessageSize() {
+        return createAck(0).getSerializedSize();
+    }
+
     public static int readNumFromSerializedAck(byte[] ackBytes) throws InvalidProtocolBufferException {
         return Message.Ack.parseFrom(ackBytes).getMsgNum();
     }
