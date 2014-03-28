@@ -11,27 +11,37 @@ public final class Message {
   public interface SetupMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional int32 version = 1 [default = 1];
+    // required int32 msgNum = 1;
     /**
-     * <code>optional int32 version = 1 [default = 1];</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+
+    // optional int32 version = 2 [default = 1];
+    /**
+     * <code>optional int32 version = 2 [default = 1];</code>
      */
     boolean hasVersion();
     /**
-     * <code>optional int32 version = 1 [default = 1];</code>
+     * <code>optional int32 version = 2 [default = 1];</code>
      */
     int getVersion();
 
-    // optional string applicationName = 2 [default = "jMessage"];
+    // optional string applicationName = 3 [default = "jMessage"];
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     boolean hasApplicationName();
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     java.lang.String getApplicationName();
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     com.google.protobuf.ByteString
         getApplicationNameBytes();
@@ -93,11 +103,16 @@ public final class Message {
             }
             case 8: {
               bitField0_ |= 0x00000001;
+              msgNum_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
               version_ = input.readInt32();
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000002;
+            case 26: {
+              bitField0_ |= 0x00000004;
               applicationName_ = input.readBytes();
               break;
             }
@@ -141,33 +156,49 @@ public final class Message {
     }
 
     private int bitField0_;
-    // optional int32 version = 1 [default = 1];
-    public static final int VERSION_FIELD_NUMBER = 1;
-    private int version_;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
     /**
-     * <code>optional int32 version = 1 [default = 1];</code>
+     * <code>required int32 msgNum = 1;</code>
      */
-    public boolean hasVersion() {
+    public boolean hasMsgNum() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional int32 version = 1 [default = 1];</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    // optional int32 version = 2 [default = 1];
+    public static final int VERSION_FIELD_NUMBER = 2;
+    private int version_;
+    /**
+     * <code>optional int32 version = 2 [default = 1];</code>
+     */
+    public boolean hasVersion() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 version = 2 [default = 1];</code>
      */
     public int getVersion() {
       return version_;
     }
 
-    // optional string applicationName = 2 [default = "jMessage"];
-    public static final int APPLICATIONNAME_FIELD_NUMBER = 2;
+    // optional string applicationName = 3 [default = "jMessage"];
+    public static final int APPLICATIONNAME_FIELD_NUMBER = 3;
     private java.lang.Object applicationName_;
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     public boolean hasApplicationName() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     public java.lang.String getApplicationName() {
       java.lang.Object ref = applicationName_;
@@ -184,7 +215,7 @@ public final class Message {
       }
     }
     /**
-     * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+     * <code>optional string applicationName = 3 [default = "jMessage"];</code>
      */
     public com.google.protobuf.ByteString
         getApplicationNameBytes() {
@@ -201,6 +232,7 @@ public final class Message {
     }
 
     private void initFields() {
+      msgNum_ = 0;
       version_ = 1;
       applicationName_ = "jMessage";
     }
@@ -209,6 +241,10 @@ public final class Message {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -217,10 +253,13 @@ public final class Message {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, version_);
+        output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getApplicationNameBytes());
+        output.writeInt32(2, version_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getApplicationNameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -233,11 +272,15 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, version_);
+          .computeInt32Size(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getApplicationNameBytes());
+          .computeInt32Size(2, version_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getApplicationNameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -359,10 +402,12 @@ public final class Message {
 
       public Builder clear() {
         super.clear();
-        version_ = 1;
+        msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        applicationName_ = "jMessage";
+        version_ = 1;
         bitField0_ = (bitField0_ & ~0x00000002);
+        applicationName_ = "jMessage";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -394,9 +439,13 @@ public final class Message {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.version_ = version_;
+        result.msgNum_ = msgNum_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.version_ = version_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         result.applicationName_ = applicationName_;
         result.bitField0_ = to_bitField0_;
@@ -415,11 +464,14 @@ public final class Message {
 
       public Builder mergeFrom(org.jbull.jmessage.Message.SetupMessage other) {
         if (other == org.jbull.jmessage.Message.SetupMessage.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
         if (other.hasApplicationName()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           applicationName_ = other.applicationName_;
           onChanged();
         }
@@ -428,6 +480,10 @@ public final class Message {
       }
 
       public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -450,49 +506,82 @@ public final class Message {
       }
       private int bitField0_;
 
-      // optional int32 version = 1 [default = 1];
-      private int version_ = 1;
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
       /**
-       * <code>optional int32 version = 1 [default = 1];</code>
+       * <code>required int32 msgNum = 1;</code>
        */
-      public boolean hasVersion() {
+      public boolean hasMsgNum() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int32 version = 1 [default = 1];</code>
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 version = 2 [default = 1];
+      private int version_ = 1;
+      /**
+       * <code>optional int32 version = 2 [default = 1];</code>
+       */
+      public boolean hasVersion() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 version = 2 [default = 1];</code>
        */
       public int getVersion() {
         return version_;
       }
       /**
-       * <code>optional int32 version = 1 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 1];</code>
        */
       public Builder setVersion(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         version_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 version = 1 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 1];</code>
        */
       public Builder clearVersion() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         version_ = 1;
         onChanged();
         return this;
       }
 
-      // optional string applicationName = 2 [default = "jMessage"];
+      // optional string applicationName = 3 [default = "jMessage"];
       private java.lang.Object applicationName_ = "jMessage";
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public boolean hasApplicationName() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public java.lang.String getApplicationName() {
         java.lang.Object ref = applicationName_;
@@ -506,7 +595,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public com.google.protobuf.ByteString
           getApplicationNameBytes() {
@@ -522,36 +611,36 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public Builder setApplicationName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         applicationName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public Builder clearApplicationName() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         applicationName_ = getDefaultInstance().getApplicationName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string applicationName = 2 [default = "jMessage"];</code>
+       * <code>optional string applicationName = 3 [default = "jMessage"];</code>
        */
       public Builder setApplicationNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         applicationName_ = value;
         onChanged();
         return this;
@@ -571,66 +660,76 @@ public final class Message {
   public interface SmsMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 timeStamp = 1;
+    // required int32 msgNum = 1;
     /**
-     * <code>required int64 timeStamp = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+
+    // required int64 timeStamp = 2;
+    /**
+     * <code>required int64 timeStamp = 2;</code>
      */
     boolean hasTimeStamp();
     /**
-     * <code>required int64 timeStamp = 1;</code>
+     * <code>required int64 timeStamp = 2;</code>
      */
     long getTimeStamp();
 
-    // required .Contact sender = 2;
+    // required .Contact sender = 3;
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     boolean hasSender();
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     org.jbull.jmessage.Message.Contact getSender();
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     org.jbull.jmessage.Message.ContactOrBuilder getSenderOrBuilder();
 
-    // required string content = 3;
+    // required string content = 4;
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     boolean hasContent();
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     java.lang.String getContent();
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     com.google.protobuf.ByteString
         getContentBytes();
 
-    // repeated .Contact recipents = 4;
+    // repeated .Contact recipents = 5;
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     java.util.List<org.jbull.jmessage.Message.Contact> 
         getRecipentsList();
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     org.jbull.jmessage.Message.Contact getRecipents(int index);
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     int getRecipentsCount();
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     java.util.List<? extends org.jbull.jmessage.Message.ContactOrBuilder> 
         getRecipentsOrBuilderList();
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     org.jbull.jmessage.Message.ContactOrBuilder getRecipentsOrBuilder(
         int index);
@@ -688,12 +787,17 @@ public final class Message {
             }
             case 8: {
               bitField0_ |= 0x00000001;
+              msgNum_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
               timeStamp_ = input.readInt64();
               break;
             }
-            case 18: {
+            case 26: {
               org.jbull.jmessage.Message.Contact.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = sender_.toBuilder();
               }
               sender_ = input.readMessage(org.jbull.jmessage.Message.Contact.PARSER, extensionRegistry);
@@ -701,18 +805,18 @@ public final class Message {
                 subBuilder.mergeFrom(sender_);
                 sender_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            case 26: {
               bitField0_ |= 0x00000004;
-              content_ = input.readBytes();
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              bitField0_ |= 0x00000008;
+              content_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 recipents_ = new java.util.ArrayList<org.jbull.jmessage.Message.Contact>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               recipents_.add(input.readMessage(org.jbull.jmessage.Message.Contact.PARSER, extensionRegistry));
               break;
@@ -725,7 +829,7 @@ public final class Message {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           recipents_ = java.util.Collections.unmodifiableList(recipents_);
         }
         this.unknownFields = unknownFields.build();
@@ -760,55 +864,71 @@ public final class Message {
     }
 
     private int bitField0_;
-    // required int64 timeStamp = 1;
-    public static final int TIMESTAMP_FIELD_NUMBER = 1;
-    private long timeStamp_;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
     /**
-     * <code>required int64 timeStamp = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
-    public boolean hasTimeStamp() {
+    public boolean hasMsgNum() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 timeStamp = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    // required int64 timeStamp = 2;
+    public static final int TIMESTAMP_FIELD_NUMBER = 2;
+    private long timeStamp_;
+    /**
+     * <code>required int64 timeStamp = 2;</code>
+     */
+    public boolean hasTimeStamp() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 timeStamp = 2;</code>
      */
     public long getTimeStamp() {
       return timeStamp_;
     }
 
-    // required .Contact sender = 2;
-    public static final int SENDER_FIELD_NUMBER = 2;
+    // required .Contact sender = 3;
+    public static final int SENDER_FIELD_NUMBER = 3;
     private org.jbull.jmessage.Message.Contact sender_;
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     public boolean hasSender() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     public org.jbull.jmessage.Message.Contact getSender() {
       return sender_;
     }
     /**
-     * <code>required .Contact sender = 2;</code>
+     * <code>required .Contact sender = 3;</code>
      */
     public org.jbull.jmessage.Message.ContactOrBuilder getSenderOrBuilder() {
       return sender_;
     }
 
-    // required string content = 3;
-    public static final int CONTENT_FIELD_NUMBER = 3;
+    // required string content = 4;
+    public static final int CONTENT_FIELD_NUMBER = 4;
     private java.lang.Object content_;
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     public boolean hasContent() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     public java.lang.String getContent() {
       java.lang.Object ref = content_;
@@ -825,7 +945,7 @@ public final class Message {
       }
     }
     /**
-     * <code>required string content = 3;</code>
+     * <code>required string content = 4;</code>
      */
     public com.google.protobuf.ByteString
         getContentBytes() {
@@ -841,36 +961,36 @@ public final class Message {
       }
     }
 
-    // repeated .Contact recipents = 4;
-    public static final int RECIPENTS_FIELD_NUMBER = 4;
+    // repeated .Contact recipents = 5;
+    public static final int RECIPENTS_FIELD_NUMBER = 5;
     private java.util.List<org.jbull.jmessage.Message.Contact> recipents_;
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     public java.util.List<org.jbull.jmessage.Message.Contact> getRecipentsList() {
       return recipents_;
     }
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     public java.util.List<? extends org.jbull.jmessage.Message.ContactOrBuilder> 
         getRecipentsOrBuilderList() {
       return recipents_;
     }
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     public int getRecipentsCount() {
       return recipents_.size();
     }
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     public org.jbull.jmessage.Message.Contact getRecipents(int index) {
       return recipents_.get(index);
     }
     /**
-     * <code>repeated .Contact recipents = 4;</code>
+     * <code>repeated .Contact recipents = 5;</code>
      */
     public org.jbull.jmessage.Message.ContactOrBuilder getRecipentsOrBuilder(
         int index) {
@@ -878,6 +998,7 @@ public final class Message {
     }
 
     private void initFields() {
+      msgNum_ = 0;
       timeStamp_ = 0L;
       sender_ = org.jbull.jmessage.Message.Contact.getDefaultInstance();
       content_ = "";
@@ -888,6 +1009,10 @@ public final class Message {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasTimeStamp()) {
         memoizedIsInitialized = 0;
         return false;
@@ -918,16 +1043,19 @@ public final class Message {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, timeStamp_);
+        output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, sender_);
+        output.writeInt64(2, timeStamp_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getContentBytes());
+        output.writeMessage(3, sender_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getContentBytes());
       }
       for (int i = 0; i < recipents_.size(); i++) {
-        output.writeMessage(4, recipents_.get(i));
+        output.writeMessage(5, recipents_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -940,19 +1068,23 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, timeStamp_);
+          .computeInt32Size(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, sender_);
+          .computeInt64Size(2, timeStamp_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getContentBytes());
+          .computeMessageSize(3, sender_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getContentBytes());
       }
       for (int i = 0; i < recipents_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, recipents_.get(i));
+          .computeMessageSize(5, recipents_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1072,19 +1204,21 @@ public final class Message {
 
       public Builder clear() {
         super.clear();
-        timeStamp_ = 0L;
+        msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        timeStamp_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (senderBuilder_ == null) {
           sender_ = org.jbull.jmessage.Message.Contact.getDefaultInstance();
         } else {
           senderBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        content_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        content_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (recipentsBuilder_ == null) {
           recipents_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           recipentsBuilder_.clear();
         }
@@ -1119,23 +1253,27 @@ public final class Message {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.timeStamp_ = timeStamp_;
+        result.msgNum_ = msgNum_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.timeStamp_ = timeStamp_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         if (senderBuilder_ == null) {
           result.sender_ = sender_;
         } else {
           result.sender_ = senderBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.content_ = content_;
         if (recipentsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             recipents_ = java.util.Collections.unmodifiableList(recipents_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.recipents_ = recipents_;
         } else {
@@ -1157,6 +1295,9 @@ public final class Message {
 
       public Builder mergeFrom(org.jbull.jmessage.Message.SmsMessage other) {
         if (other == org.jbull.jmessage.Message.SmsMessage.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
         if (other.hasTimeStamp()) {
           setTimeStamp(other.getTimeStamp());
         }
@@ -1164,7 +1305,7 @@ public final class Message {
           mergeSender(other.getSender());
         }
         if (other.hasContent()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           content_ = other.content_;
           onChanged();
         }
@@ -1172,7 +1313,7 @@ public final class Message {
           if (!other.recipents_.isEmpty()) {
             if (recipents_.isEmpty()) {
               recipents_ = other.recipents_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureRecipentsIsMutable();
               recipents_.addAll(other.recipents_);
@@ -1185,7 +1326,7 @@ public final class Message {
               recipentsBuilder_.dispose();
               recipentsBuilder_ = null;
               recipents_ = other.recipents_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               recipentsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getRecipentsFieldBuilder() : null;
@@ -1199,6 +1340,10 @@ public final class Message {
       }
 
       public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
         if (!hasTimeStamp()) {
           
           return false;
@@ -1243,51 +1388,84 @@ public final class Message {
       }
       private int bitField0_;
 
-      // required int64 timeStamp = 1;
-      private long timeStamp_ ;
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
       /**
-       * <code>required int64 timeStamp = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
-      public boolean hasTimeStamp() {
+      public boolean hasMsgNum() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 timeStamp = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 timeStamp = 2;
+      private long timeStamp_ ;
+      /**
+       * <code>required int64 timeStamp = 2;</code>
+       */
+      public boolean hasTimeStamp() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 timeStamp = 2;</code>
        */
       public long getTimeStamp() {
         return timeStamp_;
       }
       /**
-       * <code>required int64 timeStamp = 1;</code>
+       * <code>required int64 timeStamp = 2;</code>
        */
       public Builder setTimeStamp(long value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         timeStamp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 timeStamp = 1;</code>
+       * <code>required int64 timeStamp = 2;</code>
        */
       public Builder clearTimeStamp() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         timeStamp_ = 0L;
         onChanged();
         return this;
       }
 
-      // required .Contact sender = 2;
+      // required .Contact sender = 3;
       private org.jbull.jmessage.Message.Contact sender_ = org.jbull.jmessage.Message.Contact.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.jbull.jmessage.Message.Contact, org.jbull.jmessage.Message.Contact.Builder, org.jbull.jmessage.Message.ContactOrBuilder> senderBuilder_;
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public boolean hasSender() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public org.jbull.jmessage.Message.Contact getSender() {
         if (senderBuilder_ == null) {
@@ -1297,7 +1475,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public Builder setSender(org.jbull.jmessage.Message.Contact value) {
         if (senderBuilder_ == null) {
@@ -1309,11 +1487,11 @@ public final class Message {
         } else {
           senderBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public Builder setSender(
           org.jbull.jmessage.Message.Contact.Builder builderForValue) {
@@ -1323,15 +1501,15 @@ public final class Message {
         } else {
           senderBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public Builder mergeSender(org.jbull.jmessage.Message.Contact value) {
         if (senderBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               sender_ != org.jbull.jmessage.Message.Contact.getDefaultInstance()) {
             sender_ =
               org.jbull.jmessage.Message.Contact.newBuilder(sender_).mergeFrom(value).buildPartial();
@@ -1342,11 +1520,11 @@ public final class Message {
         } else {
           senderBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public Builder clearSender() {
         if (senderBuilder_ == null) {
@@ -1355,19 +1533,19 @@ public final class Message {
         } else {
           senderBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public org.jbull.jmessage.Message.Contact.Builder getSenderBuilder() {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         onChanged();
         return getSenderFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       public org.jbull.jmessage.Message.ContactOrBuilder getSenderOrBuilder() {
         if (senderBuilder_ != null) {
@@ -1377,7 +1555,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required .Contact sender = 2;</code>
+       * <code>required .Contact sender = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.jbull.jmessage.Message.Contact, org.jbull.jmessage.Message.Contact.Builder, org.jbull.jmessage.Message.ContactOrBuilder> 
@@ -1393,16 +1571,16 @@ public final class Message {
         return senderBuilder_;
       }
 
-      // required string content = 3;
+      // required string content = 4;
       private java.lang.Object content_ = "";
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public boolean hasContent() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public java.lang.String getContent() {
         java.lang.Object ref = content_;
@@ -1416,7 +1594,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public com.google.protobuf.ByteString
           getContentBytes() {
@@ -1432,48 +1610,48 @@ public final class Message {
         }
       }
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public Builder setContent(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         content_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public Builder clearContent() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         content_ = getDefaultInstance().getContent();
         onChanged();
         return this;
       }
       /**
-       * <code>required string content = 3;</code>
+       * <code>required string content = 4;</code>
        */
       public Builder setContentBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         content_ = value;
         onChanged();
         return this;
       }
 
-      // repeated .Contact recipents = 4;
+      // repeated .Contact recipents = 5;
       private java.util.List<org.jbull.jmessage.Message.Contact> recipents_ =
         java.util.Collections.emptyList();
       private void ensureRecipentsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           recipents_ = new java.util.ArrayList<org.jbull.jmessage.Message.Contact>(recipents_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -1481,7 +1659,7 @@ public final class Message {
           org.jbull.jmessage.Message.Contact, org.jbull.jmessage.Message.Contact.Builder, org.jbull.jmessage.Message.ContactOrBuilder> recipentsBuilder_;
 
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public java.util.List<org.jbull.jmessage.Message.Contact> getRecipentsList() {
         if (recipentsBuilder_ == null) {
@@ -1491,7 +1669,7 @@ public final class Message {
         }
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public int getRecipentsCount() {
         if (recipentsBuilder_ == null) {
@@ -1501,7 +1679,7 @@ public final class Message {
         }
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public org.jbull.jmessage.Message.Contact getRecipents(int index) {
         if (recipentsBuilder_ == null) {
@@ -1511,7 +1689,7 @@ public final class Message {
         }
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder setRecipents(
           int index, org.jbull.jmessage.Message.Contact value) {
@@ -1528,7 +1706,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder setRecipents(
           int index, org.jbull.jmessage.Message.Contact.Builder builderForValue) {
@@ -1542,7 +1720,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder addRecipents(org.jbull.jmessage.Message.Contact value) {
         if (recipentsBuilder_ == null) {
@@ -1558,7 +1736,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder addRecipents(
           int index, org.jbull.jmessage.Message.Contact value) {
@@ -1575,7 +1753,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder addRecipents(
           org.jbull.jmessage.Message.Contact.Builder builderForValue) {
@@ -1589,7 +1767,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder addRecipents(
           int index, org.jbull.jmessage.Message.Contact.Builder builderForValue) {
@@ -1603,7 +1781,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder addAllRecipents(
           java.lang.Iterable<? extends org.jbull.jmessage.Message.Contact> values) {
@@ -1617,12 +1795,12 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder clearRecipents() {
         if (recipentsBuilder_ == null) {
           recipents_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           recipentsBuilder_.clear();
@@ -1630,7 +1808,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public Builder removeRecipents(int index) {
         if (recipentsBuilder_ == null) {
@@ -1643,14 +1821,14 @@ public final class Message {
         return this;
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public org.jbull.jmessage.Message.Contact.Builder getRecipentsBuilder(
           int index) {
         return getRecipentsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public org.jbull.jmessage.Message.ContactOrBuilder getRecipentsOrBuilder(
           int index) {
@@ -1660,7 +1838,7 @@ public final class Message {
         }
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public java.util.List<? extends org.jbull.jmessage.Message.ContactOrBuilder> 
            getRecipentsOrBuilderList() {
@@ -1671,14 +1849,14 @@ public final class Message {
         }
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public org.jbull.jmessage.Message.Contact.Builder addRecipentsBuilder() {
         return getRecipentsFieldBuilder().addBuilder(
             org.jbull.jmessage.Message.Contact.getDefaultInstance());
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public org.jbull.jmessage.Message.Contact.Builder addRecipentsBuilder(
           int index) {
@@ -1686,7 +1864,7 @@ public final class Message {
             index, org.jbull.jmessage.Message.Contact.getDefaultInstance());
       }
       /**
-       * <code>repeated .Contact recipents = 4;</code>
+       * <code>repeated .Contact recipents = 5;</code>
        */
       public java.util.List<org.jbull.jmessage.Message.Contact.Builder> 
            getRecipentsBuilderList() {
@@ -1699,7 +1877,7 @@ public final class Message {
           recipentsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               org.jbull.jmessage.Message.Contact, org.jbull.jmessage.Message.Contact.Builder, org.jbull.jmessage.Message.ContactOrBuilder>(
                   recipents_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           recipents_ = null;
@@ -1721,43 +1899,53 @@ public final class Message {
   public interface ContactOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string phoneNumber = 1;
+    // required int32 msgNum = 1;
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+
+    // required string phoneNumber = 2;
+    /**
+     * <code>required string phoneNumber = 2;</code>
      */
     boolean hasPhoneNumber();
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required string phoneNumber = 2;</code>
      */
     java.lang.String getPhoneNumber();
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required string phoneNumber = 2;</code>
      */
     com.google.protobuf.ByteString
         getPhoneNumberBytes();
 
-    // optional string name = 2;
+    // optional string name = 3;
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     boolean hasName();
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     java.lang.String getName();
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // optional bytes image = 3;
+    // optional bytes image = 4;
     /**
-     * <code>optional bytes image = 3;</code>
+     * <code>optional bytes image = 4;</code>
      */
     boolean hasImage();
     /**
-     * <code>optional bytes image = 3;</code>
+     * <code>optional bytes image = 4;</code>
      */
     com.google.protobuf.ByteString getImage();
   }
@@ -1812,18 +2000,23 @@ public final class Message {
               }
               break;
             }
-            case 10: {
+            case 8: {
               bitField0_ |= 0x00000001;
-              phoneNumber_ = input.readBytes();
+              msgNum_ = input.readInt32();
               break;
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              name_ = input.readBytes();
+              phoneNumber_ = input.readBytes();
               break;
             }
             case 26: {
               bitField0_ |= 0x00000004;
+              name_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
               image_ = input.readBytes();
               break;
             }
@@ -1867,17 +2060,33 @@ public final class Message {
     }
 
     private int bitField0_;
-    // required string phoneNumber = 1;
-    public static final int PHONENUMBER_FIELD_NUMBER = 1;
-    private java.lang.Object phoneNumber_;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
-    public boolean hasPhoneNumber() {
+    public boolean hasMsgNum() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    // required string phoneNumber = 2;
+    public static final int PHONENUMBER_FIELD_NUMBER = 2;
+    private java.lang.Object phoneNumber_;
+    /**
+     * <code>required string phoneNumber = 2;</code>
+     */
+    public boolean hasPhoneNumber() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string phoneNumber = 2;</code>
      */
     public java.lang.String getPhoneNumber() {
       java.lang.Object ref = phoneNumber_;
@@ -1894,7 +2103,7 @@ public final class Message {
       }
     }
     /**
-     * <code>required string phoneNumber = 1;</code>
+     * <code>required string phoneNumber = 2;</code>
      */
     public com.google.protobuf.ByteString
         getPhoneNumberBytes() {
@@ -1910,17 +2119,17 @@ public final class Message {
       }
     }
 
-    // optional string name = 2;
-    public static final int NAME_FIELD_NUMBER = 2;
+    // optional string name = 3;
+    public static final int NAME_FIELD_NUMBER = 3;
     private java.lang.Object name_;
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     public boolean hasName() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -1937,7 +2146,7 @@ public final class Message {
       }
     }
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 3;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -1953,23 +2162,24 @@ public final class Message {
       }
     }
 
-    // optional bytes image = 3;
-    public static final int IMAGE_FIELD_NUMBER = 3;
+    // optional bytes image = 4;
+    public static final int IMAGE_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString image_;
     /**
-     * <code>optional bytes image = 3;</code>
+     * <code>optional bytes image = 4;</code>
      */
     public boolean hasImage() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional bytes image = 3;</code>
+     * <code>optional bytes image = 4;</code>
      */
     public com.google.protobuf.ByteString getImage() {
       return image_;
     }
 
     private void initFields() {
+      msgNum_ = 0;
       phoneNumber_ = "";
       name_ = "";
       image_ = com.google.protobuf.ByteString.EMPTY;
@@ -1979,6 +2189,10 @@ public final class Message {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasPhoneNumber()) {
         memoizedIsInitialized = 0;
         return false;
@@ -1991,13 +2205,16 @@ public final class Message {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getPhoneNumberBytes());
+        output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getNameBytes());
+        output.writeBytes(2, getPhoneNumberBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, image_);
+        output.writeBytes(3, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, image_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2010,15 +2227,19 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getPhoneNumberBytes());
+          .computeInt32Size(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getNameBytes());
+          .computeBytesSize(2, getPhoneNumberBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, image_);
+          .computeBytesSize(3, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, image_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2136,12 +2357,14 @@ public final class Message {
 
       public Builder clear() {
         super.clear();
-        phoneNumber_ = "";
+        msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        name_ = "";
+        phoneNumber_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        image_ = com.google.protobuf.ByteString.EMPTY;
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        image_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2173,13 +2396,17 @@ public final class Message {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.phoneNumber_ = phoneNumber_;
+        result.msgNum_ = msgNum_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.name_ = name_;
+        result.phoneNumber_ = phoneNumber_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.image_ = image_;
         result.bitField0_ = to_bitField0_;
@@ -2198,13 +2425,16 @@ public final class Message {
 
       public Builder mergeFrom(org.jbull.jmessage.Message.Contact other) {
         if (other == org.jbull.jmessage.Message.Contact.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
         if (other.hasPhoneNumber()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           phoneNumber_ = other.phoneNumber_;
           onChanged();
         }
         if (other.hasName()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           name_ = other.name_;
           onChanged();
         }
@@ -2216,6 +2446,10 @@ public final class Message {
       }
 
       public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
         if (!hasPhoneNumber()) {
           
           return false;
@@ -2242,16 +2476,49 @@ public final class Message {
       }
       private int bitField0_;
 
-      // required string phoneNumber = 1;
-      private java.lang.Object phoneNumber_ = "";
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
-      public boolean hasPhoneNumber() {
+      public boolean hasMsgNum() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string phoneNumber = 2;
+      private java.lang.Object phoneNumber_ = "";
+      /**
+       * <code>required string phoneNumber = 2;</code>
+       */
+      public boolean hasPhoneNumber() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string phoneNumber = 2;</code>
        */
       public java.lang.String getPhoneNumber() {
         java.lang.Object ref = phoneNumber_;
@@ -2265,7 +2532,7 @@ public final class Message {
         }
       }
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required string phoneNumber = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPhoneNumberBytes() {
@@ -2281,51 +2548,51 @@ public final class Message {
         }
       }
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required string phoneNumber = 2;</code>
        */
       public Builder setPhoneNumber(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         phoneNumber_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required string phoneNumber = 2;</code>
        */
       public Builder clearPhoneNumber() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         phoneNumber_ = getDefaultInstance().getPhoneNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>required string phoneNumber = 1;</code>
+       * <code>required string phoneNumber = 2;</code>
        */
       public Builder setPhoneNumberBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         phoneNumber_ = value;
         onChanged();
         return this;
       }
 
-      // optional string name = 2;
+      // optional string name = 3;
       private java.lang.Object name_ = "";
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public boolean hasName() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -2339,7 +2606,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -2355,72 +2622,72 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public Builder setName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         name_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public Builder clearName() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         name_ = getDefaultInstance().getName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 3;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         name_ = value;
         onChanged();
         return this;
       }
 
-      // optional bytes image = 3;
+      // optional bytes image = 4;
       private com.google.protobuf.ByteString image_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes image = 3;</code>
+       * <code>optional bytes image = 4;</code>
        */
       public boolean hasImage() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bytes image = 3;</code>
+       * <code>optional bytes image = 4;</code>
        */
       public com.google.protobuf.ByteString getImage() {
         return image_;
       }
       /**
-       * <code>optional bytes image = 3;</code>
+       * <code>optional bytes image = 4;</code>
        */
       public Builder setImage(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         image_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bytes image = 3;</code>
+       * <code>optional bytes image = 4;</code>
        */
       public Builder clearImage() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         image_ = getDefaultInstance().getImage();
         onChanged();
         return this;
@@ -2440,9 +2707,19 @@ public final class Message {
   public interface ModeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 lastUpdate = 1;
+    // required int32 msgNum = 1;
     /**
-     * <code>required int64 lastUpdate = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+
+    // required int64 lastUpdate = 2;
+    /**
+     * <code>required int64 lastUpdate = 2;</code>
      *
      * <pre>
      *time since last update. server time
@@ -2450,7 +2727,7 @@ public final class Message {
      */
     boolean hasLastUpdate();
     /**
-     * <code>required int64 lastUpdate = 1;</code>
+     * <code>required int64 lastUpdate = 2;</code>
      *
      * <pre>
      *time since last update. server time
@@ -2458,23 +2735,23 @@ public final class Message {
      */
     long getLastUpdate();
 
-    // required int64 currentTimestamp = 2;
+    // required int64 currentTimestamp = 3;
     /**
-     * <code>required int64 currentTimestamp = 2;</code>
+     * <code>required int64 currentTimestamp = 3;</code>
      */
     boolean hasCurrentTimestamp();
     /**
-     * <code>required int64 currentTimestamp = 2;</code>
+     * <code>required int64 currentTimestamp = 3;</code>
      */
     long getCurrentTimestamp();
 
-    // required bool serverSend = 3;
+    // required bool serverSend = 4;
     /**
-     * <code>required bool serverSend = 3;</code>
+     * <code>required bool serverSend = 4;</code>
      */
     boolean hasServerSend();
     /**
-     * <code>required bool serverSend = 3;</code>
+     * <code>required bool serverSend = 4;</code>
      */
     boolean getServerSend();
   }
@@ -2531,16 +2808,21 @@ public final class Message {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              lastUpdate_ = input.readInt64();
+              msgNum_ = input.readInt32();
               break;
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              currentTimestamp_ = input.readInt64();
+              lastUpdate_ = input.readInt64();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
+              currentTimestamp_ = input.readInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
               serverSend_ = input.readBool();
               break;
             }
@@ -2584,21 +2866,37 @@ public final class Message {
     }
 
     private int bitField0_;
-    // required int64 lastUpdate = 1;
-    public static final int LASTUPDATE_FIELD_NUMBER = 1;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public boolean hasMsgNum() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    // required int64 lastUpdate = 2;
+    public static final int LASTUPDATE_FIELD_NUMBER = 2;
     private long lastUpdate_;
     /**
-     * <code>required int64 lastUpdate = 1;</code>
+     * <code>required int64 lastUpdate = 2;</code>
      *
      * <pre>
      *time since last update. server time
      * </pre>
      */
     public boolean hasLastUpdate() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int64 lastUpdate = 1;</code>
+     * <code>required int64 lastUpdate = 2;</code>
      *
      * <pre>
      *time since last update. server time
@@ -2608,39 +2906,40 @@ public final class Message {
       return lastUpdate_;
     }
 
-    // required int64 currentTimestamp = 2;
-    public static final int CURRENTTIMESTAMP_FIELD_NUMBER = 2;
+    // required int64 currentTimestamp = 3;
+    public static final int CURRENTTIMESTAMP_FIELD_NUMBER = 3;
     private long currentTimestamp_;
     /**
-     * <code>required int64 currentTimestamp = 2;</code>
+     * <code>required int64 currentTimestamp = 3;</code>
      */
     public boolean hasCurrentTimestamp() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int64 currentTimestamp = 2;</code>
+     * <code>required int64 currentTimestamp = 3;</code>
      */
     public long getCurrentTimestamp() {
       return currentTimestamp_;
     }
 
-    // required bool serverSend = 3;
-    public static final int SERVERSEND_FIELD_NUMBER = 3;
+    // required bool serverSend = 4;
+    public static final int SERVERSEND_FIELD_NUMBER = 4;
     private boolean serverSend_;
     /**
-     * <code>required bool serverSend = 3;</code>
+     * <code>required bool serverSend = 4;</code>
      */
     public boolean hasServerSend() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required bool serverSend = 3;</code>
+     * <code>required bool serverSend = 4;</code>
      */
     public boolean getServerSend() {
       return serverSend_;
     }
 
     private void initFields() {
+      msgNum_ = 0;
       lastUpdate_ = 0L;
       currentTimestamp_ = 0L;
       serverSend_ = false;
@@ -2650,6 +2949,10 @@ public final class Message {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasLastUpdate()) {
         memoizedIsInitialized = 0;
         return false;
@@ -2670,13 +2973,16 @@ public final class Message {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, lastUpdate_);
+        output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, currentTimestamp_);
+        output.writeInt64(2, lastUpdate_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBool(3, serverSend_);
+        output.writeInt64(3, currentTimestamp_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, serverSend_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2689,15 +2995,19 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, lastUpdate_);
+          .computeInt32Size(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, currentTimestamp_);
+          .computeInt64Size(2, lastUpdate_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, serverSend_);
+          .computeInt64Size(3, currentTimestamp_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, serverSend_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2815,12 +3125,14 @@ public final class Message {
 
       public Builder clear() {
         super.clear();
-        lastUpdate_ = 0L;
+        msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        currentTimestamp_ = 0L;
+        lastUpdate_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
-        serverSend_ = false;
+        currentTimestamp_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
+        serverSend_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2852,13 +3164,17 @@ public final class Message {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.lastUpdate_ = lastUpdate_;
+        result.msgNum_ = msgNum_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.currentTimestamp_ = currentTimestamp_;
+        result.lastUpdate_ = lastUpdate_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.currentTimestamp_ = currentTimestamp_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.serverSend_ = serverSend_;
         result.bitField0_ = to_bitField0_;
@@ -2877,6 +3193,9 @@ public final class Message {
 
       public Builder mergeFrom(org.jbull.jmessage.Message.Mode other) {
         if (other == org.jbull.jmessage.Message.Mode.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
         if (other.hasLastUpdate()) {
           setLastUpdate(other.getLastUpdate());
         }
@@ -2891,6 +3210,10 @@ public final class Message {
       }
 
       public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
         if (!hasLastUpdate()) {
           
           return false;
@@ -2925,20 +3248,53 @@ public final class Message {
       }
       private int bitField0_;
 
-      // required int64 lastUpdate = 1;
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public boolean hasMsgNum() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 lastUpdate = 2;
       private long lastUpdate_ ;
       /**
-       * <code>required int64 lastUpdate = 1;</code>
+       * <code>required int64 lastUpdate = 2;</code>
        *
        * <pre>
        *time since last update. server time
        * </pre>
        */
       public boolean hasLastUpdate() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int64 lastUpdate = 1;</code>
+       * <code>required int64 lastUpdate = 2;</code>
        *
        * <pre>
        *time since last update. server time
@@ -2948,93 +3304,93 @@ public final class Message {
         return lastUpdate_;
       }
       /**
-       * <code>required int64 lastUpdate = 1;</code>
+       * <code>required int64 lastUpdate = 2;</code>
        *
        * <pre>
        *time since last update. server time
        * </pre>
        */
       public Builder setLastUpdate(long value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         lastUpdate_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 lastUpdate = 1;</code>
+       * <code>required int64 lastUpdate = 2;</code>
        *
        * <pre>
        *time since last update. server time
        * </pre>
        */
       public Builder clearLastUpdate() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         lastUpdate_ = 0L;
         onChanged();
         return this;
       }
 
-      // required int64 currentTimestamp = 2;
+      // required int64 currentTimestamp = 3;
       private long currentTimestamp_ ;
       /**
-       * <code>required int64 currentTimestamp = 2;</code>
+       * <code>required int64 currentTimestamp = 3;</code>
        */
       public boolean hasCurrentTimestamp() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int64 currentTimestamp = 2;</code>
+       * <code>required int64 currentTimestamp = 3;</code>
        */
       public long getCurrentTimestamp() {
         return currentTimestamp_;
       }
       /**
-       * <code>required int64 currentTimestamp = 2;</code>
+       * <code>required int64 currentTimestamp = 3;</code>
        */
       public Builder setCurrentTimestamp(long value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         currentTimestamp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 currentTimestamp = 2;</code>
+       * <code>required int64 currentTimestamp = 3;</code>
        */
       public Builder clearCurrentTimestamp() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         currentTimestamp_ = 0L;
         onChanged();
         return this;
       }
 
-      // required bool serverSend = 3;
+      // required bool serverSend = 4;
       private boolean serverSend_ ;
       /**
-       * <code>required bool serverSend = 3;</code>
+       * <code>required bool serverSend = 4;</code>
        */
       public boolean hasServerSend() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required bool serverSend = 3;</code>
+       * <code>required bool serverSend = 4;</code>
        */
       public boolean getServerSend() {
         return serverSend_;
       }
       /**
-       * <code>required bool serverSend = 3;</code>
+       * <code>required bool serverSend = 4;</code>
        */
       public Builder setServerSend(boolean value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         serverSend_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool serverSend = 3;</code>
+       * <code>required bool serverSend = 4;</code>
        */
       public Builder clearServerSend() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         serverSend_ = false;
         onChanged();
         return this;
@@ -3742,6 +4098,410 @@ public final class Message {
     // @@protoc_insertion_point(class_scope:Header)
   }
 
+  public interface AckOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 msgNum = 1;
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+  }
+  /**
+   * Protobuf type {@code Ack}
+   */
+  public static final class Ack extends
+      com.google.protobuf.GeneratedMessage
+      implements AckOrBuilder {
+    // Use Ack.newBuilder() to construct.
+    private Ack(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Ack(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Ack defaultInstance;
+    public static Ack getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Ack getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Ack(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              msgNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.jbull.jmessage.Message.internal_static_Ack_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.jbull.jmessage.Message.internal_static_Ack_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.jbull.jmessage.Message.Ack.class, org.jbull.jmessage.Message.Ack.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Ack> PARSER =
+        new com.google.protobuf.AbstractParser<Ack>() {
+      public Ack parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Ack(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Ack> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public boolean hasMsgNum() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    private void initFields() {
+      msgNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, msgNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, msgNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.jbull.jmessage.Message.Ack parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.jbull.jmessage.Message.Ack parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.jbull.jmessage.Message.Ack parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.jbull.jmessage.Message.Ack prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ack}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.jbull.jmessage.Message.AckOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.jbull.jmessage.Message.internal_static_Ack_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.jbull.jmessage.Message.internal_static_Ack_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.jbull.jmessage.Message.Ack.class, org.jbull.jmessage.Message.Ack.Builder.class);
+      }
+
+      // Construct using org.jbull.jmessage.Message.Ack.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        msgNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.jbull.jmessage.Message.internal_static_Ack_descriptor;
+      }
+
+      public org.jbull.jmessage.Message.Ack getDefaultInstanceForType() {
+        return org.jbull.jmessage.Message.Ack.getDefaultInstance();
+      }
+
+      public org.jbull.jmessage.Message.Ack build() {
+        org.jbull.jmessage.Message.Ack result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.jbull.jmessage.Message.Ack buildPartial() {
+        org.jbull.jmessage.Message.Ack result = new org.jbull.jmessage.Message.Ack(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.msgNum_ = msgNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.jbull.jmessage.Message.Ack) {
+          return mergeFrom((org.jbull.jmessage.Message.Ack)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.jbull.jmessage.Message.Ack other) {
+        if (other == org.jbull.jmessage.Message.Ack.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.jbull.jmessage.Message.Ack parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.jbull.jmessage.Message.Ack) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public boolean hasMsgNum() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Ack)
+    }
+
+    static {
+      defaultInstance = new Ack(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Ack)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_SetupMessage_descriptor;
   private static
@@ -3767,6 +4527,11 @@ public final class Message {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Header_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ack_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Ack_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3776,19 +4541,21 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\"E\n\014SetupMessage\022\022\n\007versi" +
-      "on\030\001 \001(\005:\0011\022!\n\017applicationName\030\002 \001(\t:\010jM" +
-      "essage\"g\n\nSmsMessage\022\021\n\ttimeStamp\030\001 \002(\003\022" +
-      "\030\n\006sender\030\002 \002(\0132\010.Contact\022\017\n\007content\030\003 \002" +
-      "(\t\022\033\n\trecipents\030\004 \003(\0132\010.Contact\";\n\007Conta" +
-      "ct\022\023\n\013phoneNumber\030\001 \002(\t\022\014\n\004name\030\002 \001(\t\022\r\n" +
-      "\005image\030\003 \001(\014\"H\n\004Mode\022\022\n\nlastUpdate\030\001 \002(\003" +
-      "\022\030\n\020currentTimestamp\030\002 \002(\003\022\022\n\nserverSend" +
-      "\030\003 \002(\010\"\205\001\n\006Header\022\016\n\006msgNum\030\001 \002(\003\022\016\n\006len" +
-      "gth\030\002 \002(\005\022\032\n\004type\030\003 \002(\0162\014.Header.Type\"?\n",
-      "\004Type\022\020\n\014SETUPMESSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022" +
-      "\013\n\007CONTACT\020\002\022\010\n\004MODE\020\003B\024\n\022org.jbull.jmes" +
-      "sage"
+      "\n\rmessage.proto\"U\n\014SetupMessage\022\016\n\006msgNu" +
+      "m\030\001 \002(\005\022\022\n\007version\030\002 \001(\005:\0011\022!\n\017applicati" +
+      "onName\030\003 \001(\t:\010jMessage\"w\n\nSmsMessage\022\016\n\006" +
+      "msgNum\030\001 \002(\005\022\021\n\ttimeStamp\030\002 \002(\003\022\030\n\006sende" +
+      "r\030\003 \002(\0132\010.Contact\022\017\n\007content\030\004 \002(\t\022\033\n\tre" +
+      "cipents\030\005 \003(\0132\010.Contact\"K\n\007Contact\022\016\n\006ms" +
+      "gNum\030\001 \002(\005\022\023\n\013phoneNumber\030\002 \002(\t\022\014\n\004name\030" +
+      "\003 \001(\t\022\r\n\005image\030\004 \001(\014\"X\n\004Mode\022\016\n\006msgNum\030\001" +
+      " \002(\005\022\022\n\nlastUpdate\030\002 \002(\003\022\030\n\020currentTimes" +
+      "tamp\030\003 \002(\003\022\022\n\nserverSend\030\004 \002(\010\"\205\001\n\006Heade",
+      "r\022\016\n\006msgNum\030\001 \002(\003\022\016\n\006length\030\002 \002(\005\022\032\n\004typ" +
+      "e\030\003 \002(\0162\014.Header.Type\"?\n\004Type\022\020\n\014SETUPME" +
+      "SSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004" +
+      "MODE\020\003\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\005B\024\n\022org.jbu" +
+      "ll.jmessage"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3800,31 +4567,37 @@ public final class Message {
           internal_static_SetupMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SetupMessage_descriptor,
-              new java.lang.String[] { "Version", "ApplicationName", });
+              new java.lang.String[] { "MsgNum", "Version", "ApplicationName", });
           internal_static_SmsMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_SmsMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SmsMessage_descriptor,
-              new java.lang.String[] { "TimeStamp", "Sender", "Content", "Recipents", });
+              new java.lang.String[] { "MsgNum", "TimeStamp", "Sender", "Content", "Recipents", });
           internal_static_Contact_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_Contact_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Contact_descriptor,
-              new java.lang.String[] { "PhoneNumber", "Name", "Image", });
+              new java.lang.String[] { "MsgNum", "PhoneNumber", "Name", "Image", });
           internal_static_Mode_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_Mode_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Mode_descriptor,
-              new java.lang.String[] { "LastUpdate", "CurrentTimestamp", "ServerSend", });
+              new java.lang.String[] { "MsgNum", "LastUpdate", "CurrentTimestamp", "ServerSend", });
           internal_static_Header_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_Header_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Header_descriptor,
               new java.lang.String[] { "MsgNum", "Length", "Type", });
+          internal_static_Ack_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_Ack_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Ack_descriptor,
+              new java.lang.String[] { "MsgNum", });
           return null;
         }
       };

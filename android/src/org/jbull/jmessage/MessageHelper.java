@@ -76,4 +76,14 @@ public class MessageHelper {
         // TODO: throw a relevant exception
         return null;
     }
+
+    public static Message.Ack createAck(int msgNum) {
+        return Message.Ack.newBuilder()
+                .setMsgNum(msgNum)
+                .build();
+    }
+
+    public static int readNumFromSerializedAck(byte[] ackBytes) throws InvalidProtocolBufferException {
+        return Message.Ack.parseFrom(ackBytes).getMsgNum();
+    }
 }

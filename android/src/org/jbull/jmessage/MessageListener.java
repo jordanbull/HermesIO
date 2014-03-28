@@ -21,7 +21,7 @@ public class MessageListener implements CommunicationManager.Listener {
 
     @Override
     public CommunicationManager.Mode listen() throws IOException {
-        TCPConnection conn = new TCPConnection(host, port);
+        /*TCPConnection conn = new TCPConnection(host, port);
         byte[] headerBytes = new byte[MessageHelper.HEADER_LENGTH]; //hopefully headers are never longer than this
         conn.read(headerBytes);
         Message.Header header = Message.Header.parseFrom(headerBytes);
@@ -37,7 +37,8 @@ public class MessageListener implements CommunicationManager.Listener {
             return CommunicationManager.Mode.LISTENING;
         } else {
             return CommunicationManager.Mode.SENDING;
-        }
+        }*/
+        return CommunicationManager.Mode.STOPPED;
     }
 
 

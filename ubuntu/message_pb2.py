@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='message.proto',
   package='',
-  serialized_pb='\n\rmessage.proto\"E\n\x0cSetupMessage\x12\x12\n\x07version\x18\x01 \x01(\x05:\x01\x31\x12!\n\x0f\x61pplicationName\x18\x02 \x01(\t:\x08jMessage\"g\n\nSmsMessage\x12\x11\n\ttimeStamp\x18\x01 \x02(\x03\x12\x18\n\x06sender\x18\x02 \x02(\x0b\x32\x08.Contact\x12\x0f\n\x07\x63ontent\x18\x03 \x02(\t\x12\x1b\n\trecipents\x18\x04 \x03(\x0b\x32\x08.Contact\";\n\x07\x43ontact\x12\x13\n\x0bphoneNumber\x18\x01 \x02(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05image\x18\x03 \x01(\x0c\"H\n\x04Mode\x12\x12\n\nlastUpdate\x18\x01 \x02(\x03\x12\x18\n\x10\x63urrentTimestamp\x18\x02 \x02(\x03\x12\x12\n\nserverSend\x18\x03 \x02(\x08\"\x85\x01\n\x06Header\x12\x0e\n\x06msgNum\x18\x01 \x02(\x03\x12\x0e\n\x06length\x18\x02 \x02(\x05\x12\x1a\n\x04type\x18\x03 \x02(\x0e\x32\x0c.Header.Type\"?\n\x04Type\x12\x10\n\x0cSETUPMESSAGE\x10\x00\x12\x0e\n\nSMSMESSAGE\x10\x01\x12\x0b\n\x07\x43ONTACT\x10\x02\x12\x08\n\x04MODE\x10\x03\x42\x14\n\x12org.jbull.jmessage')
+  serialized_pb='\n\rmessage.proto\"U\n\x0cSetupMessage\x12\x0e\n\x06msgNum\x18\x01 \x02(\x05\x12\x12\n\x07version\x18\x02 \x01(\x05:\x01\x31\x12!\n\x0f\x61pplicationName\x18\x03 \x01(\t:\x08jMessage\"w\n\nSmsMessage\x12\x0e\n\x06msgNum\x18\x01 \x02(\x05\x12\x11\n\ttimeStamp\x18\x02 \x02(\x03\x12\x18\n\x06sender\x18\x03 \x02(\x0b\x32\x08.Contact\x12\x0f\n\x07\x63ontent\x18\x04 \x02(\t\x12\x1b\n\trecipents\x18\x05 \x03(\x0b\x32\x08.Contact\"K\n\x07\x43ontact\x12\x0e\n\x06msgNum\x18\x01 \x02(\x05\x12\x13\n\x0bphoneNumber\x18\x02 \x02(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\r\n\x05image\x18\x04 \x01(\x0c\"X\n\x04Mode\x12\x0e\n\x06msgNum\x18\x01 \x02(\x05\x12\x12\n\nlastUpdate\x18\x02 \x02(\x03\x12\x18\n\x10\x63urrentTimestamp\x18\x03 \x02(\x03\x12\x12\n\nserverSend\x18\x04 \x02(\x08\"\x85\x01\n\x06Header\x12\x0e\n\x06msgNum\x18\x01 \x02(\x03\x12\x0e\n\x06length\x18\x02 \x02(\x05\x12\x1a\n\x04type\x18\x03 \x02(\x0e\x32\x0c.Header.Type\"?\n\x04Type\x12\x10\n\x0cSETUPMESSAGE\x10\x00\x12\x0e\n\nSMSMESSAGE\x10\x01\x12\x0b\n\x07\x43ONTACT\x10\x02\x12\x08\n\x04MODE\x10\x03\"\x15\n\x03\x41\x63k\x12\x0e\n\x06msgNum\x18\x01 \x02(\x05\x42\x14\n\x12org.jbull.jmessage')
 
 
 
@@ -42,8 +42,8 @@ _HEADER_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=399,
-  serialized_end=462,
+  serialized_start=463,
+  serialized_end=526,
 )
 
 
@@ -55,15 +55,22 @@ _SETUPMESSAGE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='version', full_name='SetupMessage.version', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      name='msgNum', full_name='SetupMessage.msgNum', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='version', full_name='SetupMessage.version', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=True, default_value=1,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='applicationName', full_name='SetupMessage.applicationName', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      name='applicationName', full_name='SetupMessage.applicationName', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=True, default_value=unicode("jMessage", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -78,7 +85,7 @@ _SETUPMESSAGE = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=17,
-  serialized_end=86,
+  serialized_end=102,
 )
 
 
@@ -90,29 +97,36 @@ _SMSMESSAGE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='timeStamp', full_name='SmsMessage.timeStamp', index=0,
-      number=1, type=3, cpp_type=2, label=2,
+      name='msgNum', full_name='SmsMessage.msgNum', index=0,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='sender', full_name='SmsMessage.sender', index=1,
-      number=2, type=11, cpp_type=10, label=2,
+      name='timeStamp', full_name='SmsMessage.timeStamp', index=1,
+      number=2, type=3, cpp_type=2, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='sender', full_name='SmsMessage.sender', index=2,
+      number=3, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='content', full_name='SmsMessage.content', index=2,
-      number=3, type=9, cpp_type=9, label=2,
+      name='content', full_name='SmsMessage.content', index=3,
+      number=4, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='recipents', full_name='SmsMessage.recipents', index=3,
-      number=4, type=11, cpp_type=10, label=3,
+      name='recipents', full_name='SmsMessage.recipents', index=4,
+      number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -126,8 +140,8 @@ _SMSMESSAGE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=88,
-  serialized_end=191,
+  serialized_start=104,
+  serialized_end=223,
 )
 
 
@@ -139,22 +153,29 @@ _CONTACT = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='phoneNumber', full_name='Contact.phoneNumber', index=0,
-      number=1, type=9, cpp_type=9, label=2,
+      name='msgNum', full_name='Contact.msgNum', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='phoneNumber', full_name='Contact.phoneNumber', index=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Contact.name', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      name='name', full_name='Contact.name', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='image', full_name='Contact.image', index=2,
-      number=3, type=12, cpp_type=9, label=1,
+      name='image', full_name='Contact.image', index=3,
+      number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value="",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -168,8 +189,8 @@ _CONTACT = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=193,
-  serialized_end=252,
+  serialized_start=225,
+  serialized_end=300,
 )
 
 
@@ -181,22 +202,29 @@ _MODE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='lastUpdate', full_name='Mode.lastUpdate', index=0,
-      number=1, type=3, cpp_type=2, label=2,
+      name='msgNum', full_name='Mode.msgNum', index=0,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='currentTimestamp', full_name='Mode.currentTimestamp', index=1,
+      name='lastUpdate', full_name='Mode.lastUpdate', index=1,
       number=2, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='serverSend', full_name='Mode.serverSend', index=2,
-      number=3, type=8, cpp_type=7, label=2,
+      name='currentTimestamp', full_name='Mode.currentTimestamp', index=2,
+      number=3, type=3, cpp_type=2, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='serverSend', full_name='Mode.serverSend', index=3,
+      number=4, type=8, cpp_type=7, label=2,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -210,8 +238,8 @@ _MODE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=254,
-  serialized_end=326,
+  serialized_start=302,
+  serialized_end=390,
 )
 
 
@@ -253,8 +281,36 @@ _HEADER = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=329,
-  serialized_end=462,
+  serialized_start=393,
+  serialized_end=526,
+)
+
+
+_ACK = _descriptor.Descriptor(
+  name='Ack',
+  full_name='Ack',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='msgNum', full_name='Ack.msgNum', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=528,
+  serialized_end=549,
 )
 
 _SMSMESSAGE.fields_by_name['sender'].message_type = _CONTACT
@@ -266,6 +322,7 @@ DESCRIPTOR.message_types_by_name['SmsMessage'] = _SMSMESSAGE
 DESCRIPTOR.message_types_by_name['Contact'] = _CONTACT
 DESCRIPTOR.message_types_by_name['Mode'] = _MODE
 DESCRIPTOR.message_types_by_name['Header'] = _HEADER
+DESCRIPTOR.message_types_by_name['Ack'] = _ACK
 
 class SetupMessage(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -296,6 +353,12 @@ class Header(_message.Message):
   DESCRIPTOR = _HEADER
 
   # @@protoc_insertion_point(class_scope:Header)
+
+class Ack(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _ACK
+
+  # @@protoc_insertion_point(class_scope:Ack)
 
 
 DESCRIPTOR.has_options = True

@@ -14,14 +14,14 @@ public class MessageListenerTest extends TestCase {
     private static final String HOST = "localhost";
     private static final int PORT = 8888;
 
-    public void testListen() throws Exception {
+    /*public void testListen() throws Exception {
         TCPConnection.TCPServer server = TCPConnection.createTCPServer(PORT);
         TestInstrHandler trueInstrHandler = new TestInstrHandler(true);
         final MessageListener trueListener = new MessageListener(HOST, PORT, trueInstrHandler);
         /* Test that the process of reading a header and message and passing it to the
            MessageReactor
          */
-        Thread t = new Thread(new Runnable() {
+        /*Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -90,5 +90,5 @@ public class MessageListenerTest extends TestCase {
             recentMsg = msg;
             return returnVal;
         }
-    }
+    }*/
 }

@@ -1,27 +1,31 @@
 option java_package = "org.jbull.jmessage";
 //option optimize_for = LITE_RUNTIME;
 message SetupMessage {
-  optional int32 version = 1 [default = 1];
-  optional string applicationName = 2 [default = "jMessage"];
+  required int32 msgNum = 1;
+  optional int32 version = 2 [default = 1];
+  optional string applicationName = 3 [default = "jMessage"];
 }
 
 message SmsMessage {
-  required int64 timeStamp = 1;
-  required Contact sender = 2;
-  required string content = 3;
-  repeated Contact recipents = 4;
+  required int32 msgNum = 1;
+  required int64 timeStamp = 2;
+  required Contact sender = 3;
+  required string content = 4;
+  repeated Contact recipents = 5;
 }
 
 message Contact {
-  required string phoneNumber = 1;
-  optional string name = 2;
-  optional bytes image = 3;
+  required int32 msgNum = 1;
+  required string phoneNumber = 2;
+  optional string name = 3;
+  optional bytes image = 4;
 }
 
 message Mode {
-  required int64 lastUpdate = 1; //time since last update. server time
-  required int64 currentTimestamp = 2;
-  required bool serverSend = 3;
+  required int32 msgNum = 1;
+  required int64 lastUpdate = 2; //time since last update. server time
+  required int64 currentTimestamp = 3;
+  required bool serverSend = 4;
 }
 
 message Header {
@@ -34,4 +38,8 @@ message Header {
     MODE = 3;
   }
   required Type type = 3;
+}
+
+message Ack {
+  required int32 msgNum = 1;
 }

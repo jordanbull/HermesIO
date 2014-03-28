@@ -18,7 +18,7 @@ public class MessageSender implements CommunicationManager.Sender<GeneratedMessa
     }
     @Override
     public void send(GeneratedMessage msg) throws IOException {
-        TCPConnection conn = new TCPConnection(host, port);
+        /*TCPConnection conn = new TCPConnection(host, port);
         Message.Header header = MessageHelper.createHeader(msg, ++msgNum);
         byte[] headerData = header.toByteArray();
 
@@ -32,7 +32,7 @@ public class MessageSender implements CommunicationManager.Sender<GeneratedMessa
         } else {
             throw new RuntimeException("Error reading header as a match");
         }
-        conn.close();
+        conn.close();*/
     }
 
     public static boolean byteEquivalent(byte[] a, byte[] b) {

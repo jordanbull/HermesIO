@@ -26,7 +26,7 @@ public class jMessageActivity extends Activity {
     public void connectAndSetup(View view) {
         final Intent intent = new Intent(this, jMessageService.class);
         //final String ip = ((EditText) findViewById(R.id.ipConnectField)).getText().toString();
-        final String ip = "192.168.2.25";
+        final String ip = "192.168.1.127";
         intent.putExtra("ip", ip);
         new Thread(new Runnable() {
             @Override

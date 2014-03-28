@@ -9,67 +9,71 @@ import java.net.Socket;
  * Created by jordan on 3/18/14.
  */
 public class TCPConnection {
-    Socket sock;
-    //InputStreamReader isr;
-    //BufferedReader reader;
+    String host;
+    int port;
+    private int sendMsgNum = 0;
 
     public TCPConnection(String host, int port) throws IOException {
-        this(new Socket(host, port));
+        this.host = host;
+        this.port = port;
     }
 
-    private TCPConnection(Socket s) throws IOException {
-        sock = s;
-        //isr = new InputStreamReader(sock.getInputStream());
-        //reader = new BufferedReader(isr);
-    }
 
-    public void reconnect() throws IOException {
-        InetAddress addr = sock.getInetAddress();
-        int port = sock.getPort();
-        sock.close();
-        sock = new Socket(addr, port);
-        //isr = new InputStreamReader(sock.getInputStream());
-        //reader = new BufferedReader(isr);
-    }
+    public synchronized Response send(byte[] data, int msgNum, int numRetries) {
+        try {
+            /* write message */
+            Socket s = new Socket(host, port);
+            OutputStream os = s.getOutputStream();
+            os.write(data);
+            os.flush();
+            s.close();
 
-    public static TCPServer createTCPServer(int port) throws IOException {
-        return new TCPServer(new ServerSocket(port));
-    }
+            /* read ack */
+            s = new Socket(host, port);
+            InputStream is = s.getInputStream();
+            Message.Ack ack = Message.Ack.parseFrom(is);
+            s.close();
 
-    public void write(byte[] bytes) throws IOException {
-        OutputStream os = sock.getOutputStream();
-        os.write(bytes);
-        os.flush();
-    }
-
-    public int read(byte[] buffer) throws IOException {
-        // TODO: make sure all bytes are read and test this
-        //char[] charBuff = new char[buffer.length];
-        int n = sock.getInputStream().read(buffer, 0, buffer.length);
-        //int n = reader.read(charBuff, 0, charBuff.length);
-        //System.arraycopy(new String(charBuff).getBytes(isr.getEncoding()), 0, buffer, 0, buffer.length);
-        return n;
-    }
-
-    public boolean ready() throws IOException {
-        //return reader.ready();
-        return false;
-    }
-
-    public void close() throws IOException {
-        sock.close();
-    }
-
-    public static class TCPServer {
-        ServerSocket serv;
-        private TCPServer(ServerSocket server) {
-            serv = server;
+            /* verify ack */
+            if (ack.getMsgNum() == msgNum) {
+                return new Response(true, 0);
+            } else {
+                if (numRetries > 0) {
+                    numRetries--;
+                    return send(data, msgNum, numRetries).incrementRetries();
+                }
+            }
+        } catch (IOException e) {
+            // TODO handle retries and such
+            e.printStackTrace();
         }
-        public TCPConnection accept() throws IOException {
-            return new TCPConnection(serv.accept());
+        return new Response(false, 0);
+    }
+
+    public synchronized int getSendMsgNum() {
+        sendMsgNum++;
+        return sendMsgNum;
+    }
+
+    public static final class Response {
+        private boolean success;
+        private int numRetries;
+
+        private Response(boolean success, int numRetries) {
+            this.success = success;
+            this.numRetries = numRetries;
         }
-        public void close() throws IOException {
-            serv.close();
+        private Response incrementRetries() {
+            this.numRetries++;
+            return this;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public int getNumRetries() {
+            return numRetries;
         }
     }
 }

@@ -26,7 +26,7 @@ public class MessageSenderTest extends TestCase {
         assertFalse(MessageSender.byteEquivalent(diffBytes, oneByte));
     }
 
-    public void testSend() throws Exception {
+    /*public void testSend() throws Exception {
         TCPConnection.TCPServer server = TCPConnection.createTCPServer(PORT);
         final MessageSender sender = new MessageSender("localhost", PORT);
         final GeneratedMessage msg = MessageHelper.createSetupMessage();
@@ -52,5 +52,5 @@ public class MessageSenderTest extends TestCase {
         servConn.read(buffer);
         Assert.assertArrayEquals(msg.toByteArray(), buffer);
         servConn.close();
-    }
+    }*/
 }
