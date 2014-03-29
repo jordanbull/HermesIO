@@ -57,18 +57,12 @@ public class CommunicationManager<T> {
 
     public void send(T msg) throws IOException {
         queue.add(msg);
-        if (mode == Mode.SENDING) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        flushMessages();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }).start();
-        }
+        if (mode == Mode.SENDING)
+            try {
+                flushMessages();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     public synchronized void flushMessages() throws IOException {
