@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -219,6 +220,31 @@ public class LocalTCPConnectionTest extends TestCase {
             assertTrue(e instanceof IOException);
         Assert.assertArrayEquals(null, receiveResponses[0].getData());
         assertEquals(-1, receiveResponses[0].getMsgNum());
+
+        //test reads massive data
+        final byte[] largeArray = new byte[9999];
+        new Random().nextBytes(largeArray);
+        receiveThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                receiveResponses[0] = client.receive(largeArray.length, new TCPConnection.MsgNumParser() {
+                    @Override
+                    public int parseMsgNum(byte[] serializedMsg) {
+                        return msgNum;
+                    }
+                }, 0);
+            }
+        });
+        receiveThread.start();
+        receivedMsgNum = sendToConn(largeArray, false);
+        receiveThread.join();
+        assertEquals(msgNum, receivedMsgNum);
+        assertTrue(receiveResponses[0].isSuccess());
+        assertEquals(0, receiveResponses[0].getNumRetries());
+        assertTrue(receiveResponses[0].getExceptions().isEmpty());
+        Assert.assertArrayEquals(largeArray, receiveResponses[0].getData());
+        assertEquals(msgNum, receiveResponses[0].getMsgNum());
     }
 
     /*

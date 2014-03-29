@@ -112,10 +112,10 @@ public class CommunicationManager<T> {
     }
 
     public static interface Sender<T> {
-        public void send(T msg) throws IOException;
+        public void send(T msg);
     }
 
     public static interface Listener {
-        public Mode listen() throws IOException;
+        public Mode listen();
     }
 }

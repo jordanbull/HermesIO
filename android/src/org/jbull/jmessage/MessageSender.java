@@ -3,48 +3,35 @@ package org.jbull.jmessage;
 import com.google.protobuf.GeneratedMessage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by jordan on 3/25/14.
  */
 public class MessageSender implements CommunicationManager.Sender<GeneratedMessage> {
-    private final String host;
-    private final int port;
-    private int msgNum = 0;
+    private Connection conn;
+    private int numRetries = 0;
 
-    public MessageSender(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public MessageSender(Connection conn, int numRetries) {
+        this.conn = conn;
+        this.numRetries = numRetries;
     }
     @Override
-    public void send(GeneratedMessage msg) throws IOException {
-        /*TCPConnection conn = new TCPConnection(host, port);
-        Message.Header header = MessageHelper.createHeader(msg, ++msgNum);
-        byte[] headerData = header.toByteArray();
-
-        conn.write(headerData);
-        byte[] buffer = new byte[headerData.length];
-        conn.read(buffer);
-        // TODO make sure right amount of bytes are read or timeout and handle
-        if (byteEquivalent(headerData, buffer)) {
-            conn.reconnect();
-            conn.write(msg.toByteArray());
-        } else {
-            throw new RuntimeException("Error reading header as a match");
+    public void send(GeneratedMessage msg) {
+        int msgNum = conn.getSendMsgNum();
+        Message.Header header = MessageHelper.createHeader(msg, msgNum);
+        byte[] msgData = header.toByteArray();
+        Connection.SendResponse response = conn.send(msgData, msgNum, numRetries);
+        if (!response.isSuccess()) { //send header failed
+            //TODO
+            for(Exception e : response.getExceptions())
+                throw new RuntimeException(e);
         }
-        conn.close();*/
-    }
 
-    public static boolean byteEquivalent(byte[] a, byte[] b) {
-        int size;
-        if (a.length >= b.length)
-            size = b.length;
-        else
-            size = a.length;
-        for (int i = 0; i < size; i++) {
-            if (a[i] != b[i])
-                return false;
+        response = conn.send(msg.toByteArray(), numRetries);
+        if (!response.isSuccess()) { //send header failed
+            // TODO handle non success
+
         }
-        return true;
     }
 }

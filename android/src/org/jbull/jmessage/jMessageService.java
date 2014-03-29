@@ -30,8 +30,9 @@ public class jMessageService extends Service {
         } catch (Exception e) {
 
         }
+        Connection connection = new TCPConnection(ip, PORT);
         MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler(this));
-        MessageSender sender = new MessageSender(ip, 8888);
+        MessageSender sender = new MessageSender(connection, 0);
         final CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
         try {
             Log.w("jMessage", "sending setup");
