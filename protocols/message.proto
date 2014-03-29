@@ -29,7 +29,7 @@ message Mode {
 }
 
 message Header {
-  required int64 msgNum = 1;
+  required int32 msgNum = 1;
   required int32 length = 2;
   enum Type {
     SETUPMESSAGE = 0;

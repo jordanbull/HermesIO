@@ -1,9 +1,11 @@
 package org.jbull.jmessage;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.Descriptors;
 import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,7 @@ public class MessageHelper {
                 .setSender(sender)
                 .setContent(content)
                 .addAllRecipents(recipents)
-                .build();
+                .buildPartial();
         return sms;
     }
 
@@ -33,7 +35,7 @@ public class MessageHelper {
                 .setName(name);
         if (imageData != null)
             builder.setImage(imageData);
-        return builder.build();
+        return builder.buildPartial();
     }
 
     public static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
@@ -63,7 +65,7 @@ public class MessageHelper {
                 .setCurrentTimestamp(System.currentTimeMillis())
                 .setServerSend(serverSend)
                 .setLastUpdate(lastUpdated)
-                .build();
+                .buildPartial();
     }
 
     public static GeneratedMessage constructFromBytes(Message.Header.Type type, byte[] buffer) throws InvalidProtocolBufferException {
@@ -89,5 +91,21 @@ public class MessageHelper {
 
     public static int readNumFromSerializedAck(byte[] ackBytes) throws InvalidProtocolBufferException {
         return Message.Ack.parseFrom(ackBytes).getMsgNum();
+    }
+
+    public static class MessageNumParser implements Connection.MsgNumParser {
+        private Message.Header.Type type;
+
+        public  MessageNumParser(Message.Header.Type type) {
+            this.type = type;
+        }
+        @Override
+        public int parseMsgNum(byte[] serializedMsg) throws IOException {
+            if (type == null) {
+                return Message.Header.parseFrom(serializedMsg).getMsgNum();
+            }
+            GeneratedMessage msg = constructFromBytes(type, serializedMsg);
+            return (Integer) msg.getField(msg.getDescriptorForType().findFieldByName("msgNum"));
+        }
     }
 }

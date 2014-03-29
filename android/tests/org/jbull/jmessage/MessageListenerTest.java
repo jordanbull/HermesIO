@@ -2,93 +2,69 @@ package org.jbull.jmessage;
 
 import com.google.protobuf.GeneratedMessage;
 import junit.framework.TestCase;
-import org.junit.Assert;
+import org.mockito.InOrder;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by jordan on 3/25/14.
  */
 public class MessageListenerTest extends TestCase {
-    private static final String HOST = "localhost";
-    private static final int PORT = 8888;
+    private MessageListener listener;
+    MessageListener.MessageReactor reactor;
+    Connection conn;
+    private int numRetries;
+    private int msgAckNum1;
+    private GeneratedMessage smsMsg;
+    private Message.Header headerSMS;
+    private GeneratedMessage modeMsg;
+    private int msgAckNum2;
+    private Message.Header headerMode;
 
-    /*public void testListen() throws Exception {
-        TCPConnection.TCPServer server = TCPConnection.createTCPServer(PORT);
-        TestInstrHandler trueInstrHandler = new TestInstrHandler(true);
-        final MessageListener trueListener = new MessageListener(HOST, PORT, trueInstrHandler);
-        /* Test that the process of reading a header and message and passing it to the
-           MessageReactor
-         */
-        /*Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    assertEquals(CommunicationManager.Mode.LISTENING, trueListener.listen());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        t.start();
-        Message.SmsMessage sms = MessageHelper.createSmsMessage(
-                MessageHelper.createContact(
-                        "name",
-                        "phoneNumber",
-                        null),
-                "text content",
-                System.currentTimeMillis(),
-                new ArrayList<Message.Contact>());
-        sendSmsToListener(server, sms);
-        t.join();
-        assertEquals(Message.Header.Type.SMSMESSAGE, trueInstrHandler.recentType);
-        assertEquals(sms, trueInstrHandler.recentMsg);
-
-        // case where the CommunicationManager stops listening and starts sending
-        TestInstrHandler falseInstrHandler = new TestInstrHandler(false);
-        final MessageListener falseListener = new MessageListener(HOST, PORT, falseInstrHandler);
-        t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    assertEquals(CommunicationManager.Mode.SENDING, falseListener.listen());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        t.start();
-        sendSmsToListener(server, sms);
-        t.join();
-      }
-
-    private void sendSmsToListener(TCPConnection.TCPServer server, Message.SmsMessage sms) throws IOException {
-        TCPConnection conn = server.accept();
-        Message.Header header = MessageHelper.createHeader(sms, 1);
-        conn.write(header.toByteArray());
-        byte[] buffer = new byte[header.toByteArray().length];
-        conn.read(buffer);
-        conn.close();
-        conn = server.accept();
-        Assert.assertArrayEquals(header.toByteArray(), buffer);
-        conn.write(sms.toByteArray());
-        conn.close();
+    public void setUp() throws Exception {
+        conn = mock(Connection.class);
+        reactor = mock(MessageListener.MessageReactor.class);
+        numRetries = 0;
+        listener = new MessageListener(conn, reactor, numRetries);
+        msgAckNum1 = new Random().nextInt(9999);
+        msgAckNum2 = new Random().nextInt(9999);
+        smsMsg = MessageHelper.createSmsMessage(MessageHelper.createContact("name", "number", null).toBuilder().setMsgNum(msgAckNum1).build(), "smsMsg content", System.currentTimeMillis(), new ArrayList<Message.Contact>()).toBuilder().setMsgNum(msgAckNum1).build();
+        modeMsg = MessageHelper.createModeMessage(true, System.currentTimeMillis()).toBuilder().setMsgNum(msgAckNum2).build();
+        headerSMS = MessageHelper.createHeader(smsMsg, msgAckNum1);
+        headerMode = MessageHelper.createHeader(modeMsg, msgAckNum2);
     }
 
-    public class TestInstrHandler implements MessageListener.MessageReactor {
-        private final boolean returnVal;
-        public Message.Header.Type recentType;
-        public GeneratedMessage recentMsg;
+    public void testListen() throws Exception {
+        // tests handling of header and message and continues listening
+        when(reactor.executeMessage(any(Message.Header.Type.class), any(GeneratedMessage.class))).thenReturn(true);
+        Connection.ReceiveResponse response = mock(Connection.ReceiveResponse.class);
+        when(response.isSuccess()).thenReturn(true).thenReturn(true);
+        when(response.getData()).thenReturn(headerSMS.toByteArray()).thenReturn(smsMsg.toByteArray());
+        when(conn.receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(conn.receive(eq(smsMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        CommunicationManager.Mode mode = listener.listen();
+        InOrder inOrder = inOrder(conn);
+        inOrder.verify(conn).receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
+        inOrder.verify(conn).receive(eq(smsMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries));
+        verify(reactor).executeMessage(headerSMS.getType(), smsMsg);
+        assertEquals(CommunicationManager.Mode.LISTENING, mode);
 
-        public TestInstrHandler(boolean returnVal) {
-            this.returnVal = returnVal;
-        }
-
-        public boolean executeMessage(Message.Header.Type type, GeneratedMessage msg) {
-            recentType = type;
-            recentMsg = msg;
-            return returnVal;
-        }
-    }*/
+        // stops listening when receiving false
+        when(reactor.executeMessage(any(Message.Header.Type.class), any(GeneratedMessage.class))).thenReturn(false);
+        response = mock(Connection.ReceiveResponse.class);
+        when(response.isSuccess()).thenReturn(true).thenReturn(true);
+        when(response.getData()).thenReturn(headerMode.toByteArray()).thenReturn(modeMsg.toByteArray());
+        when(conn.receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(conn.receive(eq(modeMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        mode = listener.listen();
+        inOrder = inOrder(conn);
+        inOrder.verify(conn).receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
+        inOrder.verify(conn).receive(eq(modeMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries));
+        verify(reactor).executeMessage(headerMode.getType(), modeMsg);
+        assertEquals(CommunicationManager.Mode.SENDING, mode);
+    }
 }

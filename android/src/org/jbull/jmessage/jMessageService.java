@@ -17,6 +17,7 @@ public class jMessageService extends Service {
     private String ip;
     private final int PORT = 8888;
     private final int SEND_PERIOD = 1000;
+    private final int numRetries = 0;
     private Intent intent;
 
     @Override
@@ -31,8 +32,8 @@ public class jMessageService extends Service {
 
         }
         Connection connection = new TCPConnection(ip, PORT);
-        MessageListener listener = new MessageListener(ip, PORT, new InstructionHandler(this));
-        MessageSender sender = new MessageSender(connection, 0);
+        MessageListener listener = new MessageListener(connection, new InstructionHandler(this), numRetries);
+        MessageSender sender = new MessageSender(connection, numRetries);
         final CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
         try {
             Log.w("jMessage", "sending setup");

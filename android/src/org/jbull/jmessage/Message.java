@@ -3410,15 +3410,15 @@ public final class Message {
   public interface HeaderOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 msgNum = 1;
+    // required int32 msgNum = 1;
     /**
-     * <code>required int64 msgNum = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
     boolean hasMsgNum();
     /**
-     * <code>required int64 msgNum = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
-    long getMsgNum();
+    int getMsgNum();
 
     // required int32 length = 2;
     /**
@@ -3493,7 +3493,7 @@ public final class Message {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              msgNum_ = input.readInt64();
+              msgNum_ = input.readInt32();
               break;
             }
             case 16: {
@@ -3652,19 +3652,19 @@ public final class Message {
     }
 
     private int bitField0_;
-    // required int64 msgNum = 1;
+    // required int32 msgNum = 1;
     public static final int MSGNUM_FIELD_NUMBER = 1;
-    private long msgNum_;
+    private int msgNum_;
     /**
-     * <code>required int64 msgNum = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
     public boolean hasMsgNum() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 msgNum = 1;</code>
+     * <code>required int32 msgNum = 1;</code>
      */
-    public long getMsgNum() {
+    public int getMsgNum() {
       return msgNum_;
     }
 
@@ -3701,7 +3701,7 @@ public final class Message {
     }
 
     private void initFields() {
-      msgNum_ = 0L;
+      msgNum_ = 0;
       length_ = 0;
       type_ = org.jbull.jmessage.Message.Header.Type.SETUPMESSAGE;
     }
@@ -3730,7 +3730,7 @@ public final class Message {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, msgNum_);
+        output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, length_);
@@ -3749,7 +3749,7 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, msgNum_);
+          .computeInt32Size(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3875,7 +3875,7 @@ public final class Message {
 
       public Builder clear() {
         super.clear();
-        msgNum_ = 0L;
+        msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         length_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3985,35 +3985,35 @@ public final class Message {
       }
       private int bitField0_;
 
-      // required int64 msgNum = 1;
-      private long msgNum_ ;
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
       /**
-       * <code>required int64 msgNum = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
       public boolean hasMsgNum() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 msgNum = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
-      public long getMsgNum() {
+      public int getMsgNum() {
         return msgNum_;
       }
       /**
-       * <code>required int64 msgNum = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
-      public Builder setMsgNum(long value) {
+      public Builder setMsgNum(int value) {
         bitField0_ |= 0x00000001;
         msgNum_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 msgNum = 1;</code>
+       * <code>required int32 msgNum = 1;</code>
        */
       public Builder clearMsgNum() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        msgNum_ = 0L;
+        msgNum_ = 0;
         onChanged();
         return this;
       }
@@ -4551,7 +4551,7 @@ public final class Message {
       "\003 \001(\t\022\r\n\005image\030\004 \001(\014\"X\n\004Mode\022\016\n\006msgNum\030\001" +
       " \002(\005\022\022\n\nlastUpdate\030\002 \002(\003\022\030\n\020currentTimes" +
       "tamp\030\003 \002(\003\022\022\n\nserverSend\030\004 \002(\010\"\205\001\n\006Heade",
-      "r\022\016\n\006msgNum\030\001 \002(\003\022\016\n\006length\030\002 \002(\005\022\032\n\004typ" +
+      "r\022\016\n\006msgNum\030\001 \002(\005\022\016\n\006length\030\002 \002(\005\022\032\n\004typ" +
       "e\030\003 \002(\0162\014.Header.Type\"?\n\004Type\022\020\n\014SETUPME" +
       "SSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004" +
       "MODE\020\003\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\005B\024\n\022org.jbu" +
