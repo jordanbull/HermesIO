@@ -2,6 +2,7 @@
 android/out
 *.pyc
 shared/out
+.idea
 #Project Files
 workspace.xml
 tasks.xml
