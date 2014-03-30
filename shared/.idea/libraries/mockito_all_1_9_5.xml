@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="mockito-all-1.9.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Development/mockito-all-1.9.5.jar!/" />
+      <root url="jar://$USER_HOME$/Development/protobuf-java-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Development/mockito-all-1.9.5.jar!/" />
+    </SOURCES>
+  </library>
+</component>

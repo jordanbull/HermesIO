@@ -1,7 +1,7 @@
 *~
 android/out
-*/.idea
 *.pyc
-*.iml
-android/jMessage.iml
 shared/out
+#Project Files
+workspace.xml
+tasks.xml
