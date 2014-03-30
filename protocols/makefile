@@ -7,4 +7,4 @@ java:
 #	protoc message.proto --python_out=../ubuntu/
 
 clean:
-	rm ../android/src/org/jbull/jmessage/Message.java ../ubuntu/message_pb2.py
+	rm ../shared/src/com/jbull/hermes/Message.java ../ubuntu/message_pb2.py

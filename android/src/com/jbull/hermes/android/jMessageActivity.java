@@ -1,16 +1,10 @@
-package org.jbull.jmessage;
+package com.jbull.hermes.android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import com.google.protobuf.GeneratedMessage;
-import junit.framework.TestListener;
-
-import java.io.IOException;
+import org.jbull.jmessage.R;
 
 public class jMessageActivity extends Activity {
     /**

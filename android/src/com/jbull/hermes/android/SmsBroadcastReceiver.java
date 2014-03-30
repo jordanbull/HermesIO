@@ -1,16 +1,19 @@
-package org.jbull.jmessage;
+package com.jbull.hermes.android;
 
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.*;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.Message;
+import com.jbull.hermes.MessageHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

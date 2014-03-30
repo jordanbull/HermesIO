@@ -1,6 +1,6 @@
-package org.jbull.jmessage;
+package com.jbull.hermes.android;
 
-import android.util.Log;
+import com.jbull.hermes.*;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -27,12 +27,6 @@ public class CommunicationManager<T> {
 
     private Queue<T> queue = new LinkedList<T>();
 
-
-    public enum Mode {
-        LISTENING,
-        SENDING,
-        STOPPED
-    }
 
 
     /**
@@ -103,13 +97,5 @@ public class CommunicationManager<T> {
                 assert mode == Mode.STOPPED;
             }
         }
-    }
-
-    public static interface Sender<T> {
-        public void send(T msg);
-    }
-
-    public static interface Listener {
-        public Mode listen();
     }
 }

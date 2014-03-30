@@ -1,16 +1,17 @@
-package org.jbull.jmessage;
+package com.jbull.hermes.android;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.telephony.SmsManager;
 import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.Message;
+import com.jbull.hermes.MessageReactor;
 
 /**
  * The InstructionHandler is given messages sent from the server and handles them on the client side
  */
-public class InstructionHandler implements MessageListener.MessageReactor {
+public class InstructionHandler implements MessageReactor {
 
     private final Context context;
 

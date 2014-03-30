@@ -1,4 +1,4 @@
-package org.jbull.jmessage;
+package com.jbull.hermes.android;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.*;
 
 import java.io.IOException;
 
@@ -31,7 +32,7 @@ public class jMessageService extends Service {
         } catch (Exception e) {
 
         }
-        Connection connection = new TCPConnection(ip, PORT);
+        Connection connection = new TCPClient(ip, PORT);
         MessageListener listener = new MessageListener(connection, new InstructionHandler(this), numRetries);
         MessageSender sender = new MessageSender(connection, numRetries);
         final CommunicationManager<GeneratedMessage> commManager = new CommunicationManager<GeneratedMessage>(listener, sender, SEND_PERIOD);
@@ -41,7 +42,7 @@ public class jMessageService extends Service {
                 @Override
                 public void run() {
                     try {
-                        commManager.loop(CommunicationManager.Mode.SENDING);
+                        commManager.loop(Mode.SENDING);
                     } catch (IOException e) {
                         throw new RuntimeException("Error starting the CommunicationManager", e);
                     } catch (InterruptedException e) {
