@@ -4,3 +4,4 @@ android/out
 *.pyc
 *.iml
 android/jMessage.iml
+shared/out

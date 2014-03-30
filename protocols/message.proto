@@ -1,9 +1,9 @@
-option java_package = "org.jbull.jmessage";
+option java_package = "com.jbull.hermes";
 //option optimize_for = LITE_RUNTIME;
 message SetupMessage {
   required int32 msgNum = 1;
   optional int32 version = 2 [default = 1];
-  optional string applicationName = 3 [default = "jMessage"];
+  optional string applicationName = 3 [default = "HermesIO"];
 }
 
 message SmsMessage {
