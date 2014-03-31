@@ -1,28 +1,27 @@
 package com.jbull.hermes.android;
 
-import android.os.Handler;
-import com.jbull.hermes.CommunicationScheduler;
-import com.jbull.hermes.Listener;
-import com.jbull.hermes.Mode;
-import com.jbull.hermes.Sender;
+import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.*;
 
 
-public class SendFavoredCommunicationScheduler<T> extends CommunicationScheduler<T> {
+public class SendFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
     private int sendWindowMillis;
 
-    public SendFavoredCommunicationScheduler(Sender sender, Listener listener, int sendWindowMillis) {
+    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, int sendWindowMillis) {
         super(sender, listener);
         this.sendWindowMillis = sendWindowMillis;
     }
 
     public void start() {
+        running = true;
         mode = Mode.SENDING;
-        while(!isStopped()) {
+        while(running && !isStopped()) {
             if (isSending()) {
                 startSending();
             }
             assert !isListening();
         }
+        stop();
     }
 
     @Override
@@ -38,19 +37,10 @@ public class SendFavoredCommunicationScheduler<T> extends CommunicationScheduler
         }
     }
 
-    protected void setListenAlarm(int delay) {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startListening();
-            }
-        }, delay);
-    }
-
     @Override
     public void startListening() {
         mode = Mode.LISTENING;
+        sender.send(MessageHelper.createModeMessage(true, 0));
         listenLoop();
     }
 }

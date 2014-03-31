@@ -20,7 +20,7 @@ public class HermesActivity extends Activity {
     public void connectAndSetup(View view) {
         final Intent intent = new Intent(this, HermesService.class);
         //final String ip = ((EditText) findViewById(R.id.ipConnectField)).getText().toString();
-        final String ip = "192.168.1.127";
+        final String ip = "192.168.1.129";
         intent.putExtra("ip", ip);
         new Thread(new Runnable() {
             @Override

@@ -7,10 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by Jordan on 3/30/14.
  */
 public abstract class CommunicationScheduler<T> {
-    private final Sender<T> sender;
+    protected final Sender<T> sender;
     private final Listener listener;
     Queue<T> queue = new LinkedBlockingQueue<T>();
     protected Mode mode;
+    protected boolean running = false;
 
     public CommunicationScheduler(Sender<T> sender, Listener listener) {
         this.sender = sender;
@@ -44,6 +45,7 @@ public abstract class CommunicationScheduler<T> {
     }
 
     public void stop() {
+        running = false;
         mode = Mode.STOPPED;
     }
 

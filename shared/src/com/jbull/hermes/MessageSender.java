@@ -14,8 +14,9 @@ public class MessageSender implements Sender<GeneratedMessage> {
         this.numRetries = numRetries;
     }
     @Override
-    public void send(GeneratedMessage msg) {
+    synchronized public void send(GeneratedMessage msg) {
         int msgNum = conn.getSendMsgNum();
+
         Message.Header header = MessageHelper.createHeader(msg, msgNum);
         byte[] msgData = header.toByteArray();
         Connection.SendResponse response = conn.send(msgData, msgNum, numRetries);
@@ -24,9 +25,9 @@ public class MessageSender implements Sender<GeneratedMessage> {
             for(Exception e : response.getExceptions())
                 throw new RuntimeException(e);
         }
-
-        response = conn.send(msg.toByteArray(), numRetries);
-        if (!response.isSuccess()) { //send header failed
+        msg = MessageHelper.returnWithMsgNum(header.getType(), msg, msgNum);
+        response = conn.send(msg.toByteArray(), msgNum, numRetries);
+        if (!response.isSuccess()) { //send msg failed
             // TODO handle non success
         }
     }

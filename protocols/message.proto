@@ -29,8 +29,8 @@ message Mode {
 }
 
 message Header {
-  required int32 msgNum = 1;
-  required int32 length = 2;
+  required fixed32 msgNum = 1;
+  required fixed32 length = 2;
   enum Type {
     SETUPMESSAGE = 0;
     SMSMESSAGE = 1;

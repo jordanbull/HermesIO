@@ -11,7 +11,6 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 
@@ -24,10 +23,10 @@ import java.util.ArrayList;
 public class SmsBroadcastReceiver extends BroadcastReceiver{
 
     private final SmsManager SMS = SmsManager.getDefault();
-    private SendFavoredCommunicationScheduler<GeneratedMessage> commScheduler;
+    private SendFavoredCommunicationScheduler commScheduler;
     private Context context;
 
-    public SmsBroadcastReceiver(SendFavoredCommunicationScheduler<GeneratedMessage> commScheduler) {
+    public SmsBroadcastReceiver(SendFavoredCommunicationScheduler commScheduler) {
         super();
         this.commScheduler = commScheduler;
     }
@@ -39,17 +38,22 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
         final Bundle bundle = intent.getExtras();
         try {
             if (bundle != null) {
-                final Object[] pdusObj = (Object[]) bundle.get("pdus");
-                for (int i = 0; i < pdusObj.length; i++) {
-                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-                    final Message.Contact sender = getContactByNumber(currentMessage.getDisplayOriginatingAddress());
-                    final String message = currentMessage.getDisplayMessageBody();
-                    final long timeMs = currentMessage.getTimestampMillis();
-                    Log.w("jMessage", "handling sms");
-                    Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
-                    commScheduler.send(msg);
-                    Log.w("jMessage", "sms handled");
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Object[] pdusObj = (Object[]) bundle.get("pdus");
+                        for (int i = 0; i < pdusObj.length; i++) {
+                            SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                            final Message.Contact sender = getContactByNumber(currentMessage.getDisplayOriginatingAddress());
+                            final String message = currentMessage.getDisplayMessageBody();
+                            final long timeMs = currentMessage.getTimestampMillis();
+                            Log.w("jMessage", "handling sms");
+                            Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
+                            commScheduler.send(msg);
+                            Log.w("jMessage", "sms handled");
+                        }
+                    }
+                }).start();
             }
         } catch (Exception e) {
             Log.e("jMessage", "Exception smsReceiver" , e);

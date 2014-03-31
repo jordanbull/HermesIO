@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
-
-import java.io.IOException;
 
 /**
  * Created by jordan on 3/13/14.
@@ -17,7 +14,7 @@ public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private String ip;
     private final int PORT = 8888;
-    private final int SEND_PERIOD = 1000;
+    private final int SEND_PERIOD = -1;
     private final int numRetries = 0;
     private Intent intent;
 
@@ -35,11 +32,12 @@ public class HermesService extends Service {
         Connection connection = new TCPClient(ip, PORT);
         MessageListener listener = new MessageListener(connection, new InstructionHandler(this), numRetries);
         MessageSender sender = new MessageSender(connection, numRetries);
-        final SendFavoredCommunicationScheduler<GeneratedMessage> commManager = new SendFavoredCommunicationScheduler(sender, listener, SEND_PERIOD);
+        final SendFavoredCommunicationScheduler commManager = new SendFavoredCommunicationScheduler(sender, listener, SEND_PERIOD);
         Log.w("jMessage", "sending setup");
         new Thread(new Runnable() {
             @Override
             public void run() {
+                commManager.send(MessageHelper.createSetupMessage());
                 commManager.start();
             }
         }).start();

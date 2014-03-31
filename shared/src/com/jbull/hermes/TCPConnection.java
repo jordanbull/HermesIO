@@ -53,7 +53,7 @@ public abstract class TCPConnection extends Connection {
             Socket s = openSocket();
             int num_read = 0;
             while (num_read < numBytes)
-                num_read += s.getInputStream().read(data);
+                num_read += s.getInputStream().read(data, num_read, numBytes-num_read);
             s.close();
             /* parse message number */
             int msgNum = msgNumParser.parseMsgNum(data);

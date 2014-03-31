@@ -1,12 +1,8 @@
 package com.jbull.hermes.android;
 
-import com.jbull.hermes.Listener;
-import com.jbull.hermes.Mode;
-import com.jbull.hermes.Sender;
+import com.jbull.hermes.*;
 import junit.framework.TestCase;
 import org.mockito.InOrder;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
@@ -15,16 +11,18 @@ import static org.mockito.Mockito.*;
  */
 public class SendFavoredCommunicationSchedulerTest extends TestCase {
 
-    private Sender<String> sender;
-    private Listener listener;
+    private MessageSender sender;
+    private MessageListener listener;
     private int sendWindow;
     private SendFavoredCommunicationScheduler commScheduler;
+    private Message.SetupMessage msg;
 
     public void setUp() throws Exception {
-        listener = mock(Listener.class);
-        sender = mock(Sender.class);
+        listener = mock(MessageListener.class);
+        sender = mock(MessageSender.class);
         sendWindow = -1;
         commScheduler = new SendFavoredCommunicationScheduler(sender, listener, sendWindow);
+        msg = MessageHelper.createSetupMessage();
     }
 
     public void testStart() throws Exception {
@@ -44,22 +42,22 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
 
         // send and then listen. stop listening if listener.listen returns non Mode.LISTENING
         commScheduler = new SendFavoredCommunicationScheduler(sender, listener, 5);
-        commScheduler.send("1");
+        commScheduler.send(msg);
         when(listener.listen()).thenReturn(Mode.STOPPED);
         commScheduler.start();
         InOrder inOrder = inOrder(sender, listener);
-        inOrder.verify(sender, times(1)).send("1");
+        inOrder.verify(sender, times(1)).send(msg);
         inOrder.verify(listener, times(1)).listen();
 
         //alternate send and listen
-        listener = mock(Listener.class);
-        sender = mock(Sender.class);
+        listener = mock(MessageListener.class);
+        sender = mock(MessageSender.class);
         commScheduler = new SendFavoredCommunicationScheduler(sender, listener, 5);
-        commScheduler.send("1");
+        commScheduler.send(msg);
         when(listener.listen()).thenReturn(Mode.SENDING).thenReturn(Mode.STOPPED);
         commScheduler.start();
         inOrder = inOrder(sender, listener);
-        inOrder.verify(sender, times(1)).send("1");
+        inOrder.verify(sender, times(1)).send(msg);
         inOrder.verify(listener, times(2)).listen();
     }
 

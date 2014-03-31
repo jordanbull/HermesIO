@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class MessageHelper {
     // auto-detect the length of a header
-    public static final int HEADER_LENGTH = createHeader(createSetupMessage(), 1).toByteArray().length;
+    public static final int HEADER_LENGTH = createHeader(createSetupMessage(), 1).getSerializedSize();
 
     public static Message.SetupMessage createSetupMessage() {
         return Message.SetupMessage.getDefaultInstance();
@@ -51,9 +51,10 @@ public class MessageHelper {
             // Should never get here
             assert false;
         }
+        msg = returnWithMsgNum(type, msg, msgNum);
         Message.Header header = Message.Header.newBuilder()
                 .setMsgNum(msgNum)
-                .setLength(msg.toByteArray().length)
+                .setLength(msg.getSerializedSize())
                 .setType(type)
                 .build();
         return header;
@@ -72,8 +73,11 @@ public class MessageHelper {
             return Message.SmsMessage.parseFrom(buffer);
         } else if (type == Message.Header.Type.MODE) {
             return Message.Mode.parseFrom(buffer);
+        } else if (type == Message.Header.Type.SETUPMESSAGE) {
+            return Message.SetupMessage.parseFrom(buffer);
+        } else if (type == Message.Header.Type.CONTACT) {
+            return Message.Contact.parseFrom(buffer);
         }
-        assert false;
         // TODO: throw a relevant exception
         return null;
     }
@@ -101,10 +105,37 @@ public class MessageHelper {
         @Override
         public int parseMsgNum(byte[] serializedMsg) throws IOException {
             if (type == null) {
-                return Message.Header.parseFrom(serializedMsg).getMsgNum();
+                Message.Header header = Message.Header.parseFrom(serializedMsg);
+                return header.getMsgNum();
             }
             GeneratedMessage msg = constructFromBytes(type, serializedMsg);
             return (Integer) msg.getField(msg.getDescriptorForType().findFieldByName("msgNum"));
+        }
+    }
+
+    public static GeneratedMessage returnWithMsgNum(Message.Header.Type type, GeneratedMessage msg, int msgNum) {
+        switch (type) {
+            case SETUPMESSAGE:
+                return ((Message.SetupMessage) msg).toBuilder().setMsgNum(msgNum).build();
+            case SMSMESSAGE:
+                Message.SmsMessage sms = ((Message.SmsMessage) msg);
+                ArrayList<Message.Contact> contacts = new ArrayList<Message.Contact>();
+                for (Message.Contact contact : sms.getRecipentsList()) {
+                    contacts.add((Message.Contact) returnWithMsgNum(Message.Header.Type.CONTACT, contact, msgNum));
+                }
+                sms = sms.toBuilder()
+                    .setMsgNum(msgNum)
+                    .setSender((Message.Contact) returnWithMsgNum(Message.Header.Type.CONTACT, sms.getSender(), msgNum))
+                    .clearRecipents()
+                    .addAllRecipents(contacts)
+                    .build();
+                return sms;
+            case MODE:
+                return ((Message.Mode) msg).toBuilder().setMsgNum(msgNum).build();
+            case CONTACT:
+                return ((Message.Contact) msg).toBuilder().setMsgNum(msgNum).build();
+            default:
+                throw new RuntimeException("Should not reach this point");
         }
     }
 }
