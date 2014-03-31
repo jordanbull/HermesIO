@@ -10,7 +10,7 @@ public abstract class CommunicationScheduler<T> {
     private final Sender<T> sender;
     private final Listener listener;
     Queue<T> queue = new LinkedBlockingQueue<T>();
-    Mode mode;
+    protected Mode mode;
 
     public CommunicationScheduler(Sender<T> sender, Listener listener) {
         this.sender = sender;
@@ -43,6 +43,9 @@ public abstract class CommunicationScheduler<T> {
         }
     }
 
+    public void stop() {
+        mode = Mode.STOPPED;
+    }
 
     public boolean isSending() {
         return mode == Mode.SENDING;
@@ -51,4 +54,6 @@ public abstract class CommunicationScheduler<T> {
     public boolean isListening() {
         return mode == Mode.LISTENING;
     }
+
+    public boolean isStopped() { return mode == Mode.STOPPED; }
 }

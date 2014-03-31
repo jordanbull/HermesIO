@@ -99,4 +99,14 @@ public class CommunicationSchedulerTest extends TestCase {
         commScheduler.startSending();
         assertFalse(commScheduler.isListening());
     }
+
+    public void testIsStopped() throws Exception {
+        assertTrue(commScheduler.isStopped());
+        commScheduler.startSending();
+        assertFalse(commScheduler.isStopped());
+        commScheduler.startListening();
+        assertFalse(commScheduler.isStopped());
+        commScheduler.stop();
+        assertTrue(commScheduler.isStopped());
+    }
 }

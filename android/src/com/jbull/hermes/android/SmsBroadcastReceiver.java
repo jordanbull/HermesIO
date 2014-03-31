@@ -24,12 +24,12 @@ import java.util.ArrayList;
 public class SmsBroadcastReceiver extends BroadcastReceiver{
 
     private final SmsManager SMS = SmsManager.getDefault();
-    private CommunicationManager<GeneratedMessage> commManager;
+    private SendFavoredCommunicationScheduler<GeneratedMessage> commScheduler;
     private Context context;
 
-    public SmsBroadcastReceiver(CommunicationManager<GeneratedMessage> commManager) {
+    public SmsBroadcastReceiver(SendFavoredCommunicationScheduler<GeneratedMessage> commScheduler) {
         super();
-        this.commManager = commManager;
+        this.commScheduler = commScheduler;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     final long timeMs = currentMessage.getTimestampMillis();
                     Log.w("jMessage", "handling sms");
                     Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>());
-                    commManager.send(msg);
+                    commScheduler.send(msg);
                     Log.w("jMessage", "sms handled");
                 }
             }
