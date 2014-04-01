@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HermesIO.iml" filepath="$PROJECT_DIR$/HermesIO.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../java-ubuntu/java-ubuntu.iml" filepath="$PROJECT_DIR$/../java-ubuntu/java-ubuntu.iml" />
       <module fileurl="file://$PROJECT_DIR$/../shared/shared.iml" filepath="$PROJECT_DIR$/../shared/shared.iml" />
     </modules>
   </component>
