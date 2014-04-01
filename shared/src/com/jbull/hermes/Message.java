@@ -733,6 +733,16 @@ public final class Message {
      */
     com.jbull.hermes.Message.ContactOrBuilder getRecipentsOrBuilder(
         int index);
+
+    // optional bool notify = 6 [default = true];
+    /**
+     * <code>optional bool notify = 6 [default = true];</code>
+     */
+    boolean hasNotify();
+    /**
+     * <code>optional bool notify = 6 [default = true];</code>
+     */
+    boolean getNotify();
   }
   /**
    * Protobuf type {@code SmsMessage}
@@ -819,6 +829,11 @@ public final class Message {
                 mutable_bitField0_ |= 0x00000010;
               }
               recipents_.add(input.readMessage(com.jbull.hermes.Message.Contact.PARSER, extensionRegistry));
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              notify_ = input.readBool();
               break;
             }
           }
@@ -997,12 +1012,29 @@ public final class Message {
       return recipents_.get(index);
     }
 
+    // optional bool notify = 6 [default = true];
+    public static final int NOTIFY_FIELD_NUMBER = 6;
+    private boolean notify_;
+    /**
+     * <code>optional bool notify = 6 [default = true];</code>
+     */
+    public boolean hasNotify() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool notify = 6 [default = true];</code>
+     */
+    public boolean getNotify() {
+      return notify_;
+    }
+
     private void initFields() {
       msgNum_ = 0;
       timeStamp_ = 0L;
       sender_ = com.jbull.hermes.Message.Contact.getDefaultInstance();
       content_ = "";
       recipents_ = java.util.Collections.emptyList();
+      notify_ = true;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1057,6 +1089,9 @@ public final class Message {
       for (int i = 0; i < recipents_.size(); i++) {
         output.writeMessage(5, recipents_.get(i));
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(6, notify_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1085,6 +1120,10 @@ public final class Message {
       for (int i = 0; i < recipents_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, recipents_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, notify_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1222,6 +1261,8 @@ public final class Message {
         } else {
           recipentsBuilder_.clear();
         }
+        notify_ = true;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1279,6 +1320,10 @@ public final class Message {
         } else {
           result.recipents_ = recipentsBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.notify_ = notify_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1334,6 +1379,9 @@ public final class Message {
               recipentsBuilder_.addAllMessages(other.recipents_);
             }
           }
+        }
+        if (other.hasNotify()) {
+          setNotify(other.getNotify());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1883,6 +1931,39 @@ public final class Message {
           recipents_ = null;
         }
         return recipentsBuilder_;
+      }
+
+      // optional bool notify = 6 [default = true];
+      private boolean notify_ = true;
+      /**
+       * <code>optional bool notify = 6 [default = true];</code>
+       */
+      public boolean hasNotify() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bool notify = 6 [default = true];</code>
+       */
+      public boolean getNotify() {
+        return notify_;
+      }
+      /**
+       * <code>optional bool notify = 6 [default = true];</code>
+       */
+      public Builder setNotify(boolean value) {
+        bitField0_ |= 0x00000020;
+        notify_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool notify = 6 [default = true];</code>
+       */
+      public Builder clearNotify() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        notify_ = true;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:SmsMessage)
@@ -4543,19 +4624,19 @@ public final class Message {
     java.lang.String[] descriptorData = {
       "\n\rmessage.proto\"U\n\014SetupMessage\022\016\n\006msgNu" +
       "m\030\001 \002(\005\022\022\n\007version\030\002 \001(\005:\0011\022!\n\017applicati" +
-      "onName\030\003 \001(\t:\010HermesIO\"w\n\nSmsMessage\022\016\n\006" +
-      "msgNum\030\001 \002(\005\022\021\n\ttimeStamp\030\002 \002(\003\022\030\n\006sende" +
-      "r\030\003 \002(\0132\010.Contact\022\017\n\007content\030\004 \002(\t\022\033\n\tre" +
-      "cipents\030\005 \003(\0132\010.Contact\"K\n\007Contact\022\016\n\006ms" +
-      "gNum\030\001 \002(\005\022\023\n\013phoneNumber\030\002 \002(\t\022\014\n\004name\030" +
-      "\003 \001(\t\022\r\n\005image\030\004 \001(\014\"X\n\004Mode\022\016\n\006msgNum\030\001" +
-      " \002(\005\022\022\n\nlastUpdate\030\002 \002(\003\022\030\n\020currentTimes" +
-      "tamp\030\003 \002(\003\022\022\n\nserverSend\030\004 \002(\010\"\205\001\n\006Heade",
-      "r\022\016\n\006msgNum\030\001 \002(\007\022\016\n\006length\030\002 \002(\007\022\032\n\004typ" +
-      "e\030\003 \002(\0162\014.Header.Type\"?\n\004Type\022\020\n\014SETUPME" +
-      "SSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004" +
-      "MODE\020\003\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\005B\022\n\020com.jbu" +
-      "ll.hermes"
+      "onName\030\003 \001(\t:\010HermesIO\"\215\001\n\nSmsMessage\022\016\n" +
+      "\006msgNum\030\001 \002(\005\022\021\n\ttimeStamp\030\002 \002(\003\022\030\n\006send" +
+      "er\030\003 \002(\0132\010.Contact\022\017\n\007content\030\004 \002(\t\022\033\n\tr" +
+      "ecipents\030\005 \003(\0132\010.Contact\022\024\n\006notify\030\006 \001(\010" +
+      ":\004true\"K\n\007Contact\022\016\n\006msgNum\030\001 \002(\005\022\023\n\013pho" +
+      "neNumber\030\002 \002(\t\022\014\n\004name\030\003 \001(\t\022\r\n\005image\030\004 " +
+      "\001(\014\"X\n\004Mode\022\016\n\006msgNum\030\001 \002(\005\022\022\n\nlastUpdat" +
+      "e\030\002 \002(\003\022\030\n\020currentTimestamp\030\003 \002(\003\022\022\n\nser",
+      "verSend\030\004 \002(\010\"\205\001\n\006Header\022\016\n\006msgNum\030\001 \002(\007" +
+      "\022\016\n\006length\030\002 \002(\007\022\032\n\004type\030\003 \002(\0162\014.Header." +
+      "Type\"?\n\004Type\022\020\n\014SETUPMESSAGE\020\000\022\016\n\nSMSMES" +
+      "SAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004MODE\020\003\"\025\n\003Ack\022\016\n\006" +
+      "msgNum\030\001 \002(\005B\022\n\020com.jbull.hermes"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4573,7 +4654,7 @@ public final class Message {
           internal_static_SmsMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SmsMessage_descriptor,
-              new java.lang.String[] { "MsgNum", "TimeStamp", "Sender", "Content", "Recipents", });
+              new java.lang.String[] { "MsgNum", "TimeStamp", "Sender", "Content", "Recipents", "Notify", });
           internal_static_Contact_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_Contact_fieldAccessorTable = new

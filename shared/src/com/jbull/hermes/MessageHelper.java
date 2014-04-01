@@ -18,12 +18,13 @@ public class MessageHelper {
         return Message.SetupMessage.getDefaultInstance();
     }
 
-    public static Message.SmsMessage createSmsMessage(Message.Contact sender, String content, long timeMs, ArrayList<Message.Contact> recipents) {
+    public static Message.SmsMessage createSmsMessage(Message.Contact sender, String content, long timeMs, ArrayList<Message.Contact> recipents, boolean notify) {
         Message.SmsMessage sms = Message.SmsMessage.newBuilder()
                 .setTimeStamp(timeMs)
                 .setSender(sender)
                 .setContent(content)
                 .addAllRecipents(recipents)
+                .setNotify(notify)
                 .buildPartial();
         return sms;
     }

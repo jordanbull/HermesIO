@@ -12,6 +12,7 @@ message SmsMessage {
   required Contact sender = 3;
   required string content = 4;
   repeated Contact recipents = 5;
+  optional bool notify = 6 [default = true];
 }
 
 message Contact {

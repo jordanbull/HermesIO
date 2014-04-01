@@ -6,3 +6,4 @@ shared/out
 #Project Files
 workspace.xml
 tasks.xml
+mac/out

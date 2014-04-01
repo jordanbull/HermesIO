@@ -33,7 +33,7 @@ public class MessageHelperTest extends TestCase {
         Message.Contact recipent = MessageHelper.createContact("recipent name", "recipent number", null);
         ArrayList<Message.Contact> recipents = new ArrayList<Message.Contact>();
         recipents.add(recipent);
-        Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, "content", 9999, recipents);
+        Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, "content", 9999, recipents, true);
         msg = (Message.SmsMessage) MessageHelper.returnWithMsgNum(Message.Header.Type.SMSMESSAGE, msg, msgNum);
         Message.Header header = MessageHelper.createHeader(msg, msgNum);
         byte[] headerData = header.toByteArray();
