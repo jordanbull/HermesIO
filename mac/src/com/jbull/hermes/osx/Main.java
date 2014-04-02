@@ -14,9 +14,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         AquaFx.style();
-
+        long start = System.currentTimeMillis();
         final CommunicationCenter communicationCenter = new CommunicationCenter();
-
+        System.out.println(System.currentTimeMillis() - start);
         //new Notification(new ContactView("number", "name"), "text content").show();
 
 

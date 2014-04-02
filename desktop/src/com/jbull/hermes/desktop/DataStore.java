@@ -23,15 +23,17 @@ public class DataStore implements Serializable {
         return conversations.values();
     }
 
-    public void addContact(Message.Contact contact, boolean overwrite) {
-        addContact(contact.getPhoneNumber(), contact.getName(), contact.getImage().toByteArray(), overwrite);
+    public Contact addContact(Message.Contact contact, boolean overwrite) {
+        return addContact(contact.getPhoneNumber(), contact.getName(), contact.getImage().toByteArray(), overwrite);
     }
 
-    public void addContact(String phoneNumber, String displayName, byte[] imageData, boolean overwrite) {
+    public Contact addContact(String phoneNumber, String displayName, byte[] imageData, boolean overwrite) {
+        Contact contact = new Contact(phoneNumber, displayName, imageData);
         if (!overwrite && contacts.containsKey(phoneNumber)) {
-            return;
+            return null;
         }
-        contacts.put(phoneNumber, new Contact(phoneNumber, displayName, imageData));
+        contacts.put(phoneNumber, contact);
+        return contact;
     }
 
     public Conversation getConversation(String phoneNumber) {

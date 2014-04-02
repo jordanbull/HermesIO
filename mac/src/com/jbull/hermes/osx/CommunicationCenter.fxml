@@ -7,8 +7,10 @@
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="400.0" prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <center><SplitPane dividerPositions="0.29797979797979796" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-<children><ListView fx:id="contactsList" prefHeight="400.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <AnchorPane>
+<children><VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<children><TextField fx:id="contactSearch" maxWidth="1.7976931348623157E308" onKeyReleased="#searchTyped" promptText="search contacts" VBox.vgrow="NEVER" /><ListView fx:id="contactsList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS" />
+</children></VBox>
 </children></AnchorPane>
     <AnchorPane fx:id="messagingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
   </items>

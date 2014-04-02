@@ -1,22 +1,26 @@
 package com.jbull.hermes.osx;
 
+import com.aquafx_project.AquaFx;
+import com.aquafx_project.controls.skin.styles.TextFieldType;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
-import com.jbull.hermes.desktop.Contact;
-import com.jbull.hermes.desktop.Conversation;
-import com.jbull.hermes.desktop.DataStore;
-import com.jbull.hermes.desktop.ListenFavoredCommunicationScheduler;
+import com.jbull.hermes.desktop.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Callback;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -28,10 +32,13 @@ public class CommunicationCenter extends BorderPane {
     private DataStore dataStore;
     public boolean stateChanged = false;
 
+    public RadixTrie trie = new RadixTrie();
+
     private final long SECONDS_BETWEEN_SAVES = 5;
 
     @FXML ListView<ContactView> contactsList;
     @FXML AnchorPane messagingPane;
+    @FXML TextField contactSearch;
 
     public CommunicationCenter() throws IOException {
         URL resource = getClass().getResource("CommunicationCenter.fxml");
@@ -44,7 +51,14 @@ public class CommunicationCenter extends BorderPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        contactsList.setCellFactory(new Callback<ListView<ContactView>, ListCell<ContactView>>() {
+            @Override
+            public ListCell<ContactView> call(ListView<ContactView> contactViewListView) {
+                return new ContactView.ContactListCell();
+            }
+        });
         contacts = contactsList.getItems();
+        AquaFx.createTextFieldStyler().setType(TextFieldType.SEARCH).style(contactSearch);
 
         contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
             @Override
@@ -96,6 +110,18 @@ public class CommunicationCenter extends BorderPane {
 
     }
 
+    @FXML
+    public void searchTyped(KeyEvent event) {
+        Set<Contact> contactSet = trie.getContact(contactSearch.getText());
+        if (contactSet.size() > 0) {
+            String s = "";
+            for (Contact c : contactSet) {
+                s += c.getDisplayName() + ", ";
+            }
+            System.out.println(s);
+        }
+    }
+
     public void close() {
         writeDataStore();
     }
@@ -109,6 +135,7 @@ public class CommunicationCenter extends BorderPane {
             Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
             ContactView contactView = new ContactView(contact, convo, this);
             contacts.add(contactView);
+            trie.insertContact(contact);
         }
     }
 
@@ -147,11 +174,12 @@ public class CommunicationCenter extends BorderPane {
     public ContactView addContactIfNew(Message.Contact contactMsg) {
         int cid = findContact(contactMsg.getPhoneNumber());
         if (cid == -1) {
-            ContactView contact = new ContactView(contactMsg, this);
-            dataStore.addContact(contactMsg.getPhoneNumber(), contactMsg.getName(), contactMsg.getImage().toByteArray(), false);
-            contacts.add(contact);
+            Contact contact = dataStore.addContact(contactMsg, false);
+            ContactView contactView = new ContactView(contact, this);
+            contacts.add(contactView);
             stateChanged = true;
-            return contact;
+            trie.insertContact(contact);
+            return contactView;
         }
         return contacts.get(cid);
     }
