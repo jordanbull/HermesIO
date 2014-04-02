@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class Notification extends GridPane {
     private final PopupControl popup;
-    private Contact sender;
+    private ContactView sender;
     private String content;
     private CommunicationCenter communicationCenter;
     @FXML ImageView senderIcon;
@@ -23,7 +23,7 @@ public class Notification extends GridPane {
     @FXML Label contentLabel;
     private Stage stage;
 
-    public Notification(Contact sender, String content, CommunicationCenter communicationCenter) {
+    public Notification(ContactView sender, String content, CommunicationCenter communicationCenter) {
         this.sender = sender;
         this.content = content;
         this.communicationCenter = communicationCenter;

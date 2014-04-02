@@ -4,23 +4,22 @@ package com.jbull.hermes.desktop;
 import com.jbull.hermes.Message;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class DataStore implements Serializable {
-    HashMap<String, ContactData> contacts = new HashMap<String, ContactData>();
-    HashMap<String, ConversationData> conversations = new HashMap<String, ConversationData>();
+    HashMap<String, Contact> contacts = new HashMap<String, Contact>();
+    HashMap<String, Conversation> conversations = new HashMap<String, Conversation>();
 
-    public ContactData getContact(String phoneNumber) {
+    public Contact getContact(String phoneNumber) {
         return contacts.get(phoneNumber);
     }
 
-    public Collection<ContactData> getAllContacts() {
+    public Collection<Contact> getAllContacts() {
         return contacts.values();
     }
 
-    public Collection<ConversationData> getAllConversations() {
+    public Collection<Conversation> getAllConversations() {
         return conversations.values();
     }
 
@@ -32,124 +31,35 @@ public class DataStore implements Serializable {
         if (!overwrite && contacts.containsKey(phoneNumber)) {
             return;
         }
-        contacts.put(phoneNumber, new ContactData(phoneNumber, displayName, imageData));
+        contacts.put(phoneNumber, new Contact(phoneNumber, displayName, imageData));
     }
 
-    public ConversationData getConversation(String phoneNumber) {
+    public Conversation getConversation(String phoneNumber) {
         return conversations.get(phoneNumber);
     }
 
-    public void addMessageToConversation(String phoneNumber, String msgContent, long timeMillis) {
-        ConversationData conversation;
+    public void addMessageToConversation(String phoneNumber, String msgContent, boolean senderOfMessage, long timeMillis) {
+        Conversation conversation;
         if (!conversations.containsKey(phoneNumber)) {
-            conversation = new ConversationData(phoneNumber);
+            conversation = new Conversation(phoneNumber);
             conversations.put(phoneNumber, conversation);
         } else {
             conversation = conversations.get(phoneNumber);
         }
-        conversation.addMessage(msgContent, timeMillis);
+        conversation.addMessage(msgContent, timeMillis, senderOfMessage);
     }
 
     public boolean equals(Object obj) {
         DataStore d2 = (DataStore) obj;
-        if (!contacts.equals(d2.contacts)) {
-            return false;
-        }
-        if (!conversations.equals(d2.conversations)) {
-            return false;
-        }
-        return true;
-        //return contacts.equals(d2.contacts) && conversations.equals(d2.conversations);
+        return contacts.equals(d2.contacts) && conversations.equals(d2.conversations);
     }
 
 
 
-    protected static class ContactData implements Serializable {
-        private String displayName;
-        private byte[] imageData;
-        private String phoneNumber;
 
-        protected ContactData(String phoneNumber, String displayName, byte[] imageData) {
-            this.phoneNumber = phoneNumber;
-            this.displayName = displayName;
-            this.imageData = imageData;
-        }
 
-        public String getDisplayName() {
-            return displayName;
-        }
 
-        public byte[] getImageData() {
-            return imageData;
-        }
 
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
 
-        public boolean equals(Object obj) {
-            ContactData contact2 = (ContactData) obj;
-            return displayName.equals(contact2.displayName) && phoneNumber.equals(contact2.phoneNumber) && java.util.Arrays.equals(imageData, contact2.imageData);
-        }
-    }
-
-    protected static class ConversationData implements Serializable {
-        private String phoneNumber;
-        private ArrayList<MessageData> messages = new ArrayList<MessageData>();
-
-        protected ConversationData(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        public void addMessage(String content, long timeMillis) {
-            int i = messages.size()-1;
-            for (; i >= 0; i--) {
-                if(messages.get(i).getTimeMillis() < timeMillis) {
-                    break;
-                }
-            }
-            MessageData msg = new MessageData(content, timeMillis);
-            messages.add(i+1, msg);
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public ArrayList<MessageData> getMessages() {
-            return (ArrayList<MessageData>) messages.clone();
-        }
-
-        public boolean equals(Object obj) {
-            ConversationData conv2 = (ConversationData) obj;
-            return phoneNumber.equals(conv2.getPhoneNumber()) && messages.equals(conv2.getMessages());
-        }
-    }
-
-    protected static class MessageData implements Serializable {
-        private String content;
-        private Long timeMillis;
-
-        protected MessageData(String content, Long timeMillis) {
-            this.content = content;
-            this.timeMillis = timeMillis;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public Long getTimeMillis() {
-            return timeMillis;
-        }
-
-        public boolean equals(Object obj) {
-            MessageData msg2 = (MessageData) obj;
-            if (msg2.getTimeMillis().equals(getTimeMillis()) && msg2.getContent().equals(getContent())) {
-                return true;
-            }
-            return false;
-        }
-    }
 
 }

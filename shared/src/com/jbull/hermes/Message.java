@@ -3488,6 +3488,410 @@ public final class Message {
     // @@protoc_insertion_point(class_scope:Mode)
   }
 
+  public interface SyncContactsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 msgNum = 1;
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    boolean hasMsgNum();
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    int getMsgNum();
+  }
+  /**
+   * Protobuf type {@code SyncContacts}
+   */
+  public static final class SyncContacts extends
+      com.google.protobuf.GeneratedMessage
+      implements SyncContactsOrBuilder {
+    // Use SyncContacts.newBuilder() to construct.
+    private SyncContacts(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SyncContacts(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SyncContacts defaultInstance;
+    public static SyncContacts getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SyncContacts getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SyncContacts(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              msgNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.Message.internal_static_SyncContacts_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.Message.internal_static_SyncContacts_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.Message.SyncContacts.class, com.jbull.hermes.Message.SyncContacts.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SyncContacts> PARSER =
+        new com.google.protobuf.AbstractParser<SyncContacts>() {
+      public SyncContacts parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SyncContacts(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SyncContacts> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 msgNum = 1;
+    public static final int MSGNUM_FIELD_NUMBER = 1;
+    private int msgNum_;
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public boolean hasMsgNum() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 msgNum = 1;</code>
+     */
+    public int getMsgNum() {
+      return msgNum_;
+    }
+
+    private void initFields() {
+      msgNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, msgNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, msgNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.jbull.hermes.Message.SyncContacts parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.jbull.hermes.Message.SyncContacts prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SyncContacts}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.Message.SyncContactsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.Message.internal_static_SyncContacts_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.Message.internal_static_SyncContacts_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.Message.SyncContacts.class, com.jbull.hermes.Message.SyncContacts.Builder.class);
+      }
+
+      // Construct using com.jbull.hermes.Message.SyncContacts.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        msgNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.Message.internal_static_SyncContacts_descriptor;
+      }
+
+      public com.jbull.hermes.Message.SyncContacts getDefaultInstanceForType() {
+        return com.jbull.hermes.Message.SyncContacts.getDefaultInstance();
+      }
+
+      public com.jbull.hermes.Message.SyncContacts build() {
+        com.jbull.hermes.Message.SyncContacts result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.jbull.hermes.Message.SyncContacts buildPartial() {
+        com.jbull.hermes.Message.SyncContacts result = new com.jbull.hermes.Message.SyncContacts(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.msgNum_ = msgNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.Message.SyncContacts) {
+          return mergeFrom((com.jbull.hermes.Message.SyncContacts)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.jbull.hermes.Message.SyncContacts other) {
+        if (other == com.jbull.hermes.Message.SyncContacts.getDefaultInstance()) return this;
+        if (other.hasMsgNum()) {
+          setMsgNum(other.getMsgNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMsgNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.jbull.hermes.Message.SyncContacts parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.jbull.hermes.Message.SyncContacts) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 msgNum = 1;
+      private int msgNum_ ;
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public boolean hasMsgNum() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public int getMsgNum() {
+        return msgNum_;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder setMsgNum(int value) {
+        bitField0_ |= 0x00000001;
+        msgNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgNum = 1;</code>
+       */
+      public Builder clearMsgNum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msgNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SyncContacts)
+    }
+
+    static {
+      defaultInstance = new SyncContacts(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:SyncContacts)
+  }
+
   public interface HeaderOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -3653,6 +4057,10 @@ public final class Message {
        * <code>MODE = 3;</code>
        */
       MODE(3, 3),
+      /**
+       * <code>SYNCCONTACTS = 4;</code>
+       */
+      SYNCCONTACTS(4, 4),
       ;
 
       /**
@@ -3671,6 +4079,10 @@ public final class Message {
        * <code>MODE = 3;</code>
        */
       public static final int MODE_VALUE = 3;
+      /**
+       * <code>SYNCCONTACTS = 4;</code>
+       */
+      public static final int SYNCCONTACTS_VALUE = 4;
 
 
       public final int getNumber() { return value; }
@@ -3681,6 +4093,7 @@ public final class Message {
           case 1: return SMSMESSAGE;
           case 2: return CONTACT;
           case 3: return MODE;
+          case 4: return SYNCCONTACTS;
           default: return null;
         }
       }
@@ -4604,6 +5017,11 @@ public final class Message {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Mode_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_SyncContacts_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SyncContacts_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Header_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4632,11 +5050,13 @@ public final class Message {
       "neNumber\030\002 \002(\t\022\014\n\004name\030\003 \001(\t\022\r\n\005image\030\004 " +
       "\001(\014\"X\n\004Mode\022\016\n\006msgNum\030\001 \002(\005\022\022\n\nlastUpdat" +
       "e\030\002 \002(\003\022\030\n\020currentTimestamp\030\003 \002(\003\022\022\n\nser",
-      "verSend\030\004 \002(\010\"\205\001\n\006Header\022\016\n\006msgNum\030\001 \002(\007" +
-      "\022\016\n\006length\030\002 \002(\007\022\032\n\004type\030\003 \002(\0162\014.Header." +
-      "Type\"?\n\004Type\022\020\n\014SETUPMESSAGE\020\000\022\016\n\nSMSMES" +
-      "SAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004MODE\020\003\"\025\n\003Ack\022\016\n\006" +
-      "msgNum\030\001 \002(\005B\022\n\020com.jbull.hermes"
+      "verSend\030\004 \002(\010\"\036\n\014SyncContacts\022\016\n\006msgNum\030" +
+      "\001 \002(\005\"\227\001\n\006Header\022\016\n\006msgNum\030\001 \002(\007\022\016\n\006leng" +
+      "th\030\002 \002(\007\022\032\n\004type\030\003 \002(\0162\014.Header.Type\"Q\n\004" +
+      "Type\022\020\n\014SETUPMESSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022\013" +
+      "\n\007CONTACT\020\002\022\010\n\004MODE\020\003\022\020\n\014SYNCCONTACTS\020\004\"" +
+      "\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\005B\022\n\020com.jbull.herm" +
+      "es"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4667,14 +5087,20 @@ public final class Message {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Mode_descriptor,
               new java.lang.String[] { "MsgNum", "LastUpdate", "CurrentTimestamp", "ServerSend", });
-          internal_static_Header_descriptor =
+          internal_static_SyncContacts_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_SyncContacts_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_SyncContacts_descriptor,
+              new java.lang.String[] { "MsgNum", });
+          internal_static_Header_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_Header_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Header_descriptor,
               new java.lang.String[] { "MsgNum", "Length", "Type", });
           internal_static_Ack_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_Ack_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Ack_descriptor,

@@ -2,6 +2,9 @@ package com.jbull.hermes.osx;
 
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
+import com.jbull.hermes.desktop.Contact;
+import com.jbull.hermes.desktop.Conversation;
+import com.jbull.hermes.desktop.DataStore;
 import com.jbull.hermes.desktop.ListenFavoredCommunicationScheduler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,15 +15,22 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 public class CommunicationCenter extends BorderPane {
-    private final ObservableList<Contact> contacts;
+    private final ObservableList<ContactView> contacts;
     private final CommunicationScheduler<GeneratedMessage> commScheduler;
+    private final String DATA_STORE_FILENAME = "data.ser";
+    private DataStore dataStore;
+    public boolean stateChanged = false;
 
-    @FXML ListView<Contact> contactsList;
+    private final long SECONDS_BETWEEN_SAVES = 5;
+
+    @FXML ListView<ContactView> contactsList;
     @FXML AnchorPane messagingPane;
 
     public CommunicationCenter() throws IOException {
@@ -35,12 +45,11 @@ public class CommunicationCenter extends BorderPane {
             throw new RuntimeException(exception);
         }
         contacts = contactsList.getItems();
-        //addContactIfNew("my number", "Jordan Bull");
 
-        contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Contact>() {
+        contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
             @Override
-            public void changed(ObservableValue<? extends Contact> observable, Contact oldValue, Contact newValue) {
-                ConversationThread convo = newValue.getConversation();
+            public void changed(ObservableValue<? extends ContactView> observable, ContactView oldValue, ContactView newValue) {
+                ConversationView convo = newValue.getConversation();
                 AnchorPane.setBottomAnchor(convo, 0.0);
                 AnchorPane.setTopAnchor(convo, 0.0);
                 AnchorPane.setLeftAnchor(convo, 0.0);
@@ -51,7 +60,67 @@ public class CommunicationCenter extends BorderPane {
             }
         });
 
+        File file = new File(DATA_STORE_FILENAME);
+        if (file.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(DATA_STORE_FILENAME);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                dataStore = (DataStore) ois.readObject();
+                ois.close();
+                populateFromDataStore();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         commScheduler = initCommunication();
+        if (dataStore == null) {
+            dataStore = new DataStore();
+            requestContacts();
+        }
+
+        ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(1);
+        stpe.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (stateChanged) {
+                    stateChanged = false;
+                    writeDataStore();
+                    System.out.println("Saving State");
+                }
+            }
+        }, SECONDS_BETWEEN_SAVES, SECONDS_BETWEEN_SAVES, TimeUnit.SECONDS);
+
+    }
+
+    public void close() {
+        writeDataStore();
+    }
+
+    public void requestContacts() {
+        commScheduler.send(MessageHelper.createSyncContacts());
+    }
+
+    private void populateFromDataStore() {
+        for (Contact contact : dataStore.getAllContacts()) {
+            Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
+            ContactView contactView = new ContactView(contact, convo, this);
+            contacts.add(contactView);
+        }
+    }
+
+    synchronized public void writeDataStore() {
+        try {
+            FileOutputStream fos = new FileOutputStream(DATA_STORE_FILENAME+"1");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(dataStore);
+            oos.close();
+            new File(DATA_STORE_FILENAME).delete();
+            new File(DATA_STORE_FILENAME+"1").renameTo(new File(DATA_STORE_FILENAME));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public CommunicationScheduler<GeneratedMessage> initCommunication() throws IOException {
@@ -71,29 +140,25 @@ public class CommunicationCenter extends BorderPane {
         return commScheduler;
     }
 
-    public Contact addContactIfNew(Message.Contact contactMsg) {
+    public ContactView addContactIfNew(Message.Contact contactMsg) {
         int cid = findContact(contactMsg.getPhoneNumber());
         if (cid == -1) {
-            Contact contact = new Contact(contactMsg, this);
+            ContactView contact = new ContactView(contactMsg, this);
+            dataStore.addContact(contactMsg.getPhoneNumber(), contactMsg.getName(), contactMsg.getImage().toByteArray(), false);
             contacts.add(contact);
+            stateChanged = true;
             return contact;
         }
         return contacts.get(cid);
     }
 
-    public Contact addContactIfNew(String phoneNumber, String name) {
-        int cid = findContact(phoneNumber);
-        if (cid == -1) {
-            Contact contact = new Contact(phoneNumber, name, this);
-            contacts.add(contact);
-            return contact;
-        }
-        return contacts.get(cid);
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
     public int findContact(String number) {
         for (int i = 0; i < contacts.size(); i++) {
-            Contact contact = contacts.get(i);
+            ContactView contact = contacts.get(i);
             if (contact.getPhoneNumber().equals(number)) {
                 return i;
             }

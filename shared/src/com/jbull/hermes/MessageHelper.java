@@ -48,9 +48,11 @@ public class MessageHelper {
             type = Message.Header.Type.CONTACT;
         } else if (msg instanceof Message.Mode) {
             type = Message.Header.Type.MODE;
+        } else if (msg instanceof Message.SyncContacts) {
+            type = Message.Header.Type.SYNCCONTACTS;
         } else {
             // Should never get here
-            assert false;
+            throw new RuntimeException("Header could not be created for this type");
         }
         msg = returnWithMsgNum(type, msg, msgNum);
         Message.Header header = Message.Header.newBuilder()
@@ -78,9 +80,12 @@ public class MessageHelper {
             return Message.SetupMessage.parseFrom(buffer);
         } else if (type == Message.Header.Type.CONTACT) {
             return Message.Contact.parseFrom(buffer);
+        } else if (type == Message.Header.Type.SYNCCONTACTS) {
+            return Message.SyncContacts.parseFrom(buffer);
+        } else {
+            // should not reach this point
+            throw new RuntimeException("Could not construct a message of this type");
         }
-        // TODO: throw a relevant exception
-        return null;
     }
 
     public static Message.Ack createAck(int msgNum) {
@@ -95,6 +100,10 @@ public class MessageHelper {
 
     public static int readNumFromSerializedAck(byte[] ackBytes) throws InvalidProtocolBufferException {
         return Message.Ack.parseFrom(ackBytes).getMsgNum();
+    }
+
+    public static Message.SyncContacts createSyncContacts() {
+        return Message.SyncContacts.getDefaultInstance();
     }
 
     public static class MessageNumParser implements Connection.MsgNumParser {
@@ -135,6 +144,8 @@ public class MessageHelper {
                 return ((Message.Mode) msg).toBuilder().setMsgNum(msgNum).build();
             case CONTACT:
                 return ((Message.Contact) msg).toBuilder().setMsgNum(msgNum).build();
+            case SYNCCONTACTS:
+                return ((Message.SyncContacts) msg).toBuilder().setMsgNum(msgNum).build();
             default:
                 throw new RuntimeException("Should not reach this point");
         }

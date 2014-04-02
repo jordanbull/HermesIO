@@ -14,6 +14,7 @@ import com.jbull.hermes.MessageReactor;
 public class InstructionHandler implements MessageReactor {
 
     private final Context context;
+    private SendFavoredCommunicationScheduler commScheduler;
 
     public InstructionHandler(Context context) {
         this.context = context;
@@ -29,6 +30,9 @@ public class InstructionHandler implements MessageReactor {
             Message.Mode mode = (Message.Mode) msg;
             assert mode.getServerSend() == false;
             return false;
+        } else if (type == Message.Header.Type.SYNCCONTACTS) {
+            sendAllContacts();
+            return true;
         }
         // TODO: should not reach this point. exception?
         assert false;
@@ -43,6 +47,16 @@ public class InstructionHandler implements MessageReactor {
             values.put("address", recipent.getPhoneNumber());
             values.put("body", sms.getContent());
             context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+        }
+    }
+
+    public void setCommunicationScheduler(SendFavoredCommunicationScheduler scheduler) {
+        this.commScheduler = scheduler;
+    }
+
+    public void sendAllContacts() {
+        for(Message.Contact contact : Contacts.getContacts(context)) {
+            commScheduler.send(contact);
         }
     }
 }

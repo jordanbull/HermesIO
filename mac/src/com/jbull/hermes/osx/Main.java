@@ -3,8 +3,10 @@ package com.jbull.hermes.osx;
 import com.aquafx_project.AquaFx;
 import com.jbull.hermes.desktop.ListenFavoredCommunicationScheduler;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Main extends Application {
     protected ListenFavoredCommunicationScheduler commScheduler;
@@ -13,9 +15,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         AquaFx.style();
 
-        CommunicationCenter communicationCenter = new CommunicationCenter();
+        final CommunicationCenter communicationCenter = new CommunicationCenter();
 
-        //new Notification(new Contact("number", "name"), "text content").show();
+        //new Notification(new ContactView("number", "name"), "text content").show();
 
 
 
@@ -25,6 +27,11 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(communicationCenter, 600, 800));
         primaryStage.setMinWidth(communicationCenter.getPrefWidth());
         primaryStage.setMinHeight(communicationCenter.getPrefHeight());
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                communicationCenter.close();
+            }
+        });
         primaryStage.show();
     }
 

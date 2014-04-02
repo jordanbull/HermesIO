@@ -3,14 +3,17 @@ package com.jbull.hermes.osx;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageReactor;
+import com.jbull.hermes.desktop.DataStore;
 import javafx.application.Platform;
 
 public class InstructionHandler implements MessageReactor {
 
+    private final DataStore dataStore;
     private CommunicationCenter communicationCenter;
 
     public InstructionHandler(CommunicationCenter communicationCenter) {
         this.communicationCenter = communicationCenter;
+        dataStore = communicationCenter.getDataStore();
     }
 
     @Override
@@ -34,14 +37,16 @@ public class InstructionHandler implements MessageReactor {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                final Contact contact = communicationCenter.addContactIfNew(sms.getSender());
+                final ContactView contact = communicationCenter.addContactIfNew(sms.getSender());
                 new Notification(contact, sms.getContent(), communicationCenter).show();
             }
         });
+        communicationCenter.stateChanged = true;
+        dataStore.addMessageToConversation(sms.getSender().getPhoneNumber(), sms.getContent(), false, sms.getTimeStamp());
     }
 
     private void executeContact(final Message.Contact contact) {
-        System.out.println("received: Contact "+contact.getName());
+        System.out.println("received: ContactView "+contact.getName());
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
