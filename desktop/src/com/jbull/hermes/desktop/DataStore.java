@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class DataStore implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     HashMap<String, Contact> contacts = new HashMap<String, Contact>();
     HashMap<String, Conversation> conversations = new HashMap<String, Conversation>();
 
@@ -40,7 +42,7 @@ public class DataStore implements Serializable {
         return conversations.get(phoneNumber);
     }
 
-    public void addMessageToConversation(String phoneNumber, String msgContent, boolean senderOfMessage, long timeMillis) {
+    public Sms addMessageToConversation(String phoneNumber, String msgContent, boolean senderOfMessage, long timeMillis) {
         Conversation conversation;
         if (!conversations.containsKey(phoneNumber)) {
             conversation = new Conversation(phoneNumber);
@@ -48,7 +50,9 @@ public class DataStore implements Serializable {
         } else {
             conversation = conversations.get(phoneNumber);
         }
-        conversation.addMessage(msgContent, timeMillis, senderOfMessage);
+        Sms sms = new Sms(msgContent, timeMillis, senderOfMessage);
+        conversation.addMessage(sms);
+        return sms;
     }
 
     public boolean equals(Object obj) {

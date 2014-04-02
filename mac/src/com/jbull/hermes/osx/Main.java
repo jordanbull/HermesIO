@@ -16,6 +16,7 @@ public class Main extends Application {
         AquaFx.style();
         long start = System.currentTimeMillis();
         final CommunicationCenter communicationCenter = new CommunicationCenter();
+        final State state = new State(communicationCenter);
         System.out.println(System.currentTimeMillis() - start);
         //new Notification(new ContactView("number", "name"), "text content").show();
 
@@ -29,7 +30,7 @@ public class Main extends Application {
         primaryStage.setMinHeight(communicationCenter.getPrefHeight());
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                communicationCenter.close();
+                state.close();
             }
         });
         primaryStage.show();

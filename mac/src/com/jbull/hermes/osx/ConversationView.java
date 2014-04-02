@@ -3,7 +3,6 @@ package com.jbull.hermes.osx;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.desktop.Conversation;
-import com.jbull.hermes.desktop.Sms;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -23,11 +22,11 @@ public class ConversationView extends BorderPane {
     Message.Contact me = MessageHelper.createContact("Me", "My Number", null);
 
     ContactView contact;
-    private CommunicationCenter commCenter;
     private Conversation conversation;
+    private State state;
 
-    public ConversationView(Conversation conversation, ContactView contact, CommunicationCenter commCenter) {
-        this.commCenter = commCenter;
+    public ConversationView(Conversation conversation, ContactView contact, State state) {
+        this.state = state;
         URL resource = getClass().getResource("ConversationView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
@@ -44,16 +43,18 @@ public class ConversationView extends BorderPane {
         this.conversation = conversation;
     }
 
-    public void addSms(Sms sms) {
-        conversation.addMessage(sms);
+    public void update() {
+        System.out.println("updating GUI for: "+contact.getPhoneNumber());
+        //TODO
     }
 
+    @FXML
     public void send() {
         ArrayList<Message.Contact> recipents = new ArrayList<Message.Contact>();
         recipents.add(contact.getContactMsg());
         String textContent = textInput.getText();
         Message.SmsMessage msg = MessageHelper.createSmsMessage(me, textContent, System.currentTimeMillis(), recipents, true);
-        commCenter.send(msg);
+        state.send(msg);
         textInput.clear();
     }
 }

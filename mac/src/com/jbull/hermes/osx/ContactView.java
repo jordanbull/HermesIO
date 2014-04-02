@@ -26,18 +26,9 @@ public class ContactView extends HBox {
     @FXML Label numberLabel;
     @FXML Label nameLabel;
 
-    public ContactView(Message.Contact contact, CommunicationCenter commCenter) {
-        this(new Contact(contact.getPhoneNumber(), contact.getName(), contact.getImage().toByteArray()), commCenter);
-        contactMsg = contact;
-    }
-
-    public ContactView(Contact contact, CommunicationCenter commCenter) {
-        this(contact, null, commCenter);
-    }
-
-    public ContactView(final Contact contact, Conversation convo, CommunicationCenter commCenter) {
+    public ContactView(final Contact contact, Conversation convo, State state) {
         this.contact = contact;
-        conversation = new ConversationView(convo, this, commCenter);
+        conversation = new ConversationView(convo, this, state);
         URL resource = getClass().getResource("ContactView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);

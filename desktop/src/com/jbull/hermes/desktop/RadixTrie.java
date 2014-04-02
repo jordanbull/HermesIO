@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class RadixTrie<T> {
+public class RadixTrie {
     Node root = new Node('\0');
 
     public Set<Contact> getContact(String prefix) {
