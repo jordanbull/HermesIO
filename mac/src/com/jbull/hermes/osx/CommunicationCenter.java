@@ -66,6 +66,9 @@ public class CommunicationCenter extends BorderPane {
         contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
             @Override
             public void changed(ObservableValue<? extends ContactView> observable, ContactView oldValue, ContactView newValue) {
+                if (newValue == null) {
+                    return;
+                }
                 ConversationView convo = newValue.getConversation();
                 AnchorPane.setBottomAnchor(convo, 0.0);
                 AnchorPane.setTopAnchor(convo, 0.0);
