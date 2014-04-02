@@ -20,17 +20,20 @@ import javafx.util.Callback;
 
 import java.io.*;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 
 public class CommunicationCenter extends BorderPane {
-    private final ObservableList<ContactView> contacts;
+    private final ObservableList<ContactView> allContacts;
     private final CommunicationScheduler<GeneratedMessage> commScheduler;
     private final String DATA_STORE_FILENAME = "data.ser";
     private DataStore dataStore;
     public boolean stateChanged = false;
+
+    HashMap<Contact, ContactView> lookupMap = new HashMap<Contact, ContactView>();
 
     public RadixTrie trie = new RadixTrie();
 
@@ -57,7 +60,7 @@ public class CommunicationCenter extends BorderPane {
                 return new ContactView.ContactListCell();
             }
         });
-        contacts = contactsList.getItems();
+        allContacts = contactsList.getItems();
         AquaFx.createTextFieldStyler().setType(TextFieldType.SEARCH).style(contactSearch);
 
         contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
@@ -120,6 +123,11 @@ public class CommunicationCenter extends BorderPane {
             }
             System.out.println(s);
         }
+        ObservableList<ContactView> contacts = new ListView<ContactView>().getItems();
+        for (Contact c : contactSet) {
+            contacts.add(lookupMap.get(c));
+        }
+        contactsList.setItems(contacts);
     }
 
     public void close() {
@@ -134,8 +142,9 @@ public class CommunicationCenter extends BorderPane {
         for (Contact contact : dataStore.getAllContacts()) {
             Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
             ContactView contactView = new ContactView(contact, convo, this);
-            contacts.add(contactView);
+            allContacts.add(contactView);
             trie.insertContact(contact);
+            lookupMap.put(contact, contactView);
         }
     }
 
@@ -176,12 +185,13 @@ public class CommunicationCenter extends BorderPane {
         if (cid == -1) {
             Contact contact = dataStore.addContact(contactMsg, false);
             ContactView contactView = new ContactView(contact, this);
-            contacts.add(contactView);
+            allContacts.add(contactView);
             stateChanged = true;
             trie.insertContact(contact);
+            lookupMap.put(contact, contactView);
             return contactView;
         }
-        return contacts.get(cid);
+        return allContacts.get(cid);
     }
 
     public DataStore getDataStore() {
@@ -189,8 +199,8 @@ public class CommunicationCenter extends BorderPane {
     }
 
     public int findContact(String number) {
-        for (int i = 0; i < contacts.size(); i++) {
-            ContactView contact = contacts.get(i);
+        for (int i = 0; i < allContacts.size(); i++) {
+            ContactView contact = allContacts.get(i);
             if (contact.getPhoneNumber().equals(number)) {
                 return i;
             }
