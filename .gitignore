@@ -7,3 +7,4 @@ shared/out
 workspace.xml
 tasks.xml
 mac/out
+mac/data.ser

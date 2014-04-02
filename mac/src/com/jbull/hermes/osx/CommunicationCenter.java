@@ -72,9 +72,13 @@ public class CommunicationCenter extends BorderPane {
                 e.printStackTrace();
             }
         }
-        commScheduler = initCommunication();
+        boolean createdDataStore = false;
         if (dataStore == null) {
             dataStore = new DataStore();
+            createdDataStore = true;
+        }
+        commScheduler = initCommunication();
+        if (createdDataStore) {
             requestContacts();
         }
 
