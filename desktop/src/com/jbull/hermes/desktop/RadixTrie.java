@@ -9,7 +9,7 @@ public class RadixTrie<T> {
     Node root = new Node('\0');
 
     public Set<Contact> getContact(String prefix) {
-        return getContact(prefix, root);
+        return getContact(prefix.toLowerCase(), root);
     }
 
     private Set<Contact> getContact(String prefix, Node n) {
@@ -25,11 +25,11 @@ public class RadixTrie<T> {
     }
 
     public void insertContact(Contact contact) {
-        String fullName = contact.getDisplayName();
+        String fullName = contact.getDisplayName().toLowerCase();
         String[] words = fullName.split(" ");
         String number = contact.getPhoneNumber();
         insertContact(fullName, root, contact);
-        if (!fullName.equals(number))
+        if (!fullName.equals(number.toLowerCase()))
             insertContact(number, root, contact);
         if (words.length > 1)
             for (String word : words) {
