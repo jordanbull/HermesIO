@@ -22,7 +22,6 @@ public class Contacts {
     public static ArrayList<Message.Contact> getContacts(Context context) {
         ArrayList<Message.Contact> contactList = new ArrayList<Message.Contact>();
 
-
         Cursor cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         if(cursor.moveToFirst()) {
             while (cursor.moveToNext()) {
@@ -52,13 +51,13 @@ public class Contacts {
                     if (pCur.moveToNext()) {
                         String contactNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                         contactList.add(MessageHelper.createContact(name, contactNumber, imageData));
-                        Log.w("Hermes", name);
                     }
                     pCur.close();
                 }
             }
         }
-
+        cursor.close();
+        Log.w("Hermes", Integer.toString(contactList.size()));
         return contactList;
     }
 }
