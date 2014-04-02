@@ -131,6 +131,7 @@ public class CommunicationCenter extends BorderPane {
             contacts.add(lookupMap.get(c));
         }
         contactsList.setItems(contacts);
+        contactsList.getSelectionModel().clearSelection();
     }
 
     public void close() {
