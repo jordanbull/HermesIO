@@ -3,12 +3,17 @@ package com.jbull.hermes.osx;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.desktop.Conversation;
+import com.jbull.hermes.desktop.Sms;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,11 +46,28 @@ public class ConversationView extends BorderPane {
             conversation = new Conversation(contact.getPhoneNumber());
         }
         this.conversation = conversation;
+
+        messageList.setCellFactory(new Callback<ListView<SmsView>, ListCell<SmsView>>() {
+            @Override
+            public ListCell<SmsView> call(ListView<SmsView> lv) {
+                return new SmsView.SmsListCell();
+            }
+        });
     }
 
     public void update() {
         System.out.println("updating GUI for: "+contact.getPhoneNumber());
         //TODO
+        final ObservableList<SmsView> texts = new ListView<SmsView>().getItems();
+        for (Sms sms : conversation.getMessages()) {
+            texts.add(new SmsView(sms));
+        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messageList.setItems(texts);
+            }
+        });
     }
 
     @FXML
@@ -55,6 +77,7 @@ public class ConversationView extends BorderPane {
         String textContent = textInput.getText();
         Message.SmsMessage msg = MessageHelper.createSmsMessage(me, textContent, System.currentTimeMillis(), recipents, true);
         state.send(msg);
+        state.addSms(msg, true);
         textInput.clear();
     }
 }

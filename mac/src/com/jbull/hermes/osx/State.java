@@ -74,19 +74,16 @@ public class State {
     }
 
     private void populateFromDataStore() {
-        for (Conversation conversation : dataStore.getAllConversations()) {
-            Contact contact = dataStore.getContact(conversation.getPhoneNumber());
-            addContactToGui(contact, conversation);
-        }
         for (Contact contact : dataStore.getAllContacts()) {
-            addContactToGui(contact, null);
+            addContactToGui(contact, dataStore.getConversation(contact.getPhoneNumber()));
+            numberToContactView.get(contact.getPhoneNumber()).getConversation().update();
         }
     }
 
     public void addContact(Message.Contact cMsg) {
         Contact contact = dataStore.addContact(cMsg.getPhoneNumber(), cMsg.getName(), cMsg.getImage().toByteArray(), false);
         if (contact != null) {
-            addContactToGui(contact, null);
+            addContactToGui(contact, dataStore.getConversation(contact.getPhoneNumber()));
             stateChanged = true;
         }
     }
@@ -101,7 +98,7 @@ public class State {
     public void addSms(Message.SmsMessage smsMsg, boolean senderOfMsg) {
         Message.Contact c = null;
         if (senderOfMsg) {
-            smsMsg.getRecipents(0);
+            c = smsMsg.getRecipents(0);
         } else {
             c = smsMsg.getSender();
         }

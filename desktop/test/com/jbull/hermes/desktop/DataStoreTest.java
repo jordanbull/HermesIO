@@ -69,6 +69,8 @@ public class DataStoreTest extends TestCase {
     }
 
     public void testAddAndGetConversation() throws Exception {
+        dataStore.addContact(number1, name1, null, false);
+
         dataStore.addMessageToConversation(number1, msg1, true, time1);
         Conversation convo = dataStore.getConversation(number1);
         assertEquals(number1, convo.getPhoneNumber());

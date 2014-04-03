@@ -35,6 +35,8 @@ public class DataStore implements Serializable {
             return null;
         }
         contacts.put(phoneNumber, contact);
+        Conversation conversation = new Conversation(phoneNumber);
+        conversations.put(phoneNumber, conversation);
         return contact;
     }
 
@@ -43,13 +45,7 @@ public class DataStore implements Serializable {
     }
 
     public Sms addMessageToConversation(String phoneNumber, String msgContent, boolean senderOfMessage, long timeMillis) {
-        Conversation conversation;
-        if (!conversations.containsKey(phoneNumber)) {
-            conversation = new Conversation(phoneNumber);
-            conversations.put(phoneNumber, conversation);
-        } else {
-            conversation = conversations.get(phoneNumber);
-        }
+        Conversation conversation = conversations.get(phoneNumber);
         Sms sms = new Sms(msgContent, timeMillis, senderOfMessage);
         conversation.addMessage(sms);
         return sms;
