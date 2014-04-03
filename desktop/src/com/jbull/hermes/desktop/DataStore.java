@@ -1,8 +1,6 @@
 package com.jbull.hermes.desktop;
 
 
-import com.jbull.hermes.Message;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,10 +21,6 @@ public class DataStore implements Serializable {
 
     public Collection<Conversation> getAllConversations() {
         return conversations.values();
-    }
-
-    public Contact addContact(Message.Contact contact, boolean overwrite) {
-        return addContact(contact.getPhoneNumber(), contact.getName(), contact.getImage().toByteArray(), overwrite);
     }
 
     public Contact addContact(String phoneNumber, String displayName, byte[] imageData, boolean overwrite) {

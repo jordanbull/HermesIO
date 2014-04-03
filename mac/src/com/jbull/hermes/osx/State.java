@@ -81,9 +81,10 @@ public class State {
     }
 
     public void addContact(Message.Contact cMsg) {
-        Contact contact = dataStore.addContact(cMsg.getPhoneNumber(), cMsg.getName(), cMsg.getImage().toByteArray(), false);
+        String number = PhoneNumber.format(cMsg.getPhoneNumber());
+        Contact contact = dataStore.addContact(number, cMsg.getName(), cMsg.getImage().toByteArray(), false);
         if (contact != null) {
-            addContactToGui(contact, dataStore.getConversation(contact.getPhoneNumber()));
+            addContactToGui(contact, dataStore.getConversation(number));
             stateChanged = true;
         }
     }
@@ -103,8 +104,9 @@ public class State {
             c = smsMsg.getSender();
         }
         addContact(c);
-        Sms sms = dataStore.addMessageToConversation(c.getPhoneNumber(), smsMsg.getContent(), senderOfMsg, smsMsg.getTimeStamp());
-        addSmsToGui(c.getPhoneNumber(), sms);
+        String number = PhoneNumber.format(c.getPhoneNumber());
+        Sms sms = dataStore.addMessageToConversation(number, smsMsg.getContent(), senderOfMsg, smsMsg.getTimeStamp());
+        addSmsToGui(number, sms);
         stateChanged = true;
     }
 

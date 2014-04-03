@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children><Region maxWidth="100.0" minWidth="100.0" prefWidth="100.0" HBox.hgrow="NEVER" /><Label fx:id="content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: rgba(31,144,255,1); -fx-background-radius: 30;" text="This is an example of a longer text message" wrapText="true" HBox.hgrow="ALWAYS">
+<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" type="HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<children><Region maxWidth="100.0" minWidth="100.0" prefWidth="100.0" HBox.hgrow="NEVER" /><Label fx:id="content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" style="-fx-background-color: rgba(31,144,255,1); -fx-background-radius: 30;" text="This is an example of a longer text message" wrapText="true" HBox.hgrow="ALWAYS">
 <padding>
 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 </padding>

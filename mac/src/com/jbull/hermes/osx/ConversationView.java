@@ -50,7 +50,10 @@ public class ConversationView extends BorderPane {
         messageList.setCellFactory(new Callback<ListView<SmsView>, ListCell<SmsView>>() {
             @Override
             public ListCell<SmsView> call(ListView<SmsView> lv) {
-                return new SmsView.SmsListCell();
+                SmsView.SmsListCell cell = new SmsView.SmsListCell();
+                //cell.setPrefWidth(lv.getMinWidth());
+                //cell.setMaxWidth(lv.getWidth());
+                return cell;
             }
         });
     }
