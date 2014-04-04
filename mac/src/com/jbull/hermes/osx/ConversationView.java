@@ -51,8 +51,6 @@ public class ConversationView extends BorderPane {
             @Override
             public ListCell<SmsView> call(ListView<SmsView> lv) {
                 SmsView.SmsListCell cell = new SmsView.SmsListCell();
-                //cell.setPrefWidth(lv.getMinWidth());
-                //cell.setMaxWidth(lv.getWidth());
                 return cell;
             }
         });
@@ -60,7 +58,6 @@ public class ConversationView extends BorderPane {
 
     public void update() {
         System.out.println("updating GUI for: "+contact.getPhoneNumber());
-        //TODO
         final ObservableList<SmsView> texts = new ListView<SmsView>().getItems();
         for (Sms sms : conversation.getMessages()) {
             texts.add(new SmsView(sms));

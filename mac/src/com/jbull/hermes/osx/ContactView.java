@@ -19,8 +19,12 @@ import java.net.URL;
 
 public class ContactView extends HBox {
     Contact contact;
-    ConversationView conversation;
+    Conversation conversation;
+    ConversationView conversationView;
     Message.Contact contactMsg;
+
+    int messagesRead = 0;
+    boolean selected = false;
 
     @FXML ImageView image;
     @FXML Label numberLabel;
@@ -28,7 +32,9 @@ public class ContactView extends HBox {
 
     public ContactView(final Contact contact, Conversation convo, State state) {
         this.contact = contact;
-        conversation = new ConversationView(convo, this, state);
+        this.conversation = convo;
+        messagesRead = convo.getMessages().size();
+        conversationView = new ConversationView(convo, this, state);
         URL resource = getClass().getResource("ContactView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
@@ -54,8 +60,8 @@ public class ContactView extends HBox {
         return contact.getDisplayName();
     }
 
-    public ConversationView getConversation() {
-        return conversation;
+    public ConversationView getConversationView() {
+        return conversationView;
     }
 
     public String getPhoneNumber() {
@@ -76,4 +82,36 @@ public class ContactView extends HBox {
             setGraphic(item);
         }
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void select() {
+        selected = true;
+        messagesRead = conversation.getMessages().size();
+        update();
+    }
+
+    public void deselect() {
+        selected = false;
+    }
+
+    public int numUnread() {
+        return conversation.getMessages().size() - messagesRead;
+    }
+
+    public void update() {
+        if (selected) {
+            messagesRead = conversation.getMessages().size();
+        }
+        setUnreadNum();
+    }
+
+    public void setUnreadNum() {
+        int unread = numUnread();
+        System.out.println("Setting unread num for : " + contact.getPhoneNumber() + " to "+Integer.toString(unread));
+    }
+
+
 }

@@ -51,7 +51,7 @@ public class CommunicationCenter extends BorderPane {
                 if (newValue == null) {
                     return;
                 }
-                ConversationView convo = newValue.getConversation();
+                ConversationView convo = newValue.getConversationView();
                 AnchorPane.setBottomAnchor(convo, 0.0);
                 AnchorPane.setTopAnchor(convo, 0.0);
                 AnchorPane.setLeftAnchor(convo, 0.0);
@@ -59,6 +59,11 @@ public class CommunicationCenter extends BorderPane {
                 messagingPane.getChildren().clear();
                 messagingPane.getChildren().add(convo);
                 System.out.println("Selected item: " + newValue);
+                newValue.select();
+                if (oldValue != null) {
+                    oldValue.deselect();
+                }
+                //TODO contactsList.set(defaultList)
             }
         });
     }

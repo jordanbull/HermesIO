@@ -76,7 +76,7 @@ public class State {
     private void populateFromDataStore() {
         for (Contact contact : dataStore.getAllContacts()) {
             addContactToGui(contact, dataStore.getConversation(contact.getPhoneNumber()));
-            numberToContactView.get(contact.getPhoneNumber()).getConversation().update();
+            numberToContactView.get(contact.getPhoneNumber()).getConversationView().update();
         }
     }
 
@@ -111,7 +111,9 @@ public class State {
     }
 
     private void addSmsToGui(String number, Sms sms) {
-        numberToContactView.get(number).getConversation().update();
+        ContactView c = numberToContactView.get(number);
+        c.update();
+        c.getConversationView().update();
     }
 
     public void send(final GeneratedMessage msg) {
