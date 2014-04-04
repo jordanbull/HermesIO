@@ -4,9 +4,11 @@ package com.jbull.hermes.desktop;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DataStore implements Serializable {
     private static final long serialVersionUID = 1L;
+    private AtomicLong smsCounter = new AtomicLong(0);
 
     HashMap<String, Contact> contacts = new HashMap<String, Contact>();
     HashMap<String, Conversation> conversations = new HashMap<String, Conversation>();
@@ -40,7 +42,7 @@ public class DataStore implements Serializable {
 
     public Sms addMessageToConversation(String phoneNumber, String msgContent, boolean senderOfMessage, long timeMillis) {
         Conversation conversation = conversations.get(phoneNumber);
-        Sms sms = new Sms(msgContent, timeMillis, senderOfMessage);
+        Sms sms = new Sms(msgContent, timeMillis, senderOfMessage, getNewMsgNum());
         conversation.addMessage(sms);
         return sms;
     }
@@ -50,12 +52,7 @@ public class DataStore implements Serializable {
         return contacts.equals(d2.contacts) && conversations.equals(d2.conversations);
     }
 
-
-
-
-
-
-
-
-
+    private long getNewMsgNum() {
+        return smsCounter.getAndIncrement();
+    }
 }

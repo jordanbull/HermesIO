@@ -105,10 +105,10 @@ public class DataStoreTest extends TestCase {
     }
 
     public void testMessageDataEquality() throws Exception {
-        Sms m1 = new Sms(msg1, time1, true);
-        Sms m2 = new Sms(msg2, time1, true);
-        Sms m3 = new Sms(msg1, time1, true);
-        Sms m4 = new Sms(msg1, time3, true);
+        Sms m1 = new Sms(msg1, time1, true, 0);
+        Sms m2 = new Sms(msg2, time1, true, 0);
+        Sms m3 = new Sms(msg1, time1, true, 0);
+        Sms m4 = new Sms(msg1, time3, true, 0);
         assertEquals(m1, m3);
         assertFalse(m1.equals(m2));
         assertFalse(m1.equals(m4));
@@ -121,16 +121,16 @@ public class DataStoreTest extends TestCase {
         assertEquals(c1, c2);
         assertFalse(c1.equals(c3));
 
-        c1.addMessage(msg1, time1, true);
-        c2.addMessage(msg2, time2, true);
-        c1.addMessage(msg2, time2, true);
-        c2.addMessage(msg1, time1, true);
-        c3.addMessage(msg1, time1, true);
-        c3.addMessage(msg2, time2, true);
+        c1.addMessage(msg1, time1, true, 1);
+        c2.addMessage(msg2, time2, true, 2);
+        c1.addMessage(msg2, time2, true, 2);
+        c2.addMessage(msg1, time1, true, 1);
+        c3.addMessage(msg1, time1, true, 1);
+        c3.addMessage(msg2, time2, true, 2);
         assertEquals(c1, c2);
         assertFalse(c1.equals(c3));
 
-        c1.addMessage(msg3, time3, true);
+        c1.addMessage(msg3, time3, true, 3);
         assertFalse(c1.equals(c2));
     }
 

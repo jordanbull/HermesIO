@@ -1,7 +1,6 @@
 package com.jbull.hermes.desktop;
 
 import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Sms implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -10,13 +9,11 @@ public class Sms implements Serializable {
     private boolean senderOfMessage;
     private long msgNum;
 
-    private static AtomicLong msgNumCounter = new AtomicLong(0);
-
-    public Sms(String content, Long timeMillis, boolean senderOfMessage) {
+    public Sms(String content, Long timeMillis, boolean senderOfMessage, long msgNum) {
         this.content = content;
         this.timeMillis = timeMillis;
         this.senderOfMessage = senderOfMessage;
-        msgNum = msgNumCounter.getAndIncrement();
+        this.msgNum = msgNum;
     }
 
     public String getContent() {

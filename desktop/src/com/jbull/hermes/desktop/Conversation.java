@@ -13,14 +13,14 @@ public class Conversation implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void addMessage(String content, long timeMillis, boolean senderOfMessage) {
-        addMessage(new Sms(content, timeMillis, senderOfMessage));
+    public void addMessage(String content, long timeMillis, boolean senderOfMessage, long msgNum) {
+        addMessage(new Sms(content, timeMillis, senderOfMessage, msgNum));
     }
 
     public void addMessage(Sms msg) {
         int i = messages.size()-1;
         for (; i >= 0; i--) {
-            if(messages.get(i).getTimeMillis() < msg.getTimeMillis()) {
+            if(messages.get(i).getMsgNum() < msg.getMsgNum()) {
                 break;
             }
         }
