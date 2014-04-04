@@ -25,7 +25,7 @@ public class Main extends Application {
 
 
         primaryStage.setTitle("HermesIO");
-        primaryStage.setScene(new Scene(communicationCenter, 600, 800));
+        primaryStage.setScene(new Scene(communicationCenter, 800, 600));
         primaryStage.setMinWidth(communicationCenter.getPrefWidth());
         primaryStage.setMinHeight(communicationCenter.getPrefHeight());
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
