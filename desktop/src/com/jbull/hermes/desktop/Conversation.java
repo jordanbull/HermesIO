@@ -7,6 +7,7 @@ public class Conversation implements Serializable {
     private static final long serialVersionUID = 1L;
     private String phoneNumber;
     private ArrayList<Sms> messages = new ArrayList<Sms>();
+    private long mostRecentMsgNum;
 
     public Conversation(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -24,6 +25,7 @@ public class Conversation implements Serializable {
             }
         }
         messages.add(i+1, msg);
+        mostRecentMsgNum = Math.max(mostRecentMsgNum, msg.getMsgNum());
     }
 
     public String getPhoneNumber() {
@@ -39,7 +41,7 @@ public class Conversation implements Serializable {
         return phoneNumber.equals(conv2.getPhoneNumber()) && messages.equals(conv2.getMessages());
     }
 
-    public long mostRecentTimestamp() {
-        return messages.get(messages.size()-1).getTimeMillis();
+    public long mostRecentMsgNum() {
+        return mostRecentMsgNum;
     }
 }

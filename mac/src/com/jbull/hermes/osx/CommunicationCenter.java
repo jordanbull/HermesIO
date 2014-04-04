@@ -133,13 +133,13 @@ public class CommunicationCenter extends BorderPane {
         private LinkedList<ContactView> orderedContacts = new LinkedList<ContactView>();
 
         public void insert(ContactView c) {
-            long time = c.conversation.mostRecentTimestamp();
+            long time = c.conversation.mostRecentMsgNum();
             if (orderedContacts.contains(c)) {
                 orderedContacts.remove(c);
             }
             int i = 0;
             for (; i < orderedContacts.size(); i++) {
-                if (time > orderedContacts.get(i).conversation.mostRecentTimestamp()) {
+                if (time > orderedContacts.get(i).conversation.mostRecentMsgNum()) {
                     break;
                 }
             }
