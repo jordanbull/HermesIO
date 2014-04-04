@@ -3,11 +3,14 @@ package com.jbull.hermes.osx;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
 import com.jbull.hermes.desktop.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -74,16 +77,23 @@ public class State {
     }
 
     private void populateFromDataStore() {
-        CommunicationCenter.TimeSortedContacts defaultContacts = commCenter.getDefaultContacts();
+        final CommunicationCenter.TimeSortedContacts defaultContacts = commCenter.getDefaultContacts();
+        final List<ContactView> convs = new ArrayList<ContactView>();
         for (Contact contact : dataStore.getAllContacts()) {
             Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
             addContactToGui(contact, convo);
             ContactView contactView = numberToContactView.get(contact.getPhoneNumber());
             contactView.getConversationView().update();
             if (convo.getMessages().size() > 0) {
-                defaultContacts.add(contactView);
+                convs.add(contactView);
             }
         }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                defaultContacts.addAll(convs);
+            }
+        });
     }
 
     public void addContact(Message.Contact cMsg) {
@@ -117,10 +127,15 @@ public class State {
     }
 
     private void addSmsToGui(String number, Sms sms) {
-        ContactView c = numberToContactView.get(number);
+        final ContactView c = numberToContactView.get(number);
         c.update();
         c.getConversationView().update();
-        commCenter.getDefaultContacts().add(c);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                commCenter.getDefaultContacts().add(c);
+            }
+        });
     }
 
     public void send(final GeneratedMessage msg) {

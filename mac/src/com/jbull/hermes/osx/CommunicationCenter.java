@@ -121,6 +121,7 @@ public class CommunicationCenter extends BorderPane {
     public void searchTyped(String s) {
         if (s.equals("")) {
             contactsList.setItems(timeSortedContacts);
+            contactsList.getSelectionModel().clearSelection();
         } else {
             ObservableList<ContactView> contacts = state.searchContacts(s);
             contactsList.setItems(contacts);
