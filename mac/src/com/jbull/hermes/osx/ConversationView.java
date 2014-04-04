@@ -4,17 +4,23 @@ import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.desktop.Conversation;
 import com.jbull.hermes.desktop.Sms;
+import com.sun.javafx.scene.traversal.Direction;
+import com.sun.javafx.scene.traversal.TraversalEngine;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -54,6 +60,47 @@ public class ConversationView extends BorderPane {
                 return cell;
             }
         });
+        setTraversal();
+    }
+
+    /* This code sets the order for tabbing between the textInput and the sendButton
+         */
+    private void setTraversal() {
+        // convert tabs on the textInput to shift-tab to avoid tab characters
+        textInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                // TODO Auto-generated method stub
+                try {
+                    Robot robot = new Robot();
+                    switch ( keyEvent.getCode() ) {
+                        case TAB :
+
+                            if (!keyEvent.isShiftDown()) {
+                                robot.keyPress(java.awt.event.KeyEvent.VK_SHIFT);
+                                robot.keyPress(java.awt.event.KeyEvent.VK_TAB);
+                                robot.keyRelease(java.awt.event.KeyEvent.VK_TAB);
+                                robot.keyRelease(java.awt.event.KeyEvent.VK_SHIFT);
+                                keyEvent.consume();
+                                break;
+                            }
+                    }
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        TraversalEngine engine = new TraversalEngine(this, false) {
+            @Override
+            public void trav(Node node, Direction drctn) {
+                if (node == textInput && (drctn == Direction.NEXT || drctn == Direction.PREVIOUS)) {
+                    sendButton.requestFocus();
+                } else if (node == sendButton && (drctn == Direction.NEXT || drctn == Direction.PREVIOUS)) {
+                    textInput.requestFocus();
+                }
+            }
+        };
+        this.setImpl_traversalEngine(engine);
     }
 
     public void update() {
