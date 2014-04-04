@@ -21,6 +21,9 @@
 </font></Label><Label fx:id="numberLabel" layoutX="10.0" layoutY="28.0">
 <font>
 <Font size="11.0" />
+</font></Label><Label fx:id="unreadDisplay" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="-3.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" opacity="0.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: lightgrey; -fx-background-radius: 10;" textAlignment="CENTER">
+<font>
+<Font name="System Bold" size="13.0" />
 </font></Label>
 </children></Pane>
 </children></fx:root>

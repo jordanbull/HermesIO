@@ -5,6 +5,7 @@ import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.desktop.Contact;
 import com.jbull.hermes.desktop.Conversation;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -29,6 +30,7 @@ public class ContactView extends HBox {
     @FXML ImageView image;
     @FXML Label numberLabel;
     @FXML Label nameLabel;
+    @FXML Label unreadDisplay;
 
     public ContactView(final Contact contact, Conversation convo, State state) {
         this.contact = contact;
@@ -109,9 +111,32 @@ public class ContactView extends HBox {
     }
 
     public void setUnreadNum() {
-        int unread = numUnread();
+        final int unread = numUnread();
         System.out.println("Setting unread num for : " + contact.getPhoneNumber() + " to "+Integer.toString(unread));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                unreadDisplay.setText(String.valueOf(unread));
+                if (unread == 0) {
+                    unreadDisplay.setOpacity(0.0);
+                } else {
+                    unreadDisplay.setOpacity(1);
+                }
+                setStyle(getUnreadBackgroundStyle(unread));
+            }
+        });
     }
 
+    public String getUnreadBackgroundStyle(int numUnread) {
+        String opacity = "";
+        if (numUnread == 0) {
+            opacity = "0";
+        } else if (numUnread < 10) {
+            opacity = "0." + String.valueOf(50 + 5 * numUnread);
+        } else {
+            opacity = "1";
+        }
+        return "-fx-background-color: rgba(124,252,0,"+opacity+")";
+    }
 
 }
