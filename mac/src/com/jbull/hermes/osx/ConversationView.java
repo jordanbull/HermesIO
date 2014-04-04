@@ -123,6 +123,7 @@ public class ConversationView extends BorderPane {
             @Override
             public void run() {
                 messageList.setItems(texts);
+                messageList.scrollTo(messageList.getItems().size());
             }
         });
     }
