@@ -5,11 +5,13 @@ import com.aquafx_project.controls.skin.styles.TextFieldType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -66,6 +68,36 @@ public class CommunicationCenter extends BorderPane {
                 //TODO contactsList.set(defaultList)
             }
         });
+
+        contactSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.ENTER) {
+                    if (contactsList.getItems().size() > 0) {
+                        contactsList.requestFocus();
+                        contactsList.getSelectionModel().select(0);
+                        if (keyEvent.getCode() == KeyCode.ENTER) {
+                            contactsList.getSelectionModel().getSelectedItem().getConversationView().textInput.requestFocus();
+                        }
+                    }
+                    keyEvent.consume();
+                } else if (keyEvent.getCode() == KeyCode.TAB) {
+                    keyEvent.consume();
+                }
+            }
+        });
+        contactsList.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.isShiftDown() && keyEvent.getCode() == KeyCode.TAB) {
+                    contactSearch.requestFocus();
+                } else if ((keyEvent.getCode() == KeyCode.TAB || keyEvent.getCode() == KeyCode.ENTER) && contactsList.getSelectionModel().getSelectedItem() != null) {
+                    contactsList.getSelectionModel().getSelectedItem().getConversationView().textInput.requestFocus();
+                    keyEvent.consume();
+                }
+            }
+        });
+
     }
 
     protected void setState(State state) {
