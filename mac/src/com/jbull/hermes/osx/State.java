@@ -74,9 +74,15 @@ public class State {
     }
 
     private void populateFromDataStore() {
+        CommunicationCenter.TimeSortedContacts defaultContacts = commCenter.getDefaultContacts();
         for (Contact contact : dataStore.getAllContacts()) {
-            addContactToGui(contact, dataStore.getConversation(contact.getPhoneNumber()));
-            numberToContactView.get(contact.getPhoneNumber()).getConversationView().update();
+            Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
+            addContactToGui(contact, convo);
+            ContactView contactView = numberToContactView.get(contact.getPhoneNumber());
+            contactView.getConversationView().update();
+            if (convo.getMessages().size() > 0) {
+                defaultContacts.add(contactView);
+            }
         }
     }
 
@@ -114,6 +120,7 @@ public class State {
         ContactView c = numberToContactView.get(number);
         c.update();
         c.getConversationView().update();
+        commCenter.getDefaultContacts().add(c);
     }
 
     public void send(final GeneratedMessage msg) {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Conversation implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String phoneNumber;
     private ArrayList<Sms> messages = new ArrayList<Sms>();
 
@@ -36,5 +37,9 @@ public class Conversation implements Serializable {
     public boolean equals(Object obj) {
         Conversation conv2 = (Conversation) obj;
         return phoneNumber.equals(conv2.getPhoneNumber()) && messages.equals(conv2.getMessages());
+    }
+
+    public long mostRecentTimestamp() {
+        return messages.get(messages.size()-1).getTimeMillis();
     }
 }

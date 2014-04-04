@@ -4,6 +4,7 @@ import com.aquafx_project.AquaFx;
 import com.aquafx_project.controls.skin.styles.TextFieldType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ModifiableObservableListBase;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 
 
 public class CommunicationCenter extends BorderPane {
@@ -27,6 +29,7 @@ public class CommunicationCenter extends BorderPane {
     @FXML TextField contactSearch;
 
     private State state;
+    private TimeSortedContacts timeSortedContacts = new TimeSortedContacts();
 
     public CommunicationCenter() throws IOException {
         URL resource = getClass().getResource("CommunicationCenter.fxml");
@@ -46,6 +49,7 @@ public class CommunicationCenter extends BorderPane {
             }
         });
         AquaFx.createTextFieldStyler().setType(TextFieldType.SEARCH).style(contactSearch);
+        contactsList.setItems(timeSortedContacts);
 
         contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
             @Override
@@ -98,16 +102,72 @@ public class CommunicationCenter extends BorderPane {
             }
         });
 
+        contactSearch.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String fromString, String toString) {
+                searchTyped(toString);
+            }
+        });
+    }
+
+    public TimeSortedContacts getDefaultContacts() {
+        return timeSortedContacts;
     }
 
     protected void setState(State state) {
         this.state = state;
     }
 
-    @FXML
-    public void searchTyped(KeyEvent event) {
-        ObservableList<ContactView> contacts = state.searchContacts(contactSearch.getText());
-        contactsList.setItems(contacts);
-        contactsList.getSelectionModel().clearSelection();
+    public void searchTyped(String s) {
+        if (s.equals("")) {
+            contactsList.setItems(timeSortedContacts);
+        } else {
+            ObservableList<ContactView> contacts = state.searchContacts(s);
+            contactsList.setItems(contacts);
+            contactsList.getSelectionModel().clearSelection();
+        }
+    }
+
+    public class TimeSortedContacts extends ModifiableObservableListBase<ContactView> {
+        private LinkedList<ContactView> orderedContacts = new LinkedList<ContactView>();
+
+        public void insert(ContactView c) {
+            long time = c.conversation.mostRecentTimestamp();
+            if (orderedContacts.contains(c)) {
+                orderedContacts.remove(c);
+            }
+            int i = 0;
+            for (; i < orderedContacts.size(); i++) {
+                if (time > orderedContacts.get(i).conversation.mostRecentTimestamp()) {
+                    break;
+                }
+            }
+            orderedContacts.add(i, c);
+        }
+
+        @Override
+        public ContactView get(int i) {
+            return orderedContacts.get(i);
+        }
+
+        @Override
+        public int size() {
+            return orderedContacts.size();
+        }
+
+        @Override
+        protected void doAdd(int i, ContactView contactView) {
+            insert(contactView);
+        }
+
+        @Override
+        protected ContactView doSet(int i, ContactView contactView) {
+            return null;
+        }
+
+        @Override
+        protected ContactView doRemove(int i) {
+            return null;
+        }
     }
 }

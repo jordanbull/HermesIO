@@ -3,6 +3,7 @@ package com.jbull.hermes.desktop;
 import java.io.Serializable;
 
 public class Contact implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String displayName;
     private byte[] imageData;
     private String phoneNumber;

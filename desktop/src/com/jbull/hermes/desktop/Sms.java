@@ -3,6 +3,7 @@ package com.jbull.hermes.desktop;
 import java.io.Serializable;
 
 public class Sms implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String content;
     private Long timeMillis;
     private boolean senderOfMessage;
