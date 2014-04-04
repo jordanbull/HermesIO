@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
@@ -63,7 +64,7 @@ public class ConversationView extends BorderPane {
         setTraversal();
     }
 
-    /* This code sets the order for tabbing between the textInput and the sendButton
+    /* This code sets the order for tabbing between the textInput and the sendButton and enter on the button for sending
          */
     private void setTraversal() {
         // convert tabs on the textInput to shift-tab to avoid tab characters
@@ -101,6 +102,15 @@ public class ConversationView extends BorderPane {
             }
         };
         this.setImpl_traversalEngine(engine);
+        sendButton.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER) {
+                    send();
+                    keyEvent.consume();
+                }
+            }
+        });
     }
 
     public void update() {
