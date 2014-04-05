@@ -1,7 +1,6 @@
 package com.jbull.hermes.osx;
 
 import com.aquafx_project.AquaFx;
-import com.jbull.hermes.desktop.ListenFavoredCommunicationScheduler;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -9,7 +8,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Main extends Application {
-    protected ListenFavoredCommunicationScheduler commScheduler;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -18,12 +16,6 @@ public class Main extends Application {
         final CommunicationCenter communicationCenter = new CommunicationCenter();
         final State state = new State(communicationCenter);
         System.out.println(System.currentTimeMillis() - start);
-        //new Notification(new ContactView("number", "name"), "text content").show();
-
-
-
-
-
         primaryStage.setTitle("HermesIO");
         primaryStage.setScene(new Scene(communicationCenter, 800, 600));
         primaryStage.setMinWidth(communicationCenter.getPrefWidth());

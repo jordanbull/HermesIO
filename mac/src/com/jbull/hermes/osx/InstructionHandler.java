@@ -30,6 +30,8 @@ public class InstructionHandler implements MessageReactor {
 
     private void executeSMS(final Message.SmsMessage sms) {
         System.out.println("received: SMSMessage");
+        boolean resp = new MacNotification().notify(sms.getSender().getName(), sms.getContent(), sms.getSender().getImage().toByteArray());
+        System.out.println(resp);
         state.addSms(sms, false);
     }
 

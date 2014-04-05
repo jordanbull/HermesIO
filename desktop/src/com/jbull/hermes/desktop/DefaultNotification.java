@@ -1,34 +1,30 @@
-package com.jbull.hermes.osx;
+package com.jbull.hermes.desktop;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.PopupControl;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 
 
-public class Notification extends GridPane {
+public class DefaultNotification extends GridPane implements Notification {
     private final PopupControl popup;
-    private ContactView sender;
-    private String content;
-    private CommunicationCenter communicationCenter;
+
     @FXML ImageView senderIcon;
     @FXML Label senderLabel;
     @FXML Label contentLabel;
     private Stage stage;
 
-    public Notification(ContactView sender, String content, CommunicationCenter communicationCenter) {
-        this.sender = sender;
-        this.content = content;
-        this.communicationCenter = communicationCenter;
-
-        URL resource = getClass().getResource("Notification.fxml");
+    public DefaultNotification(String sender, String content, byte[] imgData) {
+        URL resource = getClass().getResource("DefaultNotification.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -38,8 +34,10 @@ public class Notification extends GridPane {
             throw new RuntimeException(exception);
         }
 
-        senderLabel.setText(sender.toString());
+        senderLabel.setText(sender);
         contentLabel.setText(content);
+        if (imgData != null)
+            senderIcon.setImage(new Image(new ByteArrayInputStream(imgData)));
 
         popup = new PopupControl();
         //this.setStyle("-fx-background-color:white");
@@ -52,7 +50,6 @@ public class Notification extends GridPane {
         stage.setOpacity(0.0);
         stage.setWidth(0.0);
         stage.setHeight(0.0);
-        //stage.show();
     }
 
     public void show() {
@@ -69,7 +66,12 @@ public class Notification extends GridPane {
     @FXML
     public void reply() {
         dismiss();
-        ((Stage) communicationCenter.getScene().getWindow()).toFront();
+        //TODO
     }
 
+    @Override
+    public boolean notify(String sender, String content, byte[] imageData) {
+        new DefaultNotification(sender, content, imageData).show();
+        return true;
+    }
 }
