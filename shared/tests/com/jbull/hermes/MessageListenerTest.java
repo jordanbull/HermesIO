@@ -29,7 +29,7 @@ public class MessageListenerTest extends TestCase {
         listener = new MessageListener(conn, reactor, numRetries);
         msgAckNum1 = new Random().nextInt(9999);
         msgAckNum2 = new Random().nextInt(9999);
-        smsMsg = MessageHelper.createSmsMessage(MessageHelper.createContact("name", "number", null).toBuilder().setMsgNum(msgAckNum1).build(), "smsMsg content", System.currentTimeMillis(), new ArrayList<Message.Contact>(), true).toBuilder().setMsgNum(msgAckNum1).build();
+        smsMsg = MessageHelper.createSmsMessage(MessageHelper.createContact("name", "number", null, null).toBuilder().setMsgNum(msgAckNum1).build(), "smsMsg content", System.currentTimeMillis(), new ArrayList<Message.Contact>(), true).toBuilder().setMsgNum(msgAckNum1).build();
         modeMsg = MessageHelper.createModeMessage(true, System.currentTimeMillis()).toBuilder().setMsgNum(msgAckNum2).build();
         headerSMS = MessageHelper.createHeader(smsMsg, msgAckNum1);
         headerMode = MessageHelper.createHeader(modeMsg, msgAckNum2);

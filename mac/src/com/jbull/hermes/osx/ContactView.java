@@ -72,7 +72,7 @@ public class ContactView extends HBox {
 
     public Message.Contact getContactMsg() {
         if (contactMsg == null) {
-            contactMsg = MessageHelper.createContact(contact.getDisplayName(), contact.getPhoneNumber(), null); //does not include image
+            contactMsg = MessageHelper.createContact(contact.getDisplayName(), contact.getPhoneNumber(), null, null); //does not include image
         }
         return contactMsg;
     }

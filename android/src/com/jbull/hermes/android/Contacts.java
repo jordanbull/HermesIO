@@ -50,7 +50,7 @@ public class Contacts {
                     Cursor pCur = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                     if (pCur.moveToNext()) {
                         String contactNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        contactList.add(MessageHelper.createContact(name, contactNumber, imageData));
+                        contactList.add(MessageHelper.createContact(name, contactNumber, imageData, 0));
                     }
                     pCur.close();
                 }

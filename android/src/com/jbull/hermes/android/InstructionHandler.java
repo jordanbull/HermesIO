@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.telephony.SmsManager;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Message;
+import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.MessageReactor;
 
 /**
@@ -55,8 +56,7 @@ public class InstructionHandler implements MessageReactor {
     }
 
     public void sendAllContacts() {
-        for(Message.Contact contact : Contacts.getContacts(context)) {
-            commScheduler.send(contact);
-        }
+        commScheduler.send(MessageHelper.createBatchContacts(Contacts.getContacts(context)));
+
     }
 }

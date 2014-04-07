@@ -24,8 +24,16 @@ public class InstructionHandler implements MessageReactor {
             System.out.println("received: SetupMessage");
         } else if (type == Message.Header.Type.CONTACT) {
             executeContact((Message.Contact) msg);
+        } else if (type == Message.Header.Type.BATCHCONTACTS) {
+            executeBatchContacts((Message.BatchContacts) msg);
         }
         return true;
+    }
+
+    private void executeBatchContacts(Message.BatchContacts msg) {
+        for (Message.Contact contact : msg.getContactsList()) {
+            executeContact(contact);
+        }
     }
 
     private void executeSMS(final Message.SmsMessage sms) {

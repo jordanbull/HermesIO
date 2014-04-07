@@ -92,6 +92,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
             }
         }
         cur.close();
-        return MessageHelper.createContact(name, phoneNumber, imageData);
+        return MessageHelper.createContact(name, phoneNumber, imageData, null);
     }
 }

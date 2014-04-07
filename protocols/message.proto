@@ -22,6 +22,11 @@ message Contact {
   optional bytes image = 4;
 }
 
+message BatchContacts {
+  required int32 msgNum = 1;
+  repeated Contact contacts = 2;
+}
+
 message Mode {
   required int32 msgNum = 1;
   required int64 lastUpdate = 2; //time since last update. server time
@@ -42,6 +47,7 @@ message Header {
     CONTACT = 2;
     MODE = 3;
     SYNCCONTACTS = 4;
+    BATCHCONTACTS = 5;
   }
   required Type type = 3;
 }

@@ -31,7 +31,7 @@ public class ConversationView extends BorderPane {
     @FXML TextArea textInput;
     @FXML ListView messageList;
     @FXML Button sendButton;
-    Message.Contact me = MessageHelper.createContact("Me", "My Number", null);
+    Message.Contact me = MessageHelper.createContact("Me", "My Number", null, null);
 
     ContactView contact;
     private Conversation conversation;

@@ -6,6 +6,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jordan on 3/18/14.
@@ -29,13 +30,21 @@ public class MessageHelper {
         return sms;
     }
 
-    public static Message.Contact createContact(String name, String phoneNumber, ByteString imageData) {
+    public static Message.Contact createContact(String name, String phoneNumber, ByteString imageData, Integer msgNum) {
         Message.Contact.Builder builder = Message.Contact.newBuilder()
                 .setPhoneNumber(phoneNumber)
                 .setName(name);
         if (imageData != null)
             builder.setImage(imageData);
+        if (msgNum != null)
+            builder.setMsgNum(msgNum);
         return builder.buildPartial();
+    }
+
+    public static Message.BatchContacts createBatchContacts(List<Message.Contact> contacts) {
+        return Message.BatchContacts.newBuilder()
+                .addAllContacts(contacts)
+                .buildPartial();
     }
 
     public static Message.Header createHeader(GeneratedMessage msg, int msgNum) {
@@ -50,6 +59,8 @@ public class MessageHelper {
             type = Message.Header.Type.MODE;
         } else if (msg instanceof Message.SyncContacts) {
             type = Message.Header.Type.SYNCCONTACTS;
+        } else if (msg instanceof Message.BatchContacts) {
+            type = Message.Header.Type.BATCHCONTACTS;
         } else {
             // Should never get here
             throw new RuntimeException("Header could not be created for this type");
@@ -82,6 +93,8 @@ public class MessageHelper {
             return Message.Contact.parseFrom(buffer);
         } else if (type == Message.Header.Type.SYNCCONTACTS) {
             return Message.SyncContacts.parseFrom(buffer);
+        } else if (type == Message.Header.Type.BATCHCONTACTS) {
+            return Message.BatchContacts.parseFrom(buffer);
         } else {
             // should not reach this point
             throw new RuntimeException("Could not construct a message of this type");
@@ -146,6 +159,8 @@ public class MessageHelper {
                 return ((Message.Contact) msg).toBuilder().setMsgNum(msgNum).build();
             case SYNCCONTACTS:
                 return ((Message.SyncContacts) msg).toBuilder().setMsgNum(msgNum).build();
+            case BATCHCONTACTS:
+                return ((Message.BatchContacts) msg).toBuilder().setMsgNum(msgNum).build();
             default:
                 throw new RuntimeException("Should not reach this point");
         }

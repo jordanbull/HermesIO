@@ -29,8 +29,8 @@ public class MessageHelperTest extends TestCase {
     }
 
     public void testSmsMessage() throws Exception {
-        Message.Contact sender = MessageHelper.createContact("sender name", "sender number", null);
-        Message.Contact recipent = MessageHelper.createContact("recipent name", "recipent number", null);
+        Message.Contact sender = MessageHelper.createContact("sender name", "sender number", null, null);
+        Message.Contact recipent = MessageHelper.createContact("recipent name", "recipent number", null, null);
         ArrayList<Message.Contact> recipents = new ArrayList<Message.Contact>();
         recipents.add(recipent);
         Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, "content", 9999, recipents, true);
