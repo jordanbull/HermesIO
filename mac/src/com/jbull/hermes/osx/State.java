@@ -21,6 +21,8 @@ public class State {
     private final String DATA_STORE_FILENAME = "data.ser";
     private final long SECONDS_BETWEEN_SAVES = 5;
 
+    private int timeoutMillis = 10000;
+
     private DataStore dataStore;
     private RadixTrie trie = new RadixTrie();
     private CommunicationScheduler<GeneratedMessage> commScheduler;
@@ -28,6 +30,7 @@ public class State {
 
     public boolean stateChanged = false;
     private CommunicationCenter commCenter;
+    private TCPServer server;
 
 
     public State(CommunicationCenter commCenter) {
@@ -142,7 +145,12 @@ public class State {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                commScheduler.send(msg);
+                try {
+                    commScheduler.send(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    disconnect();
+                }
             }
         }).start();
     }
@@ -164,7 +172,7 @@ public class State {
     }
 
     private void requestContacts() {
-        commScheduler.send(MessageHelper.createSyncContacts());
+        send(MessageHelper.createSyncContacts());
     }
 
     synchronized private void writeDataStore() {
@@ -184,7 +192,7 @@ public class State {
 
     private CommunicationScheduler<GeneratedMessage> initCommunication() throws IOException {
         int numRetries = 0;
-        TCPServer server = new TCPServer(8888);
+        server = new TCPServer(8888, timeoutMillis);
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(server, handler, numRetries);
         MessageSender sender = new MessageSender(server, numRetries);
@@ -192,15 +200,30 @@ public class State {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                commScheduler.start();
+                try {
+                    commScheduler.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    disconnect();
+                }
             }
         });
         commThread.start();
         return commScheduler;
     }
 
-    public void close() {
-        //TODO
+    private void disconnect() {
+        System.out.println("Disconnected.");
         commScheduler.stop();
+        try {
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() throws IOException {
+        //TODO
+        disconnect();
     }
 }

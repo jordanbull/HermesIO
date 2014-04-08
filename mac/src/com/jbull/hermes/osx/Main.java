@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+
 public class Main extends Application {
 
     @Override
@@ -22,7 +24,12 @@ public class Main extends Application {
         primaryStage.setMinHeight(communicationCenter.getPrefHeight());
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                state.close();
+                try {
+                    state.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
             }
         });
         primaryStage.show();

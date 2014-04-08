@@ -3,6 +3,8 @@ package com.jbull.hermes.desktop;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
 
+import java.io.IOException;
+
 
 public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
 
@@ -10,7 +12,7 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
         super(sender, listener);
     }
 
-    public void start() {
+    public void start() throws IOException {
         running = true;
         mode = Mode.LISTENING;
         while (running && !isStopped()) {
@@ -24,7 +26,7 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
     }
 
     @Override
-    public void startSending() {
+    public void startSending() throws IOException {
         flush();
         mode = Mode.LISTENING;
         sender.send(MessageHelper.createModeMessage(false, 0));
@@ -32,7 +34,7 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
 
 
     @Override
-    public void startListening() {
+    public void startListening() throws IOException {
         listenLoop();
     }
 }
