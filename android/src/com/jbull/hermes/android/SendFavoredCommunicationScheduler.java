@@ -1,14 +1,17 @@
 package com.jbull.hermes.android;
 
+import android.util.Log;
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
+
+import java.io.IOException;
 
 
 public class SendFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
     private int sendWindowMillis;
 
-    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, int sendWindowMillis) {
-        super(sender, listener);
+    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable disconnectCalback, int sendWindowMillis) {
+        super(sender, listener, disconnectCalback);
         this.sendWindowMillis = sendWindowMillis;
     }
 
@@ -39,8 +42,13 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
 
     @Override
     public void startListening() {
-        mode = Mode.LISTENING;
-        sender.send(MessageHelper.createModeMessage(true, 0));
-        listenLoop();
+        try {
+            mode = Mode.LISTENING;
+            sender.send(MessageHelper.createModeMessage(true, 0));
+            listenLoop();
+        } catch (IOException e) {
+            Log.e("HermesIO", "", e);
+            disconnect();
+        }
     }
 }

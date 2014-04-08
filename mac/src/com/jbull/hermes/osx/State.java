@@ -21,7 +21,7 @@ public class State {
     private final String DATA_STORE_FILENAME = "data.ser";
     private final long SECONDS_BETWEEN_SAVES = 5;
 
-    private int timeoutMillis = 10000;
+    private int timeoutMillis = 0;
 
     private DataStore dataStore;
     private RadixTrie trie = new RadixTrie();
@@ -145,12 +145,7 @@ public class State {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    commScheduler.send(msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    disconnect();
-                }
+                commScheduler.send(msg);
             }
         }).start();
     }
@@ -196,16 +191,16 @@ public class State {
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(server, handler, numRetries);
         MessageSender sender = new MessageSender(server, numRetries);
-        final ListenFavoredCommunicationScheduler commScheduler = new ListenFavoredCommunicationScheduler(sender, listener);
+        final ListenFavoredCommunicationScheduler commScheduler = new ListenFavoredCommunicationScheduler(sender, listener, new Runnable() {
+            @Override
+            public void run() {
+                disconnect();
+            }
+        });
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    commScheduler.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    disconnect();
-                }
+                commScheduler.start();
             }
         });
         commThread.start();

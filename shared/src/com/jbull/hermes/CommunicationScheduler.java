@@ -14,40 +14,57 @@ public abstract class CommunicationScheduler<T> {
     protected Mode mode;
     protected boolean running = false;
 
-    public CommunicationScheduler(Sender<T> sender, Listener listener) {
+    private Runnable disconnectCallback;
+
+    public CommunicationScheduler(Sender<T> sender, Listener listener, Runnable disconnectCallback) {
         this.sender = sender;
         this.listener = listener;
         mode = Mode.STOPPED;
+        this.disconnectCallback = disconnectCallback;
     }
 
     /* SENDING CODE */
-    public abstract void startSending() throws IOException;
+    public abstract void startSending();
 
-    public void send(T msg) throws IOException {
+    public void send(T msg) {
         queue.add(msg);
         if (isSending()) {
             flush();
         }
     }
 
-    synchronized public void flush() throws IOException {
-        while (!queue.isEmpty() && isSending()) {
-            sender.send(queue.remove());
+    synchronized public void flush() {
+        try {
+            while (!queue.isEmpty() && isSending()) {
+                sender.send(queue.remove());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            disconnect();
         }
     }
 
     /* LISTENING CODE */
-    public abstract void startListening() throws IOException;
+    public abstract void startListening();
 
-    synchronized public void listenLoop() throws IOException {
-        while (isListening()) {
-            mode = listener.listen();
+    synchronized public void listenLoop() {
+        try {
+            while (isListening()) {
+                mode = listener.listen();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            disconnect();
         }
     }
 
     public void stop() {
         running = false;
         mode = Mode.STOPPED;
+    }
+
+    public void disconnect() {
+        disconnectCallback.run();
     }
 
     public boolean isSending() {

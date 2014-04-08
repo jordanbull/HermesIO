@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
 
-    public ListenFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener) {
-        super(sender, listener);
+    public ListenFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable disconnectCallback) {
+        super(sender, listener, disconnectCallback);
     }
 
-    public void start() throws IOException {
+    public void start() {
         running = true;
         mode = Mode.LISTENING;
         while (running && !isStopped()) {
@@ -26,15 +26,20 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
     }
 
     @Override
-    public void startSending() throws IOException {
-        flush();
-        mode = Mode.LISTENING;
-        sender.send(MessageHelper.createModeMessage(false, 0));
+    public void startSending() {
+        try {
+            flush();
+            mode = Mode.LISTENING;
+            sender.send(MessageHelper.createModeMessage(false, 0));
+        } catch (IOException e) {
+            e.printStackTrace();
+            disconnect();
+        }
     }
 
 
     @Override
-    public void startListening() throws IOException {
+    public void startListening() {
         listenLoop();
     }
 }

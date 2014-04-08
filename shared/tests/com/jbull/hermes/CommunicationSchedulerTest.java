@@ -3,7 +3,6 @@ package com.jbull.hermes;
 import junit.framework.TestCase;
 import org.mockito.InOrder;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -17,7 +16,7 @@ public class CommunicationSchedulerTest extends TestCase {
     public void setUp() throws Exception {
         listener = mock(Listener.class);
         sender = mock(Sender.class);
-        commScheduler = new CommunicationScheduler<String>(sender, listener) {
+        commScheduler = new CommunicationScheduler<String>(sender, listener, null) {
             public void startSending() {mode = Mode.SENDING;}
             public void startListening() {mode = Mode.LISTENING;}
         };
