@@ -209,12 +209,17 @@ public class State {
 
     private void disconnect() {
         System.out.println("Disconnected.");
+        commCenter.setConnectionStatusLabel(false);
         commScheduler.stop();
         try {
             server.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void connected() {
+        commCenter.setConnectionStatusLabel(true);
     }
 
     public void close() throws IOException {

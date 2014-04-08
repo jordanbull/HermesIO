@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="400.0" prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <left><VBox maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
@@ -11,4 +13,17 @@
 </left>
 <center>
     <AnchorPane fx:id="messagingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
-</center></fx:root>
+</center>
+<bottom><HBox BorderPane.alignment="CENTER">
+<children><Label text="Connection Status:" textFill="#016825" HBox.hgrow="NEVER">
+<HBox.margin>
+<Insets left="5.0" right="3.0" />
+</HBox.margin>
+<font>
+<Font name="System Bold" size="13.0" />
+</font></Label><Label fx:id="connectionStatusLabel" maxWidth="1.7976931348623157E308" text="Disconnected" textFill="#016825" HBox.hgrow="ALWAYS">
+<HBox.margin>
+<Insets left="3.0" />
+</HBox.margin></Label>
+</children></HBox>
+</bottom></fx:root>

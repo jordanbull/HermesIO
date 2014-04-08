@@ -2,6 +2,7 @@ package com.jbull.hermes.osx;
 
 import com.aquafx_project.AquaFx;
 import com.aquafx_project.controls.skin.styles.TextFieldType;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ModifiableObservableListBase;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -27,6 +29,10 @@ public class CommunicationCenter extends BorderPane {
     @FXML ListView<ContactView> contactsList;
     @FXML AnchorPane messagingPane;
     @FXML TextField contactSearch;
+    @FXML Label connectionStatusLabel;
+
+    private final String CONECTED = "Connected";
+    private final String DISCONNECTED = "Disconnected";
 
     private State state;
     private TimeSortedContacts timeSortedContacts = new TimeSortedContacts();
@@ -106,6 +112,19 @@ public class CommunicationCenter extends BorderPane {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String fromString, String toString) {
                 searchTyped(toString);
+            }
+        });
+    }
+
+    public void setConnectionStatusLabel(final boolean connected) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (connected) {
+                    connectionStatusLabel.setText(CONECTED);
+                } else {
+                    connectionStatusLabel.setText(DISCONNECTED);
+                }
             }
         });
     }

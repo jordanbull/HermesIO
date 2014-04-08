@@ -21,13 +21,18 @@ public class InstructionHandler implements MessageReactor {
         } else if (type == Message.Header.Type.SMSMESSAGE) {
             executeSMS((Message.SmsMessage) msg);
         } else if (type == Message.Header.Type.SETUPMESSAGE) {
-            System.out.println("received: SetupMessage");
+            executeSetup((Message.SetupMessage) msg);
         } else if (type == Message.Header.Type.CONTACT) {
             executeContact((Message.Contact) msg);
         } else if (type == Message.Header.Type.BATCHCONTACTS) {
             executeBatchContacts((Message.BatchContacts) msg);
         }
         return true;
+    }
+
+    private void executeSetup(Message.SetupMessage msg) {
+        System.out.println("received: SetupMessage");
+        state.connected();
     }
 
     private void executeBatchContacts(Message.BatchContacts msg) {
