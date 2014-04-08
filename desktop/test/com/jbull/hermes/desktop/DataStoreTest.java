@@ -90,7 +90,7 @@ public class DataStoreTest extends TestCase {
         assertEquals(msg3, msgs.get(1).getContent());
         assertEquals(new Long(time3), msgs.get(1).getTimeMillis());
 
-        //orders by timestamp
+        //orders by received
         dataStore.addMessageToConversation(number1, msg2, true, time2);
         convo = dataStore.getConversation(number1);
         assertEquals(number1, convo.getPhoneNumber());
@@ -98,10 +98,10 @@ public class DataStoreTest extends TestCase {
         assertEquals(3, msgs.size());
         assertEquals(msg1, msgs.get(0).getContent());
         assertEquals(new Long(time1), msgs.get(0).getTimeMillis());
-        assertEquals(msg2, msgs.get(1).getContent());
-        assertEquals(new Long(time2), msgs.get(1).getTimeMillis());
-        assertEquals(msg3, msgs.get(2).getContent());
-        assertEquals(new Long(time3), msgs.get(2).getTimeMillis());
+        assertEquals(msg3, msgs.get(1).getContent());
+        assertEquals(new Long(time3), msgs.get(1).getTimeMillis());
+        assertEquals(msg2, msgs.get(2).getContent());
+        assertEquals(new Long(time2), msgs.get(2).getTimeMillis());
     }
 
     public void testMessageDataEquality() throws Exception {

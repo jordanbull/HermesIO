@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class PhoneNumberTest extends TestCase {
 
     public void testFormat() throws Exception {
-        final String proper = "(123) 123-4567";
+        final String proper = "1 (123) 123-4567";
         final String countryCodeProper = "12 (345) 678-9012";
         final String att = "#10";
 
