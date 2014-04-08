@@ -1,5 +1,6 @@
 package com.jbull.hermes;
 
+import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -20,25 +21,25 @@ public abstract class CommunicationScheduler<T> {
     }
 
     /* SENDING CODE */
-    public abstract void startSending();
+    public abstract void startSending() throws IOException;
 
-    public void send(T msg) {
+    public void send(T msg) throws IOException {
         queue.add(msg);
         if (isSending()) {
             flush();
         }
     }
 
-    synchronized public void flush() {
+    synchronized public void flush() throws IOException {
         while (!queue.isEmpty() && isSending()) {
             sender.send(queue.remove());
         }
     }
 
     /* LISTENING CODE */
-    public abstract void startListening();
+    public abstract void startListening() throws IOException;
 
-    synchronized public void listenLoop() {
+    synchronized public void listenLoop() throws IOException {
         while (isListening()) {
             mode = listener.listen();
         }

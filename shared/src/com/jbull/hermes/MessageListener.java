@@ -1,8 +1,8 @@
 package com.jbull.hermes;
 
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MessageListener implements Listener {
@@ -18,7 +18,7 @@ public class MessageListener implements Listener {
     }
 
     @Override
-    public Mode listen() {
+    public Mode listen() throws IOException {
         Connection.ReceiveResponse response = conn.receive(MessageHelper.HEADER_LENGTH, headerParser, numRetries);
         checkAndHandleErrors(response, "Error receiving header. No exception thrown");
         try {
@@ -34,11 +34,14 @@ public class MessageListener implements Listener {
         }
     }
 
-    private void checkAndHandleErrors(final Connection.ReceiveResponse response, final String noExcptionString) {
+    private void checkAndHandleErrors(final Connection.ReceiveResponse response, final String noExcptionString) throws IOException {
         if (!response.isSuccess()) {
             ArrayList<Exception> exceptions = response.getExceptions();
             if (exceptions.size() > 0) {
-                throw new RuntimeException(exceptions.get(exceptions.size()-1));
+                Exception e = exceptions.get(exceptions.size()-1);
+                if (e instanceof IOException)
+                    throw (IOException) e;
+                throw new RuntimeException(e);
             }
             throw new RuntimeException(noExcptionString);
         }

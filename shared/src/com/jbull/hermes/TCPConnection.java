@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import static com.jbull.hermes.Message.Ack;
 
 public abstract class TCPConnection extends Connection {
 
     protected abstract Socket openSocket() throws IOException;
+
+    public abstract void setTimeout(int timeoutMillis) throws SocketException;
 
     public synchronized SendResponse send(byte[] data, int msgNum, int numRetries) {
         try {

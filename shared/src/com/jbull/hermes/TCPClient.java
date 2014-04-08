@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class TCPClient extends TCPConnection {
 
-    private final int timeoutMillis;
+    private int timeoutMillis;
     private final InetSocketAddress addr;
     private String host;
     private int port;
@@ -23,7 +23,11 @@ public class TCPClient extends TCPConnection {
     protected Socket openSocket() throws IOException {
         Socket s = new Socket(host, port);
         s.setSoTimeout(timeoutMillis);
-        //s.connect(addr, timeoutMillis);
         return s;
+    }
+
+    @Override
+    public void setTimeout(int timeoutMillis) {
+        this.timeoutMillis = timeoutMillis;
     }
 }
