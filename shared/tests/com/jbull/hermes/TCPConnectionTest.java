@@ -17,13 +17,15 @@ public class TCPConnectionTest extends TestCase {
     private static final String HOST = "localhost";
     private static final int DATA_LENGTH = 20000;
     private static final int NUM_RETRIES = 0;
+    private static final int LONG_TIMEOUT = 9000000;
+    private static final int SHORT_TIMEOUT = 1;
     private TCPServer server;
     private TCPClient client;
     private byte[] largeData;
 
     public void setUp() throws Exception {
-        server = new TCPServer(PORT);
-        client = new TCPClient(HOST, PORT);
+        server = new TCPServer(PORT, LONG_TIMEOUT);
+        client = new TCPClient(HOST, PORT, LONG_TIMEOUT);
         largeData = new byte[DATA_LENGTH];
         new Random().nextBytes(largeData);
     }

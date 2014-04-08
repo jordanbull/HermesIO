@@ -10,11 +10,14 @@ import java.net.Socket;
 public class TCPServer extends TCPConnection {
 
     private final ServerSocket server;
+    private final int timeoutMillis;
     private int port;
 
-    public TCPServer(int port) throws IOException {
+    public TCPServer(int port, int timeoutMillis) throws IOException {
         this.port = port;
+        this.timeoutMillis = timeoutMillis;
         server = new ServerSocket(port);
+        server.setSoTimeout(timeoutMillis);
     }
 
     @Override

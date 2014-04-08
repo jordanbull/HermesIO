@@ -38,6 +38,6 @@ public class MessageSenderTest extends TestCase {
         sender.send(setupMessage);
         InOrder inOrder = inOrder(conn);
         inOrder.verify(conn).send(MessageHelper.createHeader(setupMessage, msgNum1).toByteArray(), msgNum1, numRetries);
-        inOrder.verify(conn).send(setupMessage.toByteArray(), numRetries);
+        inOrder.verify(conn).send(MessageHelper.returnWithMsgNum(Message.Header.Type.SETUPMESSAGE, setupMessage, msgNum1).toByteArray(), msgNum1, numRetries);
     }
 }

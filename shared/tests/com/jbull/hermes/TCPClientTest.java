@@ -17,13 +17,15 @@ import static org.mockito.Mockito.*;
 public class TCPClientTest extends TestCase {
     static final int PORT = 8888;
     static final String HOST = "localhost";
+    private static final int LONG_TIMEOUT = 9000000;
+    private static final int SHORT_TIMEOUT = 1;
     private Connection client;
     private ServerSocket server;
     private byte[] data1;
     private byte[] data2;
 
     public void setUp() throws Exception {
-        client = new TCPClient(HOST, PORT);
+        client = new TCPClient(HOST, PORT, LONG_TIMEOUT);
         server = new ServerSocket(PORT);
         data1 = new byte[]{1,2,3,4,5};
         data2 = new byte[]{4,3,2,1};
@@ -244,6 +246,15 @@ public class TCPClientTest extends TestCase {
         assertEquals(msgNum, receiveResponses[0].getMsgNum());
     }
 
+    public void testTimeout() throws Exception {
+        TCPClient client = new TCPClient(HOST, PORT, SHORT_TIMEOUT);
+        Connection.ReceiveResponse resp = client.receive(1000, mock(Connection.MsgNumParser.class), 0);
+        assertTrue(resp.getExceptions().get(0) instanceof IOException);
+
+        Connection.SendResponse sendResp = client.send(data1, 0, 0);
+        assertTrue(sendResp.getExceptions().get(0) instanceof IOException);
+    }
+
     /*
      returns the msg number received from the ack
      */
@@ -261,5 +272,6 @@ public class TCPClientTest extends TestCase {
         s.close();
         return MessageHelper.readNumFromSerializedAck(buffer);
     }
+
 
 }

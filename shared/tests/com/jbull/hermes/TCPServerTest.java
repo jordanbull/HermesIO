@@ -16,12 +16,14 @@ import static org.mockito.Mockito.*;
 public class TCPServerTest extends TestCase {
     static final int PORT = 8888;
     static final String HOST = "localhost";
+    private static final int LONG_TIMEOUT = 9000000;
+    private static final int SHORT_TIMEOUT = 1;
     private TCPServer server;
     private byte[] data1;
     private byte[] data2;
 
     public void setUp() throws Exception {
-        server = new TCPServer(PORT);
+        server = new TCPServer(PORT, LONG_TIMEOUT);
         data1 = new byte[]{1,2,3,4,5};
         data2 = new byte[]{4,3,2,1};
     }
@@ -239,6 +241,17 @@ public class TCPServerTest extends TestCase {
         assertTrue(receiveResponses[0].getExceptions().isEmpty());
         Assert.assertArrayEquals(largeArray, receiveResponses[0].getData());
         assertEquals(msgNum, receiveResponses[0].getMsgNum());
+    }
+
+    public void testTimeout() throws Exception {
+        server.close();
+        TCPServer s = new TCPServer(PORT, SHORT_TIMEOUT);
+        Connection.ReceiveResponse resp = s.receive(1000, mock(Connection.MsgNumParser.class), 0);
+        assertTrue(resp.getExceptions().get(0) instanceof IOException);
+
+        Connection.SendResponse sendResp = s.send(data1, 0, 0);
+        assertTrue(sendResp.getExceptions().get(0) instanceof IOException);
+        s.close();
     }
 
     /*
