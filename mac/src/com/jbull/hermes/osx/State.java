@@ -222,7 +222,7 @@ public class State {
 
     public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
-        timeoutMillis = 2*sendPeriod;
+        timeoutMillis = 3*sendPeriod;
         try {
             server.setTimeout(timeoutMillis);
         } catch (SocketException e) {
