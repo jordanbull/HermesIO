@@ -36,8 +36,7 @@ public class InstructionHandler implements MessageReactor {
             return true;
         }
         // TODO: should not reach this point. exception?
-        assert false;
-        return false;
+        throw new RuntimeException("Should not reach this point");
     }
 
     public void sendSms(Message.SmsMessage sms) {
