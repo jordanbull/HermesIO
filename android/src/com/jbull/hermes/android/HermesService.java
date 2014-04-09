@@ -17,12 +17,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
-    private String ip;
     private final int PORT = 8888;
     private final int SEND_PERIOD = 2000;
     private final int numRetries = 0;
     private final int TIMEOUT_MILLIS = 5000;
-    private Intent intent;
     private SendFavoredCommunicationScheduler commManager;
 
     private final IBinder mBinder = new LocalBinder();
@@ -34,14 +32,11 @@ public class HermesService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         registerReceiver(onBroadcast, new IntentFilter(LISTENING_ACTION));
-        Log.w("jMessage", "Starting Service");
         int i = super.onStartCommand(intent, flags, startId);
-        this.intent = intent;
-        try {
-            ip = intent.getStringExtra("ip");
-        } catch (Exception e) {
+        return i;
+    }
 
-        }
+    public void connect(String ip) {
         Connection connection = new TCPClient(ip, PORT, TIMEOUT_MILLIS);
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(connection, handler, numRetries);
@@ -57,7 +52,6 @@ public class HermesService extends Service {
         connectedIntent.putExtra("connected", true);
         connected = true;
         getApplicationContext().sendBroadcast(connectedIntent);
-        Log.w("jMessage", "sending setup");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -65,10 +59,9 @@ public class HermesService extends Service {
                 commManager.start();
             }
         }).start();
-        Log.w("jMessage", "setup sent");
+        Log.w("Hermes", "setup sent");
         smsBroadcastReceiver = new SmsBroadcastReceiver(commManager);
         registerReceiver(smsBroadcastReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
-        return i;
     }
 
     public void disconnect() {
@@ -78,6 +71,7 @@ public class HermesService extends Service {
         Intent connectedIntent = new Intent("com.jbull.hermes");
         connectedIntent.putExtra("connected", false);
         getApplicationContext().sendBroadcast(connectedIntent);
+        unregisterReceiver(smsBroadcastReceiver);
     }
 
     public boolean isConnected() {
@@ -114,6 +108,7 @@ public class HermesService extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    if (commManager != null && !commManager.isStopped())
                     commManager.startListening();
                 }
             }).start();

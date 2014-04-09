@@ -34,13 +34,15 @@ public class HermesActivity extends Activity {
         sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String ip = sharedPref.getString(getString(R.string.ip), "");
         ipInput.setText(ip);
+        final Intent intent = new Intent(this, HermesService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        startService(intent);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         registerReceiver(onBroadcast, new IntentFilter("com.jbull.hermes"));
-        Log.w("Hermes", Boolean.toString(mService == null));
         // update any connection changes that were missed while paused
         if (mService != null)
             setConnected(mService.isConnected());
@@ -53,19 +55,14 @@ public class HermesActivity extends Activity {
     }
 
     public void connectAndSetup(View view) {
-        final Intent intent = new Intent(this, HermesService.class);
         final String ip = (ipInput).getText().toString();
-        //final String ip = "192.168.1.129";
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.ip), ip);
         editor.commit();
-        intent.putExtra("ip", ip);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-                startService(intent);
-                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                mService.connect(ip);
             }
         }).start();
     }
