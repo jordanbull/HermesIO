@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
+            android:hint="@string/enter_ip"
             android:id="@+id/ipConnectField"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -43,6 +44,7 @@
                 android:layout_alignRight="@id/textView2"
                 android:layout_alignParentRight="true"/>
     </LinearLayout>
+
 
 
 </RelativeLayout>
