@@ -21,27 +21,37 @@ public final class Message {
      */
     int getMsgNum();
 
-    // optional int32 version = 2 [default = 1];
+    // required int32 sendPeriod = 2;
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>required int32 sendPeriod = 2;</code>
+     */
+    boolean hasSendPeriod();
+    /**
+     * <code>required int32 sendPeriod = 2;</code>
+     */
+    int getSendPeriod();
+
+    // optional int32 version = 3 [default = 1];
+    /**
+     * <code>optional int32 version = 3 [default = 1];</code>
      */
     boolean hasVersion();
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>optional int32 version = 3 [default = 1];</code>
      */
     int getVersion();
 
-    // optional string applicationName = 3 [default = "HermesIO"];
+    // optional string applicationName = 4 [default = "HermesIO"];
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     boolean hasApplicationName();
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     java.lang.String getApplicationName();
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     com.google.protobuf.ByteString
         getApplicationNameBytes();
@@ -108,11 +118,16 @@ public final class Message {
             }
             case 16: {
               bitField0_ |= 0x00000002;
+              sendPeriod_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
               version_ = input.readInt32();
               break;
             }
-            case 26: {
-              bitField0_ |= 0x00000004;
+            case 34: {
+              bitField0_ |= 0x00000008;
               applicationName_ = input.readBytes();
               break;
             }
@@ -172,33 +187,49 @@ public final class Message {
       return msgNum_;
     }
 
-    // optional int32 version = 2 [default = 1];
-    public static final int VERSION_FIELD_NUMBER = 2;
-    private int version_;
+    // required int32 sendPeriod = 2;
+    public static final int SENDPERIOD_FIELD_NUMBER = 2;
+    private int sendPeriod_;
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>required int32 sendPeriod = 2;</code>
      */
-    public boolean hasVersion() {
+    public boolean hasSendPeriod() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>required int32 sendPeriod = 2;</code>
+     */
+    public int getSendPeriod() {
+      return sendPeriod_;
+    }
+
+    // optional int32 version = 3 [default = 1];
+    public static final int VERSION_FIELD_NUMBER = 3;
+    private int version_;
+    /**
+     * <code>optional int32 version = 3 [default = 1];</code>
+     */
+    public boolean hasVersion() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 version = 3 [default = 1];</code>
      */
     public int getVersion() {
       return version_;
     }
 
-    // optional string applicationName = 3 [default = "HermesIO"];
-    public static final int APPLICATIONNAME_FIELD_NUMBER = 3;
+    // optional string applicationName = 4 [default = "HermesIO"];
+    public static final int APPLICATIONNAME_FIELD_NUMBER = 4;
     private java.lang.Object applicationName_;
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     public boolean hasApplicationName() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     public java.lang.String getApplicationName() {
       java.lang.Object ref = applicationName_;
@@ -215,7 +246,7 @@ public final class Message {
       }
     }
     /**
-     * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+     * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
      */
     public com.google.protobuf.ByteString
         getApplicationNameBytes() {
@@ -233,6 +264,7 @@ public final class Message {
 
     private void initFields() {
       msgNum_ = 0;
+      sendPeriod_ = 0;
       version_ = 1;
       applicationName_ = "HermesIO";
     }
@@ -242,6 +274,10 @@ public final class Message {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMsgNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSendPeriod()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -256,10 +292,13 @@ public final class Message {
         output.writeInt32(1, msgNum_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, version_);
+        output.writeInt32(2, sendPeriod_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getApplicationNameBytes());
+        output.writeInt32(3, version_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getApplicationNameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -276,11 +315,15 @@ public final class Message {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, version_);
+          .computeInt32Size(2, sendPeriod_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getApplicationNameBytes());
+          .computeInt32Size(3, version_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getApplicationNameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -404,10 +447,12 @@ public final class Message {
         super.clear();
         msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        version_ = 1;
+        sendPeriod_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        applicationName_ = "HermesIO";
+        version_ = 1;
         bitField0_ = (bitField0_ & ~0x00000004);
+        applicationName_ = "HermesIO";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -443,9 +488,13 @@ public final class Message {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.version_ = version_;
+        result.sendPeriod_ = sendPeriod_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.version_ = version_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.applicationName_ = applicationName_;
         result.bitField0_ = to_bitField0_;
@@ -467,11 +516,14 @@ public final class Message {
         if (other.hasMsgNum()) {
           setMsgNum(other.getMsgNum());
         }
+        if (other.hasSendPeriod()) {
+          setSendPeriod(other.getSendPeriod());
+        }
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
         if (other.hasApplicationName()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           applicationName_ = other.applicationName_;
           onChanged();
         }
@@ -481,6 +533,10 @@ public final class Message {
 
       public final boolean isInitialized() {
         if (!hasMsgNum()) {
+          
+          return false;
+        }
+        if (!hasSendPeriod()) {
           
           return false;
         }
@@ -539,49 +595,82 @@ public final class Message {
         return this;
       }
 
-      // optional int32 version = 2 [default = 1];
-      private int version_ = 1;
+      // required int32 sendPeriod = 2;
+      private int sendPeriod_ ;
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>required int32 sendPeriod = 2;</code>
        */
-      public boolean hasVersion() {
+      public boolean hasSendPeriod() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>required int32 sendPeriod = 2;</code>
+       */
+      public int getSendPeriod() {
+        return sendPeriod_;
+      }
+      /**
+       * <code>required int32 sendPeriod = 2;</code>
+       */
+      public Builder setSendPeriod(int value) {
+        bitField0_ |= 0x00000002;
+        sendPeriod_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 sendPeriod = 2;</code>
+       */
+      public Builder clearSendPeriod() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sendPeriod_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 version = 3 [default = 1];
+      private int version_ = 1;
+      /**
+       * <code>optional int32 version = 3 [default = 1];</code>
+       */
+      public boolean hasVersion() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 version = 3 [default = 1];</code>
        */
       public int getVersion() {
         return version_;
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 3 [default = 1];</code>
        */
       public Builder setVersion(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         version_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 3 [default = 1];</code>
        */
       public Builder clearVersion() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         version_ = 1;
         onChanged();
         return this;
       }
 
-      // optional string applicationName = 3 [default = "HermesIO"];
+      // optional string applicationName = 4 [default = "HermesIO"];
       private java.lang.Object applicationName_ = "HermesIO";
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public boolean hasApplicationName() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public java.lang.String getApplicationName() {
         java.lang.Object ref = applicationName_;
@@ -595,7 +684,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public com.google.protobuf.ByteString
           getApplicationNameBytes() {
@@ -611,36 +700,36 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public Builder setApplicationName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         applicationName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public Builder clearApplicationName() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         applicationName_ = getDefaultInstance().getApplicationName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string applicationName = 3 [default = "HermesIO"];</code>
+       * <code>optional string applicationName = 4 [default = "HermesIO"];</code>
        */
       public Builder setApplicationNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         applicationName_ = value;
         onChanged();
         return this;
@@ -5832,25 +5921,25 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\"U\n\014SetupMessage\022\016\n\006msgNu" +
-      "m\030\001 \002(\005\022\022\n\007version\030\002 \001(\005:\0011\022!\n\017applicati" +
-      "onName\030\003 \001(\t:\010HermesIO\"\215\001\n\nSmsMessage\022\016\n" +
-      "\006msgNum\030\001 \002(\005\022\021\n\ttimeStamp\030\002 \002(\003\022\030\n\006send" +
-      "er\030\003 \002(\0132\010.Contact\022\017\n\007content\030\004 \002(\t\022\033\n\tr" +
-      "ecipents\030\005 \003(\0132\010.Contact\022\024\n\006notify\030\006 \001(\010" +
-      ":\004true\"K\n\007Contact\022\016\n\006msgNum\030\001 \002(\005\022\023\n\013pho" +
-      "neNumber\030\002 \002(\t\022\014\n\004name\030\003 \001(\t\022\r\n\005image\030\004 " +
-      "\001(\014\";\n\rBatchContacts\022\016\n\006msgNum\030\001 \002(\005\022\032\n\010" +
-      "contacts\030\002 \003(\0132\010.Contact\"X\n\004Mode\022\016\n\006msgN",
-      "um\030\001 \002(\005\022\022\n\nlastUpdate\030\002 \002(\003\022\030\n\020currentT" +
-      "imestamp\030\003 \002(\003\022\022\n\nserverSend\030\004 \002(\010\"\036\n\014Sy" +
-      "ncContacts\022\016\n\006msgNum\030\001 \002(\005\"\252\001\n\006Header\022\016\n" +
-      "\006msgNum\030\001 \002(\007\022\016\n\006length\030\002 \002(\007\022\032\n\004type\030\003 " +
-      "\002(\0162\014.Header.Type\"d\n\004Type\022\020\n\014SETUPMESSAG" +
-      "E\020\000\022\016\n\nSMSMESSAGE\020\001\022\013\n\007CONTACT\020\002\022\010\n\004MODE" +
-      "\020\003\022\020\n\014SYNCCONTACTS\020\004\022\021\n\rBATCHCONTACTS\020\005\"" +
-      "\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\005B\022\n\020com.jbull.herm" +
-      "es"
+      "\n\rmessage.proto\"i\n\014SetupMessage\022\016\n\006msgNu" +
+      "m\030\001 \002(\005\022\022\n\nsendPeriod\030\002 \002(\005\022\022\n\007version\030\003" +
+      " \001(\005:\0011\022!\n\017applicationName\030\004 \001(\t:\010Hermes" +
+      "IO\"\215\001\n\nSmsMessage\022\016\n\006msgNum\030\001 \002(\005\022\021\n\ttim" +
+      "eStamp\030\002 \002(\003\022\030\n\006sender\030\003 \002(\0132\010.Contact\022\017" +
+      "\n\007content\030\004 \002(\t\022\033\n\trecipents\030\005 \003(\0132\010.Con" +
+      "tact\022\024\n\006notify\030\006 \001(\010:\004true\"K\n\007Contact\022\016\n" +
+      "\006msgNum\030\001 \002(\005\022\023\n\013phoneNumber\030\002 \002(\t\022\014\n\004na" +
+      "me\030\003 \001(\t\022\r\n\005image\030\004 \001(\014\";\n\rBatchContacts" +
+      "\022\016\n\006msgNum\030\001 \002(\005\022\032\n\010contacts\030\002 \003(\0132\010.Con",
+      "tact\"X\n\004Mode\022\016\n\006msgNum\030\001 \002(\005\022\022\n\nlastUpda" +
+      "te\030\002 \002(\003\022\030\n\020currentTimestamp\030\003 \002(\003\022\022\n\nse" +
+      "rverSend\030\004 \002(\010\"\036\n\014SyncContacts\022\016\n\006msgNum" +
+      "\030\001 \002(\005\"\252\001\n\006Header\022\016\n\006msgNum\030\001 \002(\007\022\016\n\006len" +
+      "gth\030\002 \002(\007\022\032\n\004type\030\003 \002(\0162\014.Header.Type\"d\n" +
+      "\004Type\022\020\n\014SETUPMESSAGE\020\000\022\016\n\nSMSMESSAGE\020\001\022" +
+      "\013\n\007CONTACT\020\002\022\010\n\004MODE\020\003\022\020\n\014SYNCCONTACTS\020\004" +
+      "\022\021\n\rBATCHCONTACTS\020\005\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002" +
+      "(\005B\022\n\020com.jbull.hermes"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5862,7 +5951,7 @@ public final class Message {
           internal_static_SetupMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SetupMessage_descriptor,
-              new java.lang.String[] { "MsgNum", "Version", "ApplicationName", });
+              new java.lang.String[] { "MsgNum", "SendPeriod", "Version", "ApplicationName", });
           internal_static_SmsMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_SmsMessage_fieldAccessorTable = new

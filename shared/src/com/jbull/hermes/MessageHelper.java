@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class MessageHelper {
     // auto-detect the length of a header
-    public static final int HEADER_LENGTH = createHeader(createSetupMessage(), 1).getSerializedSize();
+    public static final int HEADER_LENGTH = createHeader(createSetupMessage(0), 1).getSerializedSize();
 
-    public static Message.SetupMessage createSetupMessage() {
-        return Message.SetupMessage.getDefaultInstance();
+    public static Message.SetupMessage createSetupMessage(int sendPeriod) {
+        return Message.SetupMessage.getDefaultInstance().toBuilder().setSendPeriod(sendPeriod).buildPartial();
     }
 
     public static Message.SmsMessage createSmsMessage(Message.Contact sender, String content, long timeMs, ArrayList<Message.Contact> recipents, boolean notify) {

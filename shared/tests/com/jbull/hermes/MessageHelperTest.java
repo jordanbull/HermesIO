@@ -18,7 +18,7 @@ public class MessageHelperTest extends TestCase {
     }
 
     public void testSetupMessage() throws Exception {
-        Message.SetupMessage msg = MessageHelper.createSetupMessage();
+        Message.SetupMessage msg = MessageHelper.createSetupMessage(0);
         msg = (Message.SetupMessage) MessageHelper.returnWithMsgNum(Message.Header.Type.SETUPMESSAGE, msg, msgNum);
         Message.Header header = MessageHelper.createHeader(msg, msgNum);
         assertEquals(msgNum, msg.getMsgNum());

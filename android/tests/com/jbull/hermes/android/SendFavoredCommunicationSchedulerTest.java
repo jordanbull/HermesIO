@@ -29,7 +29,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         };
         sendWindow = -1;
         commScheduler = new SendFavoredCommunicationScheduler(sender, listener, startListen, null, sendWindow);
-        msg = MessageHelper.createSetupMessage();
+        msg = MessageHelper.createSetupMessage(0);
     }
 
     public void testStart() throws Exception {

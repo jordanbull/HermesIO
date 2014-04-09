@@ -254,6 +254,18 @@ public class TCPServerTest extends TestCase {
         s.close();
     }
 
+    public void testSetTimeout() throws Exception {
+        server.close();
+        TCPServer s = new TCPServer(PORT, 0);
+        s.setTimeout(SHORT_TIMEOUT);
+        Connection.ReceiveResponse resp = s.receive(1000, mock(Connection.MsgNumParser.class), 0);
+        assertTrue(resp.getExceptions().get(0) instanceof IOException);
+
+        Connection.SendResponse sendResp = s.send(data1, 0, 0);
+        assertTrue(sendResp.getExceptions().get(0) instanceof IOException);
+        s.close();
+    }
+
     /*
      returns the msg number received from the ack
      */

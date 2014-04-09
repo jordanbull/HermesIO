@@ -31,7 +31,7 @@ public class MessageSenderTest extends TestCase {
         when(conn.send(Mockito.any(byte[].class), anyInt(), anyInt())).thenReturn(sendResponse);
         when(conn.send(Mockito.any(byte[].class), anyInt())).thenReturn(sendResponse);
         sender = new MessageSender(conn, numRetries);
-        setupMessage = MessageHelper.createSetupMessage();
+        setupMessage = MessageHelper.createSetupMessage(0);
     }
 
     public void testSend() throws Exception {

@@ -32,7 +32,7 @@ public class InstructionHandler implements MessageReactor {
 
     private void executeSetup(Message.SetupMessage msg) {
         System.out.println("received: SetupMessage");
-        state.connected();
+        state.connected(msg.getSendPeriod());
     }
 
     private void executeBatchContacts(Message.BatchContacts msg) {

@@ -61,7 +61,7 @@ public class HermesService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                commManager.send(MessageHelper.createSetupMessage());
+                commManager.send(MessageHelper.createSetupMessage(SEND_PERIOD));
                 commManager.start();
             }
         }).start();

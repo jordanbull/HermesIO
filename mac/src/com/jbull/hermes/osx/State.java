@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
 import java.io.*;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -218,8 +219,14 @@ public class State {
         }
     }
 
-    public void connected() {
+    public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
+        timeoutMillis = 2*sendPeriod;
+        try {
+            server.setTimeout(timeoutMillis);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() throws IOException {
