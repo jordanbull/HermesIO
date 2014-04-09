@@ -19,6 +19,7 @@ public class HermesActivity extends Activity {
     TextView connectionStatusLabel;
     Button connectButton;
     EditText ipInput;
+    private SharedPreferences sharedPref;
 
     /**
      * Called when the activity is first created.
@@ -30,6 +31,9 @@ public class HermesActivity extends Activity {
         connectionStatusLabel = (TextView) findViewById(R.id.connectionStatusLabel);
         connectButton = (Button) findViewById(R.id.connectButton);
         ipInput = (EditText) findViewById(R.id.ipConnectField);
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String ip = sharedPref.getString(getString(R.string.ip), "");
+        ipInput.setText(ip);
     }
 
     @Override
@@ -50,8 +54,11 @@ public class HermesActivity extends Activity {
 
     public void connectAndSetup(View view) {
         final Intent intent = new Intent(this, HermesService.class);
-        //final String ip = (ipInput).getText().toString();
-        final String ip = "192.168.1.129";
+        final String ip = (ipInput).getText().toString();
+        //final String ip = "192.168.1.129";
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.ip), ip);
+        editor.commit();
         intent.putExtra("ip", ip);
 
         new Thread(new Runnable() {
