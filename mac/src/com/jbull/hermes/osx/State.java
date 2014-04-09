@@ -215,9 +215,12 @@ public class State {
         commScheduler.stop();
         try {
             server.close();
+            timeoutMillis = 0;
+            commScheduler = initCommunication();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void connected(int sendPeriod) {
