@@ -14,14 +14,14 @@
 <center>
     <AnchorPane fx:id="messagingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
 </center>
-<bottom><HBox BorderPane.alignment="CENTER">
-<children><Label text="Connection Status:" textFill="#016825" HBox.hgrow="NEVER">
+<bottom><HBox style="-fx-background-color: linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%);" BorderPane.alignment="CENTER">
+<children><Label text="Connection Status:" textFill="#00d045" HBox.hgrow="NEVER">
 <HBox.margin>
 <Insets left="5.0" right="3.0" />
 </HBox.margin>
 <font>
 <Font name="System Bold" size="13.0" />
-</font></Label><Label fx:id="connectionStatusLabel" maxWidth="1.7976931348623157E308" text="Disconnected" textFill="#016825" HBox.hgrow="ALWAYS">
+</font></Label><Label fx:id="connectionStatusLabel" maxWidth="1.7976931348623157E308" text="Disconnected" textFill="#00d045" HBox.hgrow="ALWAYS">
 <HBox.margin>
 <Insets left="3.0" />
 </HBox.margin></Label>
