@@ -33,6 +33,10 @@ public class HermesActivity extends Activity {
     public void onResume() {
         super.onResume();
         registerReceiver(onBroadcast, new IntentFilter("com.jbull.hermes"));
+        Log.w("Hermes", Boolean.toString(mService == null));
+        // update any connection changes that were missed while paused
+        if (mService != null)
+            setConnected(mService.isConnected());
     }
 
     @Override
@@ -46,11 +50,12 @@ public class HermesActivity extends Activity {
         //final String ip = ((EditText) findViewById(R.id.ipConnectField)).getText().toString();
         final String ip = "192.168.1.129";
         intent.putExtra("ip", ip);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                    startService(intent);
+                startService(intent);
+                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             }
         }).start();
     }

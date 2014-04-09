@@ -8,9 +8,6 @@ import android.os.IBinder;
 import android.util.Log;
 import com.jbull.hermes.*;
 
-/**
- * Created by jordan on 3/13/14.
- */
 public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private String ip;
@@ -22,6 +19,7 @@ public class HermesService extends Service {
     private SendFavoredCommunicationScheduler commManager;
 
     private final IBinder mBinder = new LocalBinder();
+    private boolean connected = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -42,6 +40,7 @@ public class HermesService extends Service {
         handler.setCommunicationScheduler(commManager);
         Intent connectedIntent = new Intent("com.jbull.hermes");
         connectedIntent.putExtra("connected", true);
+        connected = true;
         getApplicationContext().sendBroadcast(connectedIntent);
         Log.w("jMessage", "sending setup");
         new Thread(new Runnable() {
@@ -58,11 +57,16 @@ public class HermesService extends Service {
     }
 
     public void disconnect() {
+        connected = false;
         Log.w("HermesIO", "Disconnected");
         commManager.stop();
         Intent connectedIntent = new Intent("com.jbull.hermes");
         connectedIntent.putExtra("connected", false);
         getApplicationContext().sendBroadcast(connectedIntent);
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 
     public IBinder onBind(Intent intent) {
