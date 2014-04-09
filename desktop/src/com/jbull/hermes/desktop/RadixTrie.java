@@ -31,6 +31,10 @@ public class RadixTrie {
         insertContact(fullName, root, contact);
         if (!fullName.equals(number.toLowerCase()))
             insertContact(number, root, contact);
+            number = number.replaceAll("[\\(\\)\\-\\s]", "");
+            insertContact(number, root, contact);
+            if (number.length() > 10)
+                insertContact(number.substring(number.length() - 10), root, contact);
         if (words.length > 1)
             for (String word : words) {
                 insertContact(word, root, contact);
