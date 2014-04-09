@@ -32,8 +32,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.w("jMessage", "message received");
+    public void onReceive(final Context context, Intent intent) {
         this.context = context;
         final Bundle bundle = intent.getExtras();
         try {
@@ -44,19 +43,24 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                         final Object[] pdusObj = (Object[]) bundle.get("pdus");
                         for (int i = 0; i < pdusObj.length; i++) {
                             SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-                            final Message.Contact sender = getContactByNumber(currentMessage.getDisplayOriginatingAddress());
+                            final Message.Contact sender = getContactByNumber(currentMessage.getOriginatingAddress());
                             final String message = currentMessage.getDisplayMessageBody();
                             final long timeMs = currentMessage.getTimestampMillis();
-                            Log.w("jMessage", "handling sms");
                             Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>(), true);
                             commScheduler.send(msg);
-                            Log.w("jMessage", "sms handled");
+                            Log.w("Hermes", "sms sent");
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            SmsHelper.markSmsRead(context, SmsHelper.getSmsId(context, timeMs, currentMessage.getOriginatingAddress()));
                         }
                     }
                 }).start();
             }
         } catch (Exception e) {
-            Log.e("jMessage", "Exception smsReceiver" , e);
+            Log.e("Hermes", "Exception smsReceiver" , e);
         }
     }
 
@@ -94,4 +98,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
         cur.close();
         return MessageHelper.createContact(name, phoneNumber, imageData, null);
     }
+
+
 }
