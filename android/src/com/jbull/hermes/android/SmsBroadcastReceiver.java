@@ -41,21 +41,23 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     @Override
                     public void run() {
                         final Object[] pdusObj = (Object[]) bundle.get("pdus");
+                        String body = "";
+                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[0]);
+                        final Message.Contact sender = getContactByNumber(currentMessage.getOriginatingAddress());
+                        final long timeMs = currentMessage.getTimestampMillis();
                         for (int i = 0; i < pdusObj.length; i++) {
-                            SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-                            final Message.Contact sender = getContactByNumber(currentMessage.getOriginatingAddress());
-                            final String message = currentMessage.getDisplayMessageBody();
-                            final long timeMs = currentMessage.getTimestampMillis();
-                            Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, message, timeMs, new ArrayList<Message.Contact>(), true);
-                            commScheduler.send(msg);
-                            Log.w("Hermes", "sms sent");
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            SmsHelper.markSmsRead(context, SmsHelper.getSmsId(context, timeMs, currentMessage.getOriginatingAddress()));
+                            currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                            body += currentMessage.getDisplayMessageBody();
                         }
+                        Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, body, timeMs, new ArrayList<Message.Contact>(), true);
+                        commScheduler.send(msg);
+                        Log.w("Hermes", "sms sent");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        SmsHelper.markSmsRead(context, SmsHelper.getSmsId(context, timeMs, currentMessage.getOriginatingAddress()));
                     }
                 }).start();
             }
