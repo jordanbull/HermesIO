@@ -4,9 +4,9 @@
               android:layout_height="fill_parent"
         >
     <Button
-            android:layout_width="100dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="Connect"
+            android:text="@string/Connect"
             android:id="@+id/connectButton"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

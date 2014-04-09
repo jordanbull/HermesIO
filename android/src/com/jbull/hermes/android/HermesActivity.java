@@ -20,6 +20,7 @@ public class HermesActivity extends Activity {
     Button connectButton;
     EditText ipInput;
     private SharedPreferences sharedPref;
+    private boolean connected;
 
     /**
      * Called when the activity is first created.
@@ -55,25 +56,35 @@ public class HermesActivity extends Activity {
     }
 
     public void connectAndSetup(View view) {
-        final String ip = (ipInput).getText().toString();
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.ip), ip);
-        editor.commit();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mService.connect(ip);
-            }
-        }).start();
+        if (connected) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mService.disconnect();
+                }
+            }).start();
+        } else {
+            final String ip = (ipInput).getText().toString();
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.ip), ip);
+            editor.commit();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mService.connect(ip);
+                }
+            }).start();
+        }
     }
 
     public void setConnected(boolean connected) {
+        this.connected = connected;
         if (connected) {
-            connectButton.setEnabled(false);
+            connectButton.setText(getString(R.string.Disconnect));
             connectionStatusLabel.setText(CONNECTED);
             ipInput.setEnabled(false);
         } else {
-            connectButton.setEnabled(true);
+            connectButton.setText(getString(R.string.Connect));
             connectionStatusLabel.setText(DISCONNECTED);
             ipInput.setEnabled(true);
         }

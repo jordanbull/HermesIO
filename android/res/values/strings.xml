@@ -4,4 +4,6 @@
     <string name="preference_file_key">com.jbull.hermes.PREFERENCE_FILE_KEY</string>
     <string name="ip">ip</string>
     <string name="enter_ip">Enter IP address</string>
+    <string name="Connect">Connect</string>
+    <string name="Disconnect">Disconnect</string>
 </resources>
