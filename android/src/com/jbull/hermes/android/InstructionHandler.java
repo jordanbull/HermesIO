@@ -58,7 +58,12 @@ public class InstructionHandler implements MessageReactor {
     }
 
     public void sendAllContacts() {
-        commScheduler.send(MessageHelper.createBatchContacts(Contacts.getContacts(context)));
-
+        //do in background
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                commScheduler.send(MessageHelper.createBatchContacts(Contacts.getContacts(context)));
+            }
+        }).start();
     }
 }
