@@ -9,6 +9,8 @@ import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
 import com.jbull.hermes.MessageReactor;
 
+import java.util.ArrayList;
+
 /**
  * The InstructionHandler is given messages sent from the server and handles them on the client side
  */
@@ -41,8 +43,9 @@ public class InstructionHandler implements MessageReactor {
 
     public void sendSms(Message.SmsMessage sms) {
         SmsManager smsManager = SmsManager.getDefault();
+        ArrayList<String> msgParts = smsManager.divideMessage(sms.getContent());
         for (Message.Contact recipent : sms.getRecipentsList()) {
-            smsManager.sendTextMessage(recipent.getPhoneNumber(), null, sms.getContent(), null, null);
+            smsManager.sendMultipartTextMessage(recipent.getPhoneNumber(), null, msgParts, null, null);
             ContentValues values = new ContentValues();
             values.put("address", recipent.getPhoneNumber());
             values.put("body", sms.getContent());
