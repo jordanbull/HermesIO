@@ -16,12 +16,19 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
     private int sendWindow;
     private SendFavoredCommunicationScheduler commScheduler;
     private Message.SetupMessage msg;
+    private Runnable startListen;
 
     public void setUp() throws Exception {
         listener = mock(MessageListener.class);
         sender = mock(MessageSender.class);
+        startListen = new Runnable() {
+            @Override
+            public void run() {
+                commScheduler.startListening();
+            }
+        };
         sendWindow = -1;
-        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, null, sendWindow);
+        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, startListen, null, sendWindow);
         msg = MessageHelper.createSetupMessage();
     }
 
@@ -41,7 +48,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         verify(listener, never()).listen();
 
         // send and then listen. stop listening if listener.listen returns non Mode.LISTENING
-        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, null, 5);
+        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, startListen, null, 5);
         commScheduler.send(msg);
         when(listener.listen()).thenReturn(Mode.STOPPED);
         commScheduler.start();
@@ -52,7 +59,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         //alternate send and listen
         listener = mock(MessageListener.class);
         sender = mock(MessageSender.class);
-        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, null, 5);
+        commScheduler = new SendFavoredCommunicationScheduler(sender, listener, startListen, null, 5);
         commScheduler.send(msg);
         when(listener.listen()).thenReturn(Mode.SENDING).thenReturn(Mode.STOPPED);
         commScheduler.start();

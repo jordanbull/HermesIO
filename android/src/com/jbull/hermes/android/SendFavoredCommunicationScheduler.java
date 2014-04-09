@@ -8,35 +8,33 @@ import java.io.IOException;
 
 
 public class SendFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
+    private final String startListening = "com.jbull.hermes.android.SendFavoredCommunicationScheduler:startListening";
+    private final Runnable startListenTimer;
     private int sendWindowMillis;
 
-    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable disconnectCalback, int sendWindowMillis) {
+    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable startListenTimer, Runnable disconnectCalback, int sendWindowMillis) {
         super(sender, listener, disconnectCalback);
         this.sendWindowMillis = sendWindowMillis;
+        this.startListenTimer = startListenTimer;
     }
 
     public void start() {
         running = true;
         mode = Mode.SENDING;
-        while(running && !isStopped()) {
+        //while(running && !isStopped()) {
             if (isSending()) {
                 startSending();
             }
-            assert !isListening();
-        }
-        stop();
+            //assert !isListening();
+        //}
+        //stop();
     }
 
     @Override
     public void startSending() {
         flush();
         if (sendWindowMillis > -1) {
-            try {
-                Thread.sleep(sendWindowMillis);
-                startListening();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            startListenTimer.run();
         }
     }
 
@@ -46,9 +44,13 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
             mode = Mode.LISTENING;
             sender.send(MessageHelper.createModeMessage(true, 0));
             listenLoop();
+            if (running && !isStopped())
+                startSending();
         } catch (IOException e) {
             Log.e("HermesIO", "", e);
             disconnect();
         }
     }
+
+
 }

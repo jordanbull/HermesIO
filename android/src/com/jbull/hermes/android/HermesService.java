@@ -1,12 +1,19 @@
 package com.jbull.hermes.android;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import com.jbull.hermes.*;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
@@ -21,9 +28,12 @@ public class HermesService extends Service {
     private final IBinder mBinder = new LocalBinder();
     private boolean connected = false;
 
+    private final String LISTENING_ACTION = "com.jbull.hermes.android.HermesService:startListening";
+    private final AtomicInteger LISTEN_COUNT = new AtomicInteger(0);
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        registerReceiver(onBroadcast, new IntentFilter(LISTENING_ACTION));
         Log.w("jMessage", "Starting Service");
         int i = super.onStartCommand(intent, flags, startId);
         this.intent = intent;
@@ -36,7 +46,12 @@ public class HermesService extends Service {
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(connection, handler, numRetries);
         MessageSender sender = new MessageSender(connection, numRetries);
-        commManager = new SendFavoredCommunicationScheduler(sender, listener, new Runnable() {public void run() {disconnect();}}, SEND_PERIOD);
+        commManager = new SendFavoredCommunicationScheduler(sender, listener, new Runnable() {
+            @Override
+            public void run() {
+                sendStartListenTimer();
+            }
+        }, new Runnable() {public void run() {disconnect();}}, SEND_PERIOD);
         handler.setCommunicationScheduler(commManager);
         Intent connectedIntent = new Intent("com.jbull.hermes");
         connectedIntent.putExtra("connected", true);
@@ -79,4 +94,30 @@ public class HermesService extends Service {
             return HermesService.this;
         }
     }
+
+    public void sendStartListenTimer() {
+        Intent intent = new Intent(LISTENING_ACTION);
+        PendingIntent pendInt = PendingIntent.getBroadcast(this, LISTEN_COUNT.incrementAndGet(), intent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= 19) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + SEND_PERIOD, pendInt);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + SEND_PERIOD, pendInt);
+        }
+    }
+
+    private BroadcastReceiver onBroadcast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context ctxt, Intent i) {
+            // do stuff to the UI
+            Log.w("Hermes", i.getAction());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    commManager.startListening();
+                }
+            }).start();
+
+        }
+    };
 }
