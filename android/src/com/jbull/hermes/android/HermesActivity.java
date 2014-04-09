@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import org.jbull.jmessage.R;
 
@@ -17,6 +18,7 @@ public class HermesActivity extends Activity {
     boolean mBound = false;
     TextView connectionStatusLabel;
     Button connectButton;
+    EditText ipInput;
 
     /**
      * Called when the activity is first created.
@@ -27,6 +29,7 @@ public class HermesActivity extends Activity {
         setContentView(R.layout.main);
         connectionStatusLabel = (TextView) findViewById(R.id.connectionStatusLabel);
         connectButton = (Button) findViewById(R.id.connectButton);
+        ipInput = (EditText) findViewById(R.id.ipConnectField);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class HermesActivity extends Activity {
 
     public void connectAndSetup(View view) {
         final Intent intent = new Intent(this, HermesService.class);
-        //final String ip = ((EditText) findViewById(R.id.ipConnectField)).getText().toString();
+        //final String ip = (ipInput).getText().toString();
         final String ip = "192.168.1.129";
         intent.putExtra("ip", ip);
 
@@ -64,9 +67,11 @@ public class HermesActivity extends Activity {
         if (connected) {
             connectButton.setEnabled(false);
             connectionStatusLabel.setText(CONNECTED);
+            ipInput.setEnabled(false);
         } else {
             connectButton.setEnabled(true);
             connectionStatusLabel.setText(DISCONNECTED);
+            ipInput.setEnabled(true);
         }
     }
 
