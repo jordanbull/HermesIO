@@ -128,6 +128,7 @@ public class State {
         Sms sms = dataStore.addMessageToConversation(number, smsMsg.getContent(), senderOfMsg, smsMsg.getTimeStamp());
         addSmsToGui(number, sms);
         stateChanged = true;
+        commCenter.searchTyped("");
     }
 
     private void addSmsToGui(String number, Sms sms) {

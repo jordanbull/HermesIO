@@ -137,5 +137,6 @@ public class ConversationView extends BorderPane {
         state.send(msg);
         state.addSms(msg, true);
         textInput.clear();
+        textInput.requestFocus();
     }
 }

@@ -137,15 +137,19 @@ public class CommunicationCenter extends BorderPane {
         this.state = state;
     }
 
-    public void searchTyped(String s) {
-        if (s.equals("")) {
-            contactsList.setItems(timeSortedContacts);
-            contactsList.getSelectionModel().clearSelection();
-        } else {
-            ObservableList<ContactView> contacts = state.searchContacts(s);
-            contactsList.setItems(contacts);
-            contactsList.getSelectionModel().clearSelection();
-        }
+    public void searchTyped(final String s) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                contactsList.getSelectionModel().select(-1);
+                if (s.equals("")) {
+                    contactsList.setItems(timeSortedContacts);
+                } else {
+                    ObservableList<ContactView> contacts = state.searchContacts(s);
+                    contactsList.setItems(contacts);
+                }
+            }
+        });
     }
 
     public class TimeSortedContacts extends ModifiableObservableListBase<ContactView> {
