@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class State {
 
     private final String DATA_STORE_FILENAME = "data.ser";
+    private String pathToDataStore;
     private final long SECONDS_BETWEEN_SAVES = 5;
 
     private int timeoutMillis = 0;
@@ -37,10 +38,13 @@ public class State {
     public State(CommunicationCenter commCenter) {
         this.commCenter = commCenter;
         commCenter.setState(this);
-        File file = new File(DATA_STORE_FILENAME);
+        final File f = new File(State.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File file = new File(f.getParent()+DATA_STORE_FILENAME);
+        pathToDataStore = file.getAbsolutePath();
+        System.out.println(pathToDataStore);
         if (file.exists()) {
             try {
-                FileInputStream fis = new FileInputStream(DATA_STORE_FILENAME);
+                FileInputStream fis = new FileInputStream(pathToDataStore);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 dataStore = (DataStore) ois.readObject();
                 ois.close();
@@ -174,12 +178,12 @@ public class State {
 
     synchronized private void writeDataStore() {
         try {
-            FileOutputStream fos = new FileOutputStream(DATA_STORE_FILENAME+"1");
+            FileOutputStream fos = new FileOutputStream(pathToDataStore+"1");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(dataStore);
             oos.close();
-            new File(DATA_STORE_FILENAME).delete();
-            new File(DATA_STORE_FILENAME+"1").renameTo(new File(DATA_STORE_FILENAME));
+            new File(pathToDataStore).delete();
+            new File(pathToDataStore+"1").renameTo(new File(pathToDataStore));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
