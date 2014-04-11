@@ -1,4 +1,4 @@
-package com.jbull.hermes.osx;
+package com.jbull.hermes.desktop;
 
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Message;
@@ -43,8 +43,7 @@ public class InstructionHandler implements MessageReactor {
 
     private void executeSMS(final Message.SmsMessage sms) {
         System.out.println("received: SMSMessage");
-        boolean resp = new MacNotification().notify(sms.getSender().getName(), sms.getContent(), sms.getSender().getImage().toByteArray());
-        System.out.println(resp);
+        state.notify(sms.getSender().getName(), sms.getContent(), sms.getSender().getImage().toByteArray());
         state.addSms(sms, false);
     }
 

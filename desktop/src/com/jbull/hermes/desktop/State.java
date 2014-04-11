@@ -1,8 +1,7 @@
-package com.jbull.hermes.osx;
+package com.jbull.hermes.desktop;
 
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
-import com.jbull.hermes.desktop.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -235,6 +234,10 @@ public class State {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+    }
+
+    public void notify(String subject, String body, byte[] imageData) {
+        commCenter.notify(subject, body, imageData);
     }
 
     public void close() throws IOException {

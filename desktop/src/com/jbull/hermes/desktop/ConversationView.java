@@ -1,4 +1,4 @@
-package com.jbull.hermes.osx;
+package com.jbull.hermes.desktop;
 
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;

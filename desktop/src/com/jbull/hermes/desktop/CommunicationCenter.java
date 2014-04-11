@@ -1,7 +1,5 @@
-package com.jbull.hermes.osx;
+package com.jbull.hermes.desktop;
 
-import com.aquafx_project.AquaFx;
-import com.aquafx_project.controls.skin.styles.TextFieldType;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,8 +34,10 @@ public class CommunicationCenter extends BorderPane {
 
     private State state;
     private TimeSortedContacts timeSortedContacts = new TimeSortedContacts();
+    private Notification notification;
 
-    public CommunicationCenter() throws IOException {
+    public CommunicationCenter(Notification notification) throws IOException {
+        this.notification = notification;
         URL resource = getClass().getResource("CommunicationCenter.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
@@ -54,7 +54,6 @@ public class CommunicationCenter extends BorderPane {
                 return new ContactView.ContactListCell();
             }
         });
-        AquaFx.createTextFieldStyler().setType(TextFieldType.SEARCH).style(contactSearch);
         contactsList.setItems(timeSortedContacts);
 
         contactsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ContactView>() {
@@ -152,6 +151,10 @@ public class CommunicationCenter extends BorderPane {
         });
     }
 
+    public void notify(String subject, String body, byte[] imageData) {
+        notification.notify(subject, body, imageData);
+    }
+
     public class TimeSortedContacts extends ModifiableObservableListBase<ContactView> {
         private LinkedList<ContactView> orderedContacts = new LinkedList<ContactView>();
 
@@ -193,5 +196,11 @@ public class CommunicationCenter extends BorderPane {
         protected ContactView doRemove(int i) {
             return null;
         }
+    }
+
+    /* This method specifically for getting the contact search text field for styling
+     */
+    public TextField getContactSearch() {
+        return contactSearch;
     }
 }

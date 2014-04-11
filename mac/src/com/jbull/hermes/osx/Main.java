@@ -1,6 +1,9 @@
 package com.jbull.hermes.osx;
 
 import com.aquafx_project.AquaFx;
+import com.aquafx_project.controls.skin.styles.TextFieldType;
+import com.jbull.hermes.desktop.CommunicationCenter;
+import com.jbull.hermes.desktop.State;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -15,7 +18,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         AquaFx.style();
         long start = System.currentTimeMillis();
-        final CommunicationCenter communicationCenter = new CommunicationCenter();
+        final CommunicationCenter communicationCenter = new CommunicationCenter(new MacNotification());
+        AquaFx.createTextFieldStyler().setType(TextFieldType.SEARCH).style(communicationCenter.getContactSearch());
         final State state = new State(communicationCenter);
         System.out.println(System.currentTimeMillis() - start);
         primaryStage.setTitle("HermesIO");
