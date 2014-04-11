@@ -110,7 +110,7 @@ public class CommunicationCenter extends BorderPane {
         contactSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String fromString, String toString) {
-                searchTyped(toString);
+                searchTyped();
             }
         });
     }
@@ -120,6 +120,7 @@ public class CommunicationCenter extends BorderPane {
             @Override
             public void run() {
                 contactSearch.setText("");
+                searchTyped();
             }
         });
     }
@@ -145,7 +146,8 @@ public class CommunicationCenter extends BorderPane {
         this.state = state;
     }
 
-    public void searchTyped(final String s) {
+    public void searchTyped() {
+        final String s = contactSearch.getText();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

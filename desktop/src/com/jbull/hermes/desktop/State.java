@@ -127,6 +127,7 @@ public class State {
             commCenter.resetSearch();
         } else {
             c = smsMsg.getSender();
+            commCenter.searchTyped();
         }
         addContact(c);
         String number = PhoneNumber.format(c.getPhoneNumber());
