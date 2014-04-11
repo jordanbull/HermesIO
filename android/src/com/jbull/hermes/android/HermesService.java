@@ -28,6 +28,7 @@ public class HermesService extends Service {
 
     private final String LISTENING_ACTION = "com.jbull.hermes.android.HermesService:startListening";
     private final AtomicInteger LISTEN_COUNT = new AtomicInteger(0);
+    private PendingIntent pendInt;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -72,6 +73,10 @@ public class HermesService extends Service {
         connectedIntent.putExtra("connected", false);
         getApplicationContext().sendBroadcast(connectedIntent);
         unregisterReceiver(smsBroadcastReceiver);
+        if (pendInt != null) {
+            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendInt);
+        }
     }
 
     public boolean isConnected() {

@@ -8,7 +8,6 @@ import java.io.IOException;
 
 
 public class SendFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
-    private final String startListening = "com.jbull.hermes.android.SendFavoredCommunicationScheduler:startListening";
     private final Runnable startListenTimer;
     private int sendWindowMillis;
 
@@ -21,17 +20,13 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
     public void start() {
         running = true;
         mode = Mode.SENDING;
-        //while(running && !isStopped()) {
-            if (isSending()) {
-                startSending();
-            }
-            //assert !isListening();
-        //}
-        //stop();
+        if (isSending()) {
+            startSending();
+        }
     }
 
     @Override
-    public void startSending() {
+    synchronized public void startSending() {
         flush();
         if (sendWindowMillis > -1) {
             startListenTimer.run();
@@ -39,7 +34,7 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
     }
 
     @Override
-    public void startListening() {
+    synchronized public void startListening() {
         try {
             mode = Mode.LISTENING;
             sender.send(MessageHelper.createModeMessage(true, 0));
