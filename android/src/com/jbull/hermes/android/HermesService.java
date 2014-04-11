@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -29,15 +30,20 @@ public class HermesService extends Service {
     private final String LISTENING_ACTION = "com.jbull.hermes.android.HermesService:startListening";
     private final AtomicInteger LISTEN_COUNT = new AtomicInteger(0);
     private PendingIntent pendInt;
+    private WifiManager wifiManager;
+    private WifiManager.WifiLock wifiLock;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         registerReceiver(onBroadcast, new IntentFilter(LISTENING_ACTION));
         int i = super.onStartCommand(intent, flags, startId);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiLock = wifiManager.createWifiLock("HermesIO");
         return i;
     }
 
     public void connect(String ip) {
+        wifiLock.acquire();
         Connection connection = new TCPClient(ip, PORT, TIMEOUT_MILLIS);
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(connection, handler, numRetries);
@@ -66,6 +72,9 @@ public class HermesService extends Service {
     }
 
     public void disconnect() {
+        if (wifiLock.isHeld()) {
+            wifiLock.release();
+        }
         connected = false;
         Log.w("HermesIO", "Disconnected");
         commManager.stop();

@@ -23,6 +23,7 @@ public class State {
     private final long SECONDS_BETWEEN_SAVES = 5;
 
     private int timeoutMillis = 0;
+    private int timeoutConstant = 5000;
     private int numRetries = 0;
 
     private DataStore dataStore;
@@ -229,7 +230,7 @@ public class State {
 
     public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
-        timeoutMillis = 3*sendPeriod;
+        timeoutMillis = 2*sendPeriod+timeoutConstant;
         try {
             server.setTimeout(timeoutMillis);
         } catch (SocketException e) {
