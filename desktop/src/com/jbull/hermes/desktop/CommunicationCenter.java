@@ -29,7 +29,7 @@ public class CommunicationCenter extends BorderPane {
     @FXML TextField contactSearch;
     @FXML Label connectionStatusLabel;
 
-    private final String CONECTED = "Connected";
+    private final String CONNECTED = "Connected";
     private final String DISCONNECTED = "Disconnected";
 
     private State state;
@@ -115,12 +115,21 @@ public class CommunicationCenter extends BorderPane {
         });
     }
 
+    public void resetSearch() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                contactSearch.setText("");
+            }
+        });
+    }
+
     public void setConnectionStatusLabel(final boolean connected) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 if (connected) {
-                    connectionStatusLabel.setText(CONECTED);
+                    connectionStatusLabel.setText(CONNECTED);
                 } else {
                     connectionStatusLabel.setText(DISCONNECTED);
                 }
