@@ -23,6 +23,7 @@ public class State {
     private final long SECONDS_BETWEEN_SAVES = 5;
 
     private int timeoutMillis = 0;
+    private int numRetries = 1;
 
     private DataStore dataStore;
     private RadixTrie trie = new RadixTrie();
@@ -191,7 +192,6 @@ public class State {
     }
 
     private CommunicationScheduler<GeneratedMessage> initCommunication() throws IOException {
-        int numRetries = 0;
         server = new TCPServer(8888, timeoutMillis);
         InstructionHandler handler = new InstructionHandler(this);
         MessageListener listener = new MessageListener(server, handler, numRetries);
@@ -228,7 +228,7 @@ public class State {
 
     public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
-        timeoutMillis = 3*sendPeriod;
+        timeoutMillis = 2*sendPeriod;
         try {
             server.setTimeout(timeoutMillis);
         } catch (SocketException e) {
