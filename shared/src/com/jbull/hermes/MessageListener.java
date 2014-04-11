@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MessageListener implements Listener {
-    private Connection conn;
-    private final MessageReactor messageReactor;
-    private int numRetries;
-    private final MessageHelper.MessageNumParser headerParser = new MessageHelper.MessageNumParser(null);
+    protected Connection conn;
+    protected final MessageReactor messageReactor;
+    protected int numRetries;
+    protected final MessageHelper.MessageNumParser headerParser = new MessageHelper.MessageNumParser(null);
 
     public MessageListener(Connection conn, MessageReactor handler, int numRetries) {
         this.conn = conn;
@@ -34,7 +34,7 @@ public class MessageListener implements Listener {
         }
     }
 
-    private void checkAndHandleErrors(final Connection.ReceiveResponse response, final String noExcptionString) throws IOException {
+    protected void checkAndHandleErrors(final Connection.ReceiveResponse response, final String noExcptionString) throws IOException {
         if (!response.isSuccess()) {
             ArrayList<Exception> exceptions = response.getExceptions();
             if (exceptions.size() > 0) {

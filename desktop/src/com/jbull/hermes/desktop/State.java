@@ -23,11 +23,11 @@ public class State {
     private final long SECONDS_BETWEEN_SAVES = 5;
 
     private int timeoutMillis = 0;
-    private int numRetries = 1;
+    private int numRetries = 0;
 
     private DataStore dataStore;
     private RadixTrie trie = new RadixTrie();
-    private CommunicationScheduler<GeneratedMessage> commScheduler;
+    private ListenFavoredCommunicationScheduler commScheduler;
     private HashMap<String, ContactView> numberToContactView = new HashMap<String, ContactView>();
 
     public boolean stateChanged = false;
@@ -62,11 +62,7 @@ public class State {
             dataStore = new DataStore();
             createdDataStore = true;
         }
-        try {
-            commScheduler = initCommunication();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        initCommunication();
         if (createdDataStore) {
             requestContacts();
         }
@@ -192,35 +188,39 @@ public class State {
         }
     }
 
-    private CommunicationScheduler<GeneratedMessage> initCommunication() throws IOException {
-        server = new TCPServer(8888, timeoutMillis);
-        InstructionHandler handler = new InstructionHandler(this);
-        MessageListener listener = new MessageListener(server, handler, numRetries);
-        MessageSender sender = new MessageSender(server, numRetries);
-        final ListenFavoredCommunicationScheduler commScheduler = new ListenFavoredCommunicationScheduler(sender, listener, new Runnable() {
-            @Override
-            public void run() {
-                disconnect();
-            }
-        });
+    private void initCommunication() {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                commScheduler.start();
+                InstructionHandler handler = new InstructionHandler(State.this);
+                try {
+                    server = new TCPServer(8888, 0);
+                    MessageListener listener = new MessageListener(server, handler, numRetries);
+                    MessageSender sender = new MessageSender(server, numRetries);
+                    commScheduler = new ListenFavoredCommunicationScheduler(sender, listener, new Runnable() {
+                        @Override
+                        public void run() {
+                            disconnect();
+                        }
+                    });
+                    new SetupOnlyListener(server, handler, 0).listen();
+                    commScheduler.start();
+                } catch (IOException e) {
+                    disconnect();
+                }
             }
         });
         commThread.start();
-        return commScheduler;
     }
 
     private void disconnect() {
-        System.out.println("Disconnected.");
+        System.out.println("Disconnected at " + Long.toString(System.currentTimeMillis()));
         commCenter.setConnectionStatusLabel(false);
         commScheduler.stop();
         try {
             server.close();
             timeoutMillis = 0;
-            commScheduler = initCommunication();
+            initCommunication();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -229,7 +229,7 @@ public class State {
 
     public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
-        timeoutMillis = 2*sendPeriod;
+        timeoutMillis = 3*sendPeriod;
         try {
             server.setTimeout(timeoutMillis);
         } catch (SocketException e) {
