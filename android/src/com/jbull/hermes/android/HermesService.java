@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import com.jbull.hermes.*;
 
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private final int PORT = 8888;
-    private final int SEND_PERIOD = 2000;
+    private final int SEND_PERIOD = 5000;
     private final int numRetries = 0;
     private final int TIMEOUT_MILLIS = 5000;
     private SendFavoredCommunicationScheduler commManager;
@@ -119,11 +120,15 @@ public class HermesService extends Service {
         public void onReceive(Context ctxt, Intent i) {
             // do stuff to the UI
             Log.w("Hermes", i.getAction());
+            PowerManager pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
+            final PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "HermesIO");
+            wl.acquire();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if (commManager != null && !commManager.isStopped())
-                    commManager.startListening();
+                        commManager.startListening();
+                    wl.release();
                 }
             }).start();
 

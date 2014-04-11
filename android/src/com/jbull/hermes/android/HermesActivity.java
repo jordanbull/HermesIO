@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import org.jbull.jmessage.R;
+import com.jbull.hermes.R;
 
 public class HermesActivity extends Activity {
     private final String CONNECTED = "Connected";
