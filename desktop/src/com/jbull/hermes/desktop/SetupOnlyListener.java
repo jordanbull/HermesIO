@@ -14,7 +14,7 @@ public class SetupOnlyListener  extends MessageListener {
             if (header.getType() == Message.Header.Type.SETUPMESSAGE) {
                 return header.getMsgNum();
             } else {
-                System.err.println("Received non setup message");
+                Logger.log("Received non setup message");
                 throw new IOException("The received header was not a setup message");
             }
         }

@@ -44,7 +44,7 @@ public class State {
         final File f = new File(State.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         File file = new File(f.getParent()+DATA_STORE_FILENAME);
         pathToDataStore = file.getAbsolutePath();
-        System.out.println(pathToDataStore);
+        Logger.log(pathToDataStore);
         if (file.exists()) {
             try {
                 FileInputStream fis = new FileInputStream(pathToDataStore);
@@ -53,11 +53,11 @@ public class State {
                 ois.close();
                 populateFromDataStore();
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                Logger.log(e);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Logger.log(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.log(e);
             }
         }
         boolean createdDataStore = false;
@@ -77,7 +77,7 @@ public class State {
                 if (stateChanged) {
                     stateChanged = false;
                     writeDataStore();
-                    System.out.println("Saving State");
+                    Logger.log("Saving State");
                 }
             }
         }, SECONDS_BETWEEN_SAVES, SECONDS_BETWEEN_SAVES, TimeUnit.SECONDS);
@@ -163,7 +163,7 @@ public class State {
             for (Contact c : contactSet) {
                 s += c.getDisplayName() + ", ";
             }
-            System.out.println(s);
+            Logger.log(s);
         }
         ObservableList<ContactView> contacts = new ListView<ContactView>().getItems();
         for (Contact c : contactSet) {
@@ -185,14 +185,14 @@ public class State {
             new File(pathToDataStore).delete();
             new File(pathToDataStore+"1").renameTo(new File(pathToDataStore));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.log(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
     }
 
     private void initCommunication() {
-        System.out.println("Initializing Communication");
+        Logger.log("Initializing Communication");
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -210,6 +210,7 @@ public class State {
                     new SetupOnlyListener(server, handler, 0).listen();
                     commScheduler.start();
                 } catch (IOException e) {
+                    Logger.log(e);
                     disconnect();
                 }
             }
@@ -218,7 +219,7 @@ public class State {
     }
 
     private void disconnect() {
-        System.out.println("Disconnected at " + Long.toString(System.currentTimeMillis()));
+        Logger.log("Disconnected at " + Long.toString(System.currentTimeMillis()));
         commCenter.setConnectionStatusLabel(false);
         commScheduler.stop();
         try {
@@ -226,7 +227,7 @@ public class State {
             timeoutMillis = 0;
             initCommunication();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
 
     }
@@ -235,11 +236,6 @@ public class State {
         commCenter.setConnectionStatusLabel(true);
         lastHeartBeat = System.currentTimeMillis();
         rcvWindow = 2*sendPeriod+timeoutConstant;
-        /*try {
-            server.setTimeout(timeoutMillis);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void updateTimeout() {
@@ -256,9 +252,9 @@ public class State {
         try {
             server.setTimeout(rcvWindow);
         } catch (SocketException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
-        System.out.println(rcvWindow);
+        Logger.log(Integer.toString(rcvWindow));
     }
 
     public void notify(String subject, String body, byte[] imageData) {

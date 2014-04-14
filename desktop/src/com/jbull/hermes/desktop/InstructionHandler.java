@@ -1,6 +1,7 @@
 package com.jbull.hermes.desktop;
 
 import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.Logger;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageReactor;
 
@@ -15,7 +16,7 @@ public class InstructionHandler implements MessageReactor {
     @Override
     public boolean executeMessage(Message.Header.Type type, GeneratedMessage msg) {
         if (type == Message.Header.Type.MODE) {
-            System.out.println("received: Mode "+Long.toString(System.currentTimeMillis()));
+            Logger.log("received: Mode "+Long.toString(System.currentTimeMillis()));
             Message.Mode mode = (Message.Mode) msg;
             executeMode();
             return !mode.getServerSend();
@@ -36,7 +37,7 @@ public class InstructionHandler implements MessageReactor {
     }
 
     private void executeSetup(Message.SetupMessage msg) {
-        System.out.println("received: SetupMessage");
+        Logger.log("received: SetupMessage");
         state.connected(msg.getSendPeriod());
     }
 
@@ -47,13 +48,13 @@ public class InstructionHandler implements MessageReactor {
     }
 
     private void executeSMS(final Message.SmsMessage sms) {
-        System.out.println("received: SMSMessage");
+        Logger.log("received: SMSMessage");
         state.notify(sms.getSender().getName(), sms.getContent(), sms.getSender().getImage().toByteArray());
         state.addSms(sms, false);
     }
 
     private void executeContact(final Message.Contact contact) {
-        System.out.println("received: ContactView "+contact.getName());
+        Logger.log("received: ContactView " + contact.getName());
         state.addContact(contact);
     }
 }

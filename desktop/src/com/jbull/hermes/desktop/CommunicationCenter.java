@@ -1,5 +1,6 @@
 package com.jbull.hermes.desktop;
 
+import com.jbull.hermes.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -69,7 +70,7 @@ public class CommunicationCenter extends BorderPane {
                 AnchorPane.setRightAnchor(convo, 0.0);
                 messagingPane.getChildren().clear();
                 messagingPane.getChildren().add(convo);
-                System.out.println("Selected item: " + newValue);
+                Logger.log("Selected item: " + newValue);
                 newValue.select();
                 if (oldValue != null) {
                     oldValue.deselect();
@@ -147,10 +148,10 @@ public class CommunicationCenter extends BorderPane {
     }
 
     public void searchTyped() {
-        final String s = contactSearch.getText();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                final String s = contactSearch.getText();
                 contactsList.getSelectionModel().select(-1);
                 if (s.equals("")) {
                     contactsList.setItems(timeSortedContacts);

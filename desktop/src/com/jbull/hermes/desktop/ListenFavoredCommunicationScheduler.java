@@ -32,7 +32,7 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
             mode = Mode.LISTENING;
             sender.send(MessageHelper.createModeMessage(false, 0));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
             disconnect();
         }
     }

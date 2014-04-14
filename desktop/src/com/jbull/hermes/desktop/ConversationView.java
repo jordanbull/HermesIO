@@ -1,9 +1,8 @@
 package com.jbull.hermes.desktop;
 
+import com.jbull.hermes.Logger;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
-import com.jbull.hermes.desktop.Conversation;
-import com.jbull.hermes.desktop.Sms;
 import com.sun.javafx.scene.traversal.Direction;
 import com.sun.javafx.scene.traversal.TraversalEngine;
 import javafx.application.Platform;
@@ -87,7 +86,7 @@ public class ConversationView extends BorderPane {
                             }
                     }
                 } catch (AWTException e) {
-                    e.printStackTrace();
+                    Logger.log(e);
                 }
             }
         });
@@ -114,14 +113,14 @@ public class ConversationView extends BorderPane {
     }
 
     public void update() {
-        System.out.println("updating GUI for: "+contact.getPhoneNumber());
-        final ObservableList<SmsView> texts = new ListView<SmsView>().getItems();
-        for (Sms sms : conversation.getMessages()) {
-            texts.add(new SmsView(sms));
-        }
+        Logger.log("updating GUI for: "+contact.getPhoneNumber());
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                final ObservableList<SmsView> texts = new ListView<SmsView>().getItems();
+                for (Sms sms : conversation.getMessages()) {
+                    texts.add(new SmsView(sms));
+                }
                 messageList.setItems(texts);
                 messageList.scrollTo(messageList.getItems().size());
             }

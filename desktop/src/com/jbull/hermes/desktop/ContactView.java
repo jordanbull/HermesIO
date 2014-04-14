@@ -1,10 +1,9 @@
 package com.jbull.hermes.desktop;
 
 
+import com.jbull.hermes.Logger;
 import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageHelper;
-import com.jbull.hermes.desktop.Contact;
-import com.jbull.hermes.desktop.Conversation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -112,7 +111,7 @@ public class ContactView extends HBox {
 
     public void setUnreadNum() {
         final int unread = numUnread();
-        System.out.println("Setting unread num for : " + contact.getPhoneNumber() + " to "+Integer.toString(unread));
+        Logger.log("Setting unread num for : " + contact.getPhoneNumber() + " to " + Integer.toString(unread));
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
