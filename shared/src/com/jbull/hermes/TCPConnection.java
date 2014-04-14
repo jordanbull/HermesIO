@@ -21,10 +21,10 @@ public abstract class TCPConnection extends Connection {
             OutputStream os = s.getOutputStream();
             os.write(data);
             os.flush();
-            s.close();
+            //s.close();
 
             /* read ack */
-            s = openSocket();
+            //s = openSocket();
             InputStream is = s.getInputStream();
             Ack ack = Ack.parseFrom(is);
             s.close();
@@ -58,12 +58,12 @@ public abstract class TCPConnection extends Connection {
             int num_read = 0;
             while (num_read < numBytes)
                 num_read += s.getInputStream().read(data, num_read, numBytes-num_read);
-            s.close();
+            //s.close();
             /* parse message number */
             int msgNum = msgNumParser.parseMsgNum(data);
             /* create and send ack */
             byte[] ackBytes = MessageHelper.createAck(msgNum).toByteArray();
-            s = openSocket();
+            //s = openSocket();
             OutputStream os = s.getOutputStream();
             os.write(ackBytes);
             os.flush();
