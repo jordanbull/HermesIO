@@ -90,7 +90,6 @@ public class State {
             Conversation convo = dataStore.getConversation(contact.getPhoneNumber());
             addContactToGui(contact, convo);
             ContactView contactView = numberToContactView.get(contact.getPhoneNumber());
-            contactView.getConversationView().update();
             if (convo.getMessages().size() > 0) {
                 convs.add(contactView);
             }
@@ -138,7 +137,6 @@ public class State {
     private void addSmsToGui(String number, Sms sms) {
         final ContactView c = numberToContactView.get(number);
         c.update();
-        c.getConversationView().update();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

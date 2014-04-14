@@ -20,6 +20,7 @@ import java.net.URL;
 public class ContactView extends HBox {
     Contact contact;
     Conversation conversation;
+    private State state;
     ConversationView conversationView;
     Message.Contact contactMsg;
 
@@ -34,8 +35,9 @@ public class ContactView extends HBox {
     public ContactView(final Contact contact, Conversation convo, State state) {
         this.contact = contact;
         this.conversation = convo;
+        this.state = state;
         messagesRead = convo.getMessages().size();
-        conversationView = new ConversationView(convo, this, state);
+        //conversationView = new ConversationView(convo, this, state);
         URL resource = getClass().getResource("ContactView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
@@ -96,6 +98,7 @@ public class ContactView extends HBox {
 
     public void deselect() {
         selected = false;
+        //conversationView = null;
     }
 
     public int numUnread() {
@@ -105,6 +108,11 @@ public class ContactView extends HBox {
     public void update() {
         if (selected) {
             messagesRead = conversation.getMessages().size();
+            if (conversationView == null) {
+                conversationView = new ConversationView(conversation, this, state);
+            } else {
+                conversationView.update();
+            }
         }
         setUnreadNum();
     }

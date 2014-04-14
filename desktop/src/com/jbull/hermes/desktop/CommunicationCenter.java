@@ -63,6 +63,7 @@ public class CommunicationCenter extends BorderPane {
                 if (newValue == null) {
                     return;
                 }
+                newValue.select();
                 ConversationView convo = newValue.getConversationView();
                 AnchorPane.setBottomAnchor(convo, 0.0);
                 AnchorPane.setTopAnchor(convo, 0.0);
@@ -71,7 +72,6 @@ public class CommunicationCenter extends BorderPane {
                 messagingPane.getChildren().clear();
                 messagingPane.getChildren().add(convo);
                 Logger.log("Selected item: " + newValue);
-                newValue.select();
                 if (oldValue != null) {
                     oldValue.deselect();
                 }

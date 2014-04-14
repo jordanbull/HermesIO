@@ -10,13 +10,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 
 
 public class ConversationView extends BorderPane {
+    private static final int SMS_BATCH_SIZE = 10;
+    private static final int SCROLL_ADD_SMS_SIZE = 5;
     @FXML TextArea textInput;
     @FXML ListView messageList;
     @FXML Button sendButton;
@@ -35,6 +38,9 @@ public class ConversationView extends BorderPane {
     ContactView contact;
     private Conversation conversation;
     private State state;
+    private ObservableList<SmsView> smsViews;
+    int topListIndex = Integer.MAX_VALUE;
+    int bottomListIndex = 0;
 
     public ConversationView(Conversation conversation, ContactView contact, State state) {
         this.state = state;
@@ -47,17 +53,38 @@ public class ConversationView extends BorderPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        smsViews = messageList.getItems();
         this.contact = contact;
-        if (conversation == null) {
+        /*if (conversation == null) {
             conversation = new Conversation(contact.getPhoneNumber());
-        }
+        }*/
         this.conversation = conversation;
+        topListIndex = Math.max(conversation.getMessages().size() - SMS_BATCH_SIZE, 0);
+        bottomListIndex = topListIndex;
+        update();
 
         messageList.setCellFactory(new Callback<ListView<SmsView>, ListCell<SmsView>>() {
             @Override
             public ListCell<SmsView> call(ListView<SmsView> lv) {
                 SmsView.SmsListCell cell = new SmsView.SmsListCell();
                 return cell;
+            }
+        });
+        messageList.setOnScrollFinished(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent scrollEvent) {
+                // hacky way to check if scrolled to top
+                for (Node node: messageList.lookupAll(".scroll-bar")) {
+                    if (node instanceof ScrollBar) {
+                        final ScrollBar bar = (ScrollBar) node;
+                        if (bar.getOrientation()== Orientation.VERTICAL) {
+                            if (bar.getValue() == 0.0) {
+                                prependSmses(SCROLL_ADD_SMS_SIZE);
+                            }
+                        }
+
+                    }
+                }
             }
         });
         setTraversal();
@@ -113,15 +140,32 @@ public class ConversationView extends BorderPane {
     }
 
     public void update() {
-        Logger.log("updating GUI for: "+contact.getPhoneNumber());
+        Logger.log("updating GUI for: " + contact.getPhoneNumber());
+        appendSmses();
+    }
+
+    private void prependSmses(final int num) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                final ObservableList<SmsView> texts = new ListView<SmsView>().getItems();
-                for (Sms sms : conversation.getMessages()) {
-                    texts.add(new SmsView(sms));
+                int n = Math.min(num, topListIndex);
+                ArrayList<Sms> smses = conversation.getMessages();
+                for (int i = topListIndex - 1; i >= topListIndex-n; i--) {
+                    smsViews.add(0, new SmsView(smses.get(i)));
                 }
-                messageList.setItems(texts);
+                topListIndex = topListIndex-n;
+            }
+        });
+    }
+
+    private void appendSmses() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Sms> smses = conversation.getMessages();
+                for (;bottomListIndex < smses.size(); bottomListIndex++) {
+                    smsViews.add(new SmsView(smses.get(bottomListIndex)));
+                }
                 messageList.scrollTo(messageList.getItems().size());
             }
         });
