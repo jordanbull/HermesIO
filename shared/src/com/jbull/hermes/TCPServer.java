@@ -23,7 +23,9 @@ public class TCPServer extends TCPConnection {
 
     @Override
     protected Socket openSocket() throws IOException {
-        return server.accept();
+        Socket s = server.accept();
+        s.setSoTimeout(timeoutMillis);
+        return s;
     }
 
     @Override

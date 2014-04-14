@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.jbull.hermes.Logger;
 import com.jbull.hermes.R;
 
 public class HermesActivity extends Activity {
@@ -28,6 +28,7 @@ public class HermesActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.setLogger(new AndroidLogger());
         setContentView(R.layout.main);
         connectionStatusLabel = (TextView) findViewById(R.id.connectionStatusLabel);
         connectButton = (Button) findViewById(R.id.connectButton);
@@ -112,7 +113,7 @@ public class HermesActivity extends Activity {
         @Override
         public void onReceive(Context ctxt, Intent i) {
             // do stuff to the UI
-            Log.w("Hermes", i.getAction());
+            Logger.log(i.getAction());
             setConnected(i.getBooleanExtra("connected", false));
         }
     };

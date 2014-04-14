@@ -24,7 +24,9 @@ public class State {
 
     private int timeoutMillis = 0;
     private int timeoutConstant = 5000;
-    private int numRetries = 0;
+    private int numRetries = 1;
+    private long lastHeartBeat = -1;
+    private int rcvWindow = 0;
 
     private DataStore dataStore;
     private RadixTrie trie = new RadixTrie();
@@ -190,6 +192,7 @@ public class State {
     }
 
     private void initCommunication() {
+        System.out.println("Initializing Communication");
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -230,12 +233,32 @@ public class State {
 
     public void connected(int sendPeriod) {
         commCenter.setConnectionStatusLabel(true);
-        timeoutMillis = 2*sendPeriod+timeoutConstant;
-        try {
+        lastHeartBeat = System.currentTimeMillis();
+        rcvWindow = 2*sendPeriod+timeoutConstant;
+        /*try {
             server.setTimeout(timeoutMillis);
         } catch (SocketException e) {
             e.printStackTrace();
+        }*/
+    }
+
+    public void updateTimeout() {
+        long time = System.currentTimeMillis();
+        if (lastHeartBeat == -1) {
+            rcvWindow = 0;
+        } else {
+            int twind = (int) (2l * (time - lastHeartBeat));
+            if (twind > rcvWindow) {
+                rcvWindow = twind;
+            }
         }
+        lastHeartBeat = time;
+        try {
+            server.setTimeout(rcvWindow);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        System.out.println(rcvWindow);
     }
 
     public void notify(String subject, String body, byte[] imageData) {

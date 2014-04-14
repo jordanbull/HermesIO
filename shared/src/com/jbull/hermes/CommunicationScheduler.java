@@ -39,7 +39,7 @@ public abstract class CommunicationScheduler<T> {
                 sender.send(queue.remove());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
             disconnect();
         }
     }
@@ -53,7 +53,7 @@ public abstract class CommunicationScheduler<T> {
                 mode = listener.listen();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
             disconnect();
         }
     }

@@ -17,6 +17,7 @@ public class InstructionHandler implements MessageReactor {
         if (type == Message.Header.Type.MODE) {
             System.out.println("received: Mode "+Long.toString(System.currentTimeMillis()));
             Message.Mode mode = (Message.Mode) msg;
+            executeMode();
             return !mode.getServerSend();
         } else if (type == Message.Header.Type.SMSMESSAGE) {
             executeSMS((Message.SmsMessage) msg);
@@ -28,6 +29,10 @@ public class InstructionHandler implements MessageReactor {
             executeBatchContacts((Message.BatchContacts) msg);
         }
         return true;
+    }
+
+    private void executeMode() {
+        state.updateTimeout();
     }
 
     private void executeSetup(Message.SetupMessage msg) {

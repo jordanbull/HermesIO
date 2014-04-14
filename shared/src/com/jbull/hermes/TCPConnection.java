@@ -40,6 +40,7 @@ public abstract class TCPConnection extends Connection {
             }
         } catch (IOException e) {
             if (numRetries > 0) {
+                Logger.log("retry: "+e.getMessage());
                 numRetries--;
                 return send(data, msgNum, numRetries).incrementRetries().addException(e);
             } else {
@@ -70,6 +71,7 @@ public abstract class TCPConnection extends Connection {
             return new ReceiveResponse(true, 0, msgNum, data);
         } catch (IOException e) {
             if (numRetries > 0) {
+                Logger.log("retry: "+e.getMessage());
                 return (ReceiveResponse) receive(numBytes, msgNumParser, numRetries-1).incrementRetries().addException(e);
             } else {
                 return (ReceiveResponse) new ReceiveResponse(false, 0, -1, null).addException(e);

@@ -28,7 +28,7 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
     @Override
     synchronized public void startSending() {
         flush();
-        if (sendWindowMillis > -1) {
+        if (running && !isStopped() && sendWindowMillis > -1) {
             startListenTimer.run();
         }
     }

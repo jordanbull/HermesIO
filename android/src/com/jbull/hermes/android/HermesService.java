@@ -21,7 +21,7 @@ public class HermesService extends Service {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private final int PORT = 8888;
     private final int SEND_PERIOD = 5000;
-    private final int numRetries = 0;
+    private final int numRetries = 1;
     private final int TIMEOUT_MILLIS = 5000;
     private SendFavoredCommunicationScheduler commManager;
 
@@ -65,6 +65,7 @@ public class HermesService extends Service {
             public void run() {
                 commManager.send(MessageHelper.createSetupMessage(SEND_PERIOD));
                 commManager.start();
+                //sendStartListenTimer();
             }
         }).start();
         Log.w("Hermes", "setup sent");
@@ -106,7 +107,7 @@ public class HermesService extends Service {
 
     public void sendStartListenTimer() {
         Intent intent = new Intent(LISTENING_ACTION);
-        PendingIntent pendInt = PendingIntent.getBroadcast(this, LISTEN_COUNT.incrementAndGet(), intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendInt = PendingIntent.getBroadcast(this, LISTEN_COUNT.incrementAndGet(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= 19) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + SEND_PERIOD, pendInt);
@@ -118,19 +119,28 @@ public class HermesService extends Service {
     private BroadcastReceiver onBroadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctxt, Intent i) {
+            //sendStartListenTimer();
             // do stuff to the UI
             Log.w("Hermes", i.getAction());
             PowerManager pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
             final PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "HermesIO");
             wl.acquire();
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.w("HermesIO", "startListen");
                     if (commManager != null && !commManager.isStopped())
                         commManager.startListening();
                     wl.release();
+                    Log.w("HermesIO", "endListen");
                 }
-            }).start();
+            });
+            t.start();
+            /*try {
+                t.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }*/
 
         }
     };
