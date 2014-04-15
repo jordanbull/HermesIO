@@ -5,9 +5,6 @@ import com.google.protobuf.GeneratedMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by jordan on 3/25/14.
- */
 public class MessageSender implements Sender<GeneratedMessage> {
     private Connection conn;
     private int numRetries = 0;

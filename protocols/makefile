@@ -1,10 +1,7 @@
 all: java
 
 java:
-	protoc message.proto --java_out=../shared/src/
-
-#python:
-#	protoc message.proto --python_out=../ubuntu/
+	protoc protobuf_rep.proto --java_out=../shared/src/
 
 clean:
-	rm ../shared/src/com/jbull/hermes/Message.java ../ubuntu/message_pb2.py
+	rm ../shared/src/com/jbull/hermes/messages/ProtobufRep.java

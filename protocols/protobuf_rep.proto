@@ -1,0 +1,48 @@
+option java_package = "com.jbull.hermes.messages";
+option optimize_for = LITE_RUNTIME;
+
+message Packet {
+  required fixed32 msgNum = 1;
+  repeated Setup setup = 2;
+  repeated Sms sms = 3;
+  repeated Contact contact = 4;
+  repeated Mode mode = 5;
+  repeated SyncContacts syncContacts = 6;
+}
+
+message Setup {
+  required int32 sendPeriod = 1;
+  optional int32 version = 2 [default = 1];
+  optional string applicationName = 3 [default = "HermesIO"];
+}
+
+message Sms {
+  required int64 timeStamp = 1;
+  required Contact sender = 2;
+  required string content = 3;
+  required Contact recipient = 4;
+}
+
+message Contact {
+  required string phoneNumber = 1;
+  optional string name = 2;
+  optional bytes image = 3;
+}
+
+message Mode {
+  required int64 lastUpdate = 1; //time since last update. server time
+  required int64 currentTimestamp = 2;
+  required bool serverSend = 3;
+}
+
+message SyncContacts {
+}
+
+message Header {
+  required fixed32 msgNum = 1;
+  required fixed32 length = 2;
+}
+
+message Ack {
+  required fixed32 msgNum = 1;
+}
