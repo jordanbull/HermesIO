@@ -38,6 +38,22 @@ public class Packet {
         return new Header(msgNum, protobufRep.getSerializedSize()).toBytes();
     }
 
+    public void addMessage(HermesMessage msg) throws MessageSerializationException {
+        if (msg instanceof SmsMessage) {
+            smsMessages.add((SmsMessage) msg);
+        } else if (msg instanceof ContactMessage) {
+            contactMessages.add((ContactMessage) msg);
+        } else if (msg instanceof ModeMessage) {
+            modeMessages.add((ModeMessage) msg);
+        } else if (msg instanceof SetupMessage) {
+            setupMessages.add((SetupMessage) msg);
+        } else if (msg instanceof SyncContactsMessage) {
+            syncContactsMessages.add((SyncContactsMessage) msg);
+        } else {
+            throw new MessageSerializationException("Attempting to add an unknown message type: " + msg.getClass().toString());
+        }
+    }
+
     private void setMsgNum(int msgNum) {
         this.msgNum = msgNum;
     }
