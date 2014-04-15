@@ -1,12 +1,13 @@
 package com.jbull.hermes;
 
+import com.jbull.hermes.messages.AckMessage;
+import com.jbull.hermes.messages.ProtobufRep;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-
-import static com.jbull.hermes.Message.Ack;
 
 public abstract class TCPConnection extends Connection {
 
@@ -26,11 +27,11 @@ public abstract class TCPConnection extends Connection {
             /* read ack */
             //s = openSocket();
             InputStream is = s.getInputStream();
-            Ack ack = Ack.parseFrom(is);
+            AckMessage ack = AckMessage.fromBytes(ProtobufRep.Ack.parseFrom(is).toByteArray());
             s.close();
 
             /* verify ack */
-            if (ack.getMsgNum() == msgNum) {
+            if (ack.getAckNum() == msgNum) {
                 return new SendResponse(true, 0, msgNum);
             } else {
                 if (numRetries > 0) {
@@ -62,7 +63,7 @@ public abstract class TCPConnection extends Connection {
             /* parse message number */
             int msgNum = msgNumParser.parseMsgNum(data);
             /* create and send ack */
-            byte[] ackBytes = MessageHelper.createAck(msgNum).toByteArray();
+            byte[] ackBytes = new AckMessage(msgNum).toBytes();
             //s = openSocket();
             OutputStream os = s.getOutputStream();
             os.write(ackBytes);

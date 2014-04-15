@@ -7,7 +7,7 @@ public class SetupMessage extends HermesMessage<ProtobufRep.Setup> {
 
     private SetupMessage() {}
 
-    protected SetupMessage(int sendPeriod) {
+    public SetupMessage(int sendPeriod) {
         this.sendPeriod = sendPeriod;
     }
 

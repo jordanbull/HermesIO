@@ -1,5 +1,6 @@
 package com.jbull.hermes;
 
+import com.jbull.hermes.messages.AckMessage;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
@@ -10,9 +11,6 @@ import java.util.Random;
 
 import static org.mockito.Mockito.*;
 
-/**
- * Created by jordan on 3/18/14.
- */
 public class TCPServerTest extends TestCase {
     static final int PORT = 8888;
     static final String HOST = "localhost";
@@ -110,11 +108,9 @@ public class TCPServerTest extends TestCase {
         byte[] buffer = new byte[data.length];
         Socket s = new Socket(HOST, PORT);
         s.getInputStream().read(buffer);
-        s.close();
         Assert.assertArrayEquals(data, buffer);
-        Message.Ack ack = MessageHelper.createAck(ackNum);
-        s = new Socket(HOST, PORT);
-        s.getOutputStream().write(ack.toByteArray());
+        AckMessage ack = new AckMessage(ackNum);
+        s.getOutputStream().write(ack.toBytes());
         s.close();
     }
 
@@ -274,14 +270,12 @@ public class TCPServerTest extends TestCase {
         OutputStream os = s.getOutputStream();
         os.write(data);
         os.flush();
-        s.close();
         if (crash)
             throw new IOException();
-        byte[] buffer = new byte[MessageHelper.ackMessageSize()];
-        s = new Socket(HOST, PORT);
+        byte[] buffer = new byte[AckMessage.LENGTH];
         s.getInputStream().read(buffer);
         s.close();
-        return MessageHelper.readNumFromSerializedAck(buffer);
+        return AckMessage.fromBytes(buffer).getAckNum();
     }
 
 }

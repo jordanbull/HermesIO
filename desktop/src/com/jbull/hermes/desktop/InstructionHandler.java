@@ -2,7 +2,6 @@ package com.jbull.hermes.desktop;
 
 import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Logger;
-import com.jbull.hermes.Message;
 import com.jbull.hermes.MessageReactor;
 
 public class InstructionHandler implements MessageReactor {

@@ -1,5 +1,6 @@
 package com.jbull.hermes;
 
+import com.jbull.hermes.messages.AckMessage;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
@@ -113,11 +114,9 @@ public class TCPClientTest extends TestCase {
         byte[] buffer = new byte[data.length];
         Socket s = server.accept();
         s.getInputStream().read(buffer);
-        s.close();
         Assert.assertArrayEquals(data, buffer);
-        Message.Ack ack = MessageHelper.createAck(ackNum);
-        s = server.accept();
-        s.getOutputStream().write(ack.toByteArray());
+        AckMessage ack = new AckMessage(ackNum);
+        s.getOutputStream().write(ack.toBytes());
         s.close();
     }
 
@@ -263,14 +262,12 @@ public class TCPClientTest extends TestCase {
         OutputStream os = s.getOutputStream();
         os.write(data);
         os.flush();
-        s.close();
         if (crash)
             throw new IOException();
-        byte[] buffer = new byte[MessageHelper.ackMessageSize()];
-        s = server.accept();
+        byte[] buffer = new byte[AckMessage.LENGTH];
         s.getInputStream().read(buffer);
         s.close();
-        return MessageHelper.readNumFromSerializedAck(buffer);
+        return AckMessage.fromBytes(buffer).getAckNum();
     }
 
 

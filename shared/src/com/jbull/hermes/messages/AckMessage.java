@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 public class AckMessage {
     int ackNum;
+    public static final int LENGTH = new AckMessage(1).toBytes().length;
 
     public AckMessage(int ackNum) {
         this.ackNum = ackNum;
@@ -22,5 +23,9 @@ public class AckMessage {
                 .setMsgNum(ackNum)
                 .build()
                 .toByteArray();
+    }
+
+    public int getAckNum() {
+        return ackNum;
     }
 }

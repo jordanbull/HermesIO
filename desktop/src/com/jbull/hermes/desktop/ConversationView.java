@@ -1,8 +1,6 @@
 package com.jbull.hermes.desktop;
 
 import com.jbull.hermes.Logger;
-import com.jbull.hermes.Message;
-import com.jbull.hermes.MessageHelper;
 import com.sun.javafx.scene.traversal.Direction;
 import com.sun.javafx.scene.traversal.TraversalEngine;
 import javafx.application.Platform;

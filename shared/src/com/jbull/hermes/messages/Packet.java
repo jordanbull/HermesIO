@@ -1,8 +1,10 @@
 package com.jbull.hermes.messages;
 
 import com.google.protobuf.GeneratedMessageLite;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Packet {
     int msgNum;
@@ -32,10 +34,26 @@ public class Packet {
         return protobufRep.toByteArray();
     }
 
-    public byte[] getHeader(int msgNum) {
+    public Header getHeader(int msgNum) {
         setMsgNum(msgNum);
         protobufRep = constructProtobufRep();
-        return new Header(msgNum, protobufRep.getSerializedSize()).toBytes();
+        return new Header(msgNum, protobufRep.getSerializedSize());
+    }
+
+    public static Packet fromBytes(byte[] byteRep) throws MessageSerializationException {
+        try {
+            ProtobufRep.Packet proto = ProtobufRep.Packet.parseFrom(byteRep);
+            Packet packet = new Packet();
+            packet.msgNum = proto.getMsgNum();
+            packet.smsMessages.addAll(fromProtobufs(proto.getSmsList(), SmsMessage.class));
+            packet.syncContactsMessages.addAll(fromProtobufs(proto.getSyncContactsList(), SyncContactsMessage.class));
+            packet.setupMessages.addAll(fromProtobufs(proto.getSetupList(), SetupMessage.class));
+            packet.modeMessages.addAll(fromProtobufs(proto.getModeList(), ModeMessage.class));
+            packet.contactMessages.addAll(fromProtobufs(proto.getContactList(), ContactMessage.class));
+            return packet;
+        } catch (InvalidProtocolBufferException e) {
+            throw new MessageSerializationException("Error deserializing Packet.", e);
+        }
     }
 
     public void addMessage(HermesMessage msg) throws MessageSerializationException {
@@ -64,5 +82,37 @@ public class Packet {
             outList.add((P) item.getProtobufRep());
         }
         return outList;
+    }
+
+    private static <T extends HermesMessage, P extends GeneratedMessageLite> ArrayList<T> fromProtobufs(List<P> data, Class<T> c) {
+        ArrayList<T> outList = new ArrayList<T>(data.size());
+        for (P item : data) {
+            outList.add((T) HermesMessage.createFromProtobufRep(item, c));
+        }
+        return outList;
+    }
+
+    public int getMsgNum() {
+        return msgNum;
+    }
+
+    public ArrayList<SmsMessage> getSmsMessages() {
+        return smsMessages;
+    }
+
+    public ArrayList<ContactMessage> getContactMessages() {
+        return contactMessages;
+    }
+
+    public ArrayList<SetupMessage> getSetupMessages() {
+        return setupMessages;
+    }
+
+    public ArrayList<ModeMessage> getModeMessages() {
+        return modeMessages;
+    }
+
+    public ArrayList<SyncContactsMessage> getSyncContactsMessages() {
+        return syncContactsMessages;
     }
 }

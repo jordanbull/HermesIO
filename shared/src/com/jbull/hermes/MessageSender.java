@@ -1,11 +1,11 @@
 package com.jbull.hermes;
 
-import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.messages.Packet;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MessageSender implements Sender<GeneratedMessage> {
+public class MessageSender implements Sender<Packet> {
     private Connection conn;
     private int numRetries = 0;
 
@@ -14,15 +14,13 @@ public class MessageSender implements Sender<GeneratedMessage> {
         this.numRetries = numRetries;
     }
     @Override
-    synchronized public void send(GeneratedMessage msg) throws IOException {
+    synchronized public void send(Packet packet) throws IOException {
         int msgNum = conn.getSendMsgNum();
-
-        Message.Header header = MessageHelper.createHeader(msg, msgNum);
-        byte[] msgData = header.toByteArray();
-        Connection.SendResponse response = conn.send(msgData, msgNum, numRetries);
+        byte[] headerData = packet.getHeader(msgNum).toBytes();
+        Connection.SendResponse response = conn.send(headerData, msgNum, numRetries);
         checkAndHandleErrors(response, "Send failed with no exception");
-        msg = MessageHelper.returnWithMsgNum(header.getType(), msg, msgNum);
-        response = conn.send(msg.toByteArray(), msgNum, numRetries);
+
+        response = conn.send(packet.getBytes(), msgNum, numRetries);
         checkAndHandleErrors(response, "Send failed with no exception");
     }
 

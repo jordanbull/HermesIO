@@ -1,6 +1,8 @@
 package com.jbull.hermes;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.jbull.hermes.messages.Header;
+import com.jbull.hermes.messages.Packet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +11,21 @@ public class MessageListener implements Listener {
     protected Connection conn;
     protected final MessageReactor messageReactor;
     protected int numRetries;
-    protected final MessageHelper.MessageNumParser headerParser = new MessageHelper.MessageNumParser(null);
+    protected final Connection.MsgNumParser headerParser = new Connection.MsgNumParser() {
+        @Override
+        public int parseMsgNum(byte[] serializedMsg) throws IOException {
+            return Header.fromBytes(serializedMsg).getMsgNum();
+        }
+    };
+
+    protected final Connection.MsgNumParser packetParser = new Connection.MsgNumParser() {
+        @Override
+        public int parseMsgNum(byte[] serializedMsg) throws IOException {
+            return Packet.fromBytes(serializedMsg).getMsgNum();
+
+            // TODO: cache these values
+        }
+    };
 
     public MessageListener(Connection conn, MessageReactor handler, int numRetries) {
         this.conn = conn;
@@ -19,13 +35,13 @@ public class MessageListener implements Listener {
 
     @Override
     public Mode listen() throws IOException {
-        Connection.ReceiveResponse response = conn.receive(MessageHelper.HEADER_LENGTH, headerParser, numRetries);
+        Connection.ReceiveResponse response = conn.receive(Header.LENGTH, headerParser, numRetries);
         checkAndHandleErrors(response, "Error receiving header. No exception thrown");
         try {
-            Message.Header header = Message.Header.parseFrom(response.getData());
-            response = conn.receive(header.getLength(), new MessageHelper.MessageNumParser(header.getType()), numRetries);
+            Header header = Header.fromBytes(response.getData());
+            response = conn.receive(header.getLength(), packetParser, numRetries);
             checkAndHandleErrors(response, "Error receiving message. No exception thrown");
-            if (messageReactor.executeMessage(header.getType(), MessageHelper.constructFromBytes(header.getType(), response.getData())))
+            if (messageReactor.executeMessage(Packet.fromBytes(response.getData())))
                 return Mode.LISTENING;
             else
                 return Mode.SENDING;

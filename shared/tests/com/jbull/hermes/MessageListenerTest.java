@@ -1,10 +1,12 @@
 package com.jbull.hermes;
 
-import com.google.protobuf.GeneratedMessage;
+import com.jbull.hermes.messages.ContactMessage;
+import com.jbull.hermes.messages.Header;
+import com.jbull.hermes.messages.ModeMessage;
+import com.jbull.hermes.messages.Packet;
 import junit.framework.TestCase;
 import org.mockito.InOrder;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import static org.mockito.Matchers.any;
@@ -16,11 +18,11 @@ public class MessageListenerTest extends TestCase {
     Connection conn;
     private int numRetries;
     private int msgAckNum1;
-    private GeneratedMessage smsMsg;
-    private Message.Header headerSMS;
-    private GeneratedMessage modeMsg;
     private int msgAckNum2;
-    private Message.Header headerMode;
+    private ContactMessage contact;
+    private ModeMessage mode;
+    private Packet packet;
+    private Header header;
 
     public void setUp() throws Exception {
         conn = mock(Connection.class);
@@ -29,39 +31,42 @@ public class MessageListenerTest extends TestCase {
         listener = new MessageListener(conn, reactor, numRetries);
         msgAckNum1 = new Random().nextInt(9999);
         msgAckNum2 = new Random().nextInt(9999);
-        smsMsg = MessageHelper.createSmsMessage(MessageHelper.createContact("name", "number", null, null).toBuilder().setMsgNum(msgAckNum1).build(), "smsMsg content", System.currentTimeMillis(), new ArrayList<Message.Contact>(), true).toBuilder().setMsgNum(msgAckNum1).build();
-        modeMsg = MessageHelper.createModeMessage(true, System.currentTimeMillis()).toBuilder().setMsgNum(msgAckNum2).build();
-        headerSMS = MessageHelper.createHeader(smsMsg, msgAckNum1);
-        headerMode = MessageHelper.createHeader(modeMsg, msgAckNum2);
+        contact = new ContactMessage("number", "name");
+        mode = new ModeMessage(0 ,0, true);
+        packet = new Packet();
+        packet.addMessage(contact);
+        packet.addMessage(mode);
+        header = packet.getHeader(0);
     }
 
     public void testListen() throws Exception {
         // tests handling of header and message and continues listening
-        when(reactor.executeMessage(any(Message.Header.Type.class), any(GeneratedMessage.class))).thenReturn(true);
+        when(reactor.executeMessage(any(Packet.class))).thenReturn(true);
         Connection.ReceiveResponse response = mock(Connection.ReceiveResponse.class);
         when(response.isSuccess()).thenReturn(true).thenReturn(true);
-        when(response.getData()).thenReturn(headerSMS.toByteArray()).thenReturn(smsMsg.toByteArray());
-        when(conn.receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
-        when(conn.receive(eq(smsMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(response.getData()).thenReturn(header.toBytes()).thenReturn(packet.getBytes());
+        when(conn.receive(eq(Header.LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(conn.receive(eq(header.getLength()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
         Mode mode = listener.listen();
         InOrder inOrder = inOrder(conn);
-        inOrder.verify(conn).receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
-        inOrder.verify(conn).receive(eq(smsMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries));
-        verify(reactor).executeMessage(headerSMS.getType(), smsMsg);
+        inOrder.verify(conn).receive(eq(Header.LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
+        inOrder.verify(conn).receive(eq(header.getLength()), any(Connection.MsgNumParser.class), eq(numRetries));
+        verify(reactor).executeMessage(any(Packet.class));
         assertEquals(Mode.LISTENING, mode);
 
         // stops listening when receiving false
-        when(reactor.executeMessage(any(Message.Header.Type.class), any(GeneratedMessage.class))).thenReturn(false);
+        //
+        when(reactor.executeMessage(any(Packet.class))).thenReturn(false);
         response = mock(Connection.ReceiveResponse.class);
         when(response.isSuccess()).thenReturn(true).thenReturn(true);
-        when(response.getData()).thenReturn(headerMode.toByteArray()).thenReturn(modeMsg.toByteArray());
-        when(conn.receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
-        when(conn.receive(eq(modeMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(response.getData()).thenReturn(header.toBytes()).thenReturn(packet.getBytes());
+        when(conn.receive(eq(Header.LENGTH), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
+        when(conn.receive(eq(header.getLength()), any(Connection.MsgNumParser.class), eq(numRetries))).thenReturn(response);
         mode = listener.listen();
         inOrder = inOrder(conn);
-        inOrder.verify(conn).receive(eq(MessageHelper.HEADER_LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
-        inOrder.verify(conn).receive(eq(modeMsg.getSerializedSize()), any(Connection.MsgNumParser.class), eq(numRetries));
-        verify(reactor).executeMessage(headerMode.getType(), modeMsg);
+        inOrder.verify(conn).receive(eq(Header.LENGTH), any(Connection.MsgNumParser.class), eq(numRetries));
+        inOrder.verify(conn).receive(eq(header.getLength()), any(Connection.MsgNumParser.class), eq(numRetries));
+        verify(reactor, times(2)).executeMessage(any(Packet.class));
         assertEquals(Mode.SENDING, mode);
     }
 }

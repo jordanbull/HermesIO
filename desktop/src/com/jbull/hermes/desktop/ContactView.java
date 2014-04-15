@@ -2,8 +2,6 @@ package com.jbull.hermes.desktop;
 
 
 import com.jbull.hermes.Logger;
-import com.jbull.hermes.Message;
-import com.jbull.hermes.MessageHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
