@@ -7,16 +7,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by Jordan on 3/30/14.
  */
-public abstract class CommunicationScheduler<T> {
-    protected final Sender<T> sender;
+public abstract class CommunicationScheduler<T, P> {
+    protected final Sender<P> sender;
     private final Listener listener;
-    Queue<T> queue = new LinkedBlockingQueue<T>();
+    protected Queue<T> queue = new LinkedBlockingQueue<T>();
     protected Mode mode;
     protected boolean running = false;
 
     private Runnable disconnectCallback;
 
-    public CommunicationScheduler(Sender<T> sender, Listener listener, Runnable disconnectCallback) {
+    public CommunicationScheduler(Sender<P> sender, Listener listener, Runnable disconnectCallback) {
         this.sender = sender;
         this.listener = listener;
         mode = Mode.STOPPED;
@@ -33,16 +33,7 @@ public abstract class CommunicationScheduler<T> {
         }
     }
 
-    synchronized public void flush() {
-        try {
-            while (!queue.isEmpty() && isSending()) {
-                sender.send(queue.remove());
-            }
-        } catch (IOException e) {
-            Logger.log(e);
-            disconnect();
-        }
-    }
+    public abstract void flush();
 
     /* LISTENING CODE */
     public abstract void startListening();

@@ -1,6 +1,8 @@
 package com.jbull.hermes.desktop;
 
 import com.jbull.hermes.Logger;
+import com.jbull.hermes.messages.ContactMessage;
+import com.jbull.hermes.messages.SmsMessage;
 import com.sun.javafx.scene.traversal.Direction;
 import com.sun.javafx.scene.traversal.TraversalEngine;
 import javafx.application.Platform;
@@ -31,7 +33,7 @@ public class ConversationView extends BorderPane {
     @FXML TextArea textInput;
     @FXML ListView messageList;
     @FXML Button sendButton;
-    Message.Contact me = MessageHelper.createContact("Me", "My Number", null, null);
+    ContactMessage me = new ContactMessage("My Number", "Name");
 
     ContactView contact;
     private Conversation conversation;
@@ -171,10 +173,9 @@ public class ConversationView extends BorderPane {
 
     @FXML
     public void send() {
-        ArrayList<Message.Contact> recipents = new ArrayList<Message.Contact>();
-        recipents.add(contact.getContactMsg());
+        ContactMessage recipient =contact.getContactMsg();
         String textContent = textInput.getText();
-        Message.SmsMessage msg = MessageHelper.createSmsMessage(me, textContent, System.currentTimeMillis(), recipents, true);
+        SmsMessage msg = new SmsMessage(me, recipient, textContent, System.currentTimeMillis());
         state.send(msg);
         state.addSms(msg, true);
         textInput.clear();

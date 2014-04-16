@@ -2,6 +2,7 @@ package com.jbull.hermes.desktop;
 
 
 import com.jbull.hermes.Logger;
+import com.jbull.hermes.messages.ContactMessage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,7 @@ public class ContactView extends HBox {
     Conversation conversation;
     private State state;
     ConversationView conversationView;
-    Message.Contact contactMsg;
+    ContactMessage contactMessage;
 
     int messagesRead = 0;
     boolean selected = false;
@@ -69,11 +70,11 @@ public class ContactView extends HBox {
         return contact.getPhoneNumber();
     }
 
-    public Message.Contact getContactMsg() {
-        if (contactMsg == null) {
-            contactMsg = MessageHelper.createContact(contact.getDisplayName(), contact.getPhoneNumber(), null, null); //does not include image
+    public ContactMessage getContactMsg() {
+        if (contactMessage == null) {
+            contactMessage = new ContactMessage(contact.getPhoneNumber(), contact.getDisplayName()); //does not include image
         }
-        return contactMsg;
+        return contactMessage;
     }
 
     public static class ContactListCell extends ListCell<ContactView> {

@@ -1,8 +1,8 @@
 package com.jbull.hermes.desktop;
 
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Logger;
 import com.jbull.hermes.MessageReactor;
+import com.jbull.hermes.messages.*;
 
 public class InstructionHandler implements MessageReactor {
 
@@ -13,20 +13,22 @@ public class InstructionHandler implements MessageReactor {
     }
 
     @Override
-    public boolean executeMessage(Message.Header.Type type, GeneratedMessage msg) {
-        if (type == Message.Header.Type.MODE) {
+    public boolean executeMessage(Packet packet) {
+        for (SmsMessage msg : packet.getSmsMessages()) {
+            executeSMS(msg);
+        }
+        for (SetupMessage msg : packet.getSetupMessages()) {
+            executeSetup(msg);
+        }
+        for (ContactMessage msg : packet.getContactMessages()) {
+            executeContact(msg);
+        }
+
+        // Mode must be last since it can return
+        for (ModeMessage msg : packet.getModeMessages()) {
             Logger.log("received: Mode "+Long.toString(System.currentTimeMillis()));
-            Message.Mode mode = (Message.Mode) msg;
             executeMode();
-            return !mode.getServerSend();
-        } else if (type == Message.Header.Type.SMSMESSAGE) {
-            executeSMS((Message.SmsMessage) msg);
-        } else if (type == Message.Header.Type.SETUPMESSAGE) {
-            executeSetup((Message.SetupMessage) msg);
-        } else if (type == Message.Header.Type.CONTACT) {
-            executeContact((Message.Contact) msg);
-        } else if (type == Message.Header.Type.BATCHCONTACTS) {
-            executeBatchContacts((Message.BatchContacts) msg);
+            return !msg.isServerSend();
         }
         return true;
     }
@@ -35,25 +37,19 @@ public class InstructionHandler implements MessageReactor {
         state.updateTimeout();
     }
 
-    private void executeSetup(Message.SetupMessage msg) {
+    private void executeSetup(SetupMessage msg) {
         Logger.log("received: SetupMessage");
         state.connected(msg.getSendPeriod());
     }
 
-    private void executeBatchContacts(Message.BatchContacts msg) {
-        for (Message.Contact contact : msg.getContactsList()) {
-            executeContact(contact);
-        }
-    }
-
-    private void executeSMS(final Message.SmsMessage sms) {
+    private void executeSMS(final SmsMessage sms) {
         Logger.log("received: SMSMessage");
-        state.notify(sms.getSender().getName(), sms.getContent(), sms.getSender().getImage().toByteArray());
+        state.notify(sms.getSender().getDisplayName(), sms.getContent(), sms.getSender().getImageData());
         state.addSms(sms, false);
     }
 
-    private void executeContact(final Message.Contact contact) {
-        Logger.log("received: ContactView " + contact.getName());
+    private void executeContact(final ContactMessage contact) {
+        Logger.log("received: ContactView " + contact.getDisplayName());
         state.addContact(contact);
     }
 }

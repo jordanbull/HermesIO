@@ -1,7 +1,14 @@
 package com.jbull.hermes.desktop;
 
 import com.google.protobuf.GeneratedMessage;
-import com.jbull.hermes.*;
+import com.jbull.hermes.Logger;
+import com.jbull.hermes.MessageListener;
+import com.jbull.hermes.MessageSender;
+import com.jbull.hermes.TCPServer;
+import com.jbull.hermes.messages.ContactMessage;
+import com.jbull.hermes.messages.HermesMessage;
+import com.jbull.hermes.messages.SmsMessage;
+import com.jbull.hermes.messages.SyncContactsMessage;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -102,9 +109,9 @@ public class State {
         });
     }
 
-    public void addContact(Message.Contact cMsg) {
+    public void addContact(ContactMessage cMsg) {
         String number = PhoneNumber.format(cMsg.getPhoneNumber());
-        Contact contact = dataStore.addContact(number, cMsg.getName(), cMsg.getImage().toByteArray(), false);
+        Contact contact = dataStore.addContact(number, cMsg.getDisplayName(), cMsg.getImageData(), false);
         if (contact != null) {
             addContactToGui(contact, dataStore.getConversation(number));
             stateChanged = true;
@@ -118,10 +125,10 @@ public class State {
         }
     }
 
-    public void addSms(Message.SmsMessage smsMsg, boolean senderOfMsg) {
-        Message.Contact c = null;
+    public void addSms(SmsMessage smsMsg, boolean senderOfMsg) {
+        ContactMessage c = null;
         if (senderOfMsg) {
-            c = smsMsg.getRecipents(0);
+            c = smsMsg.getRecipient();
             commCenter.resetSearch();
         } else {
             c = smsMsg.getSender();
@@ -129,7 +136,7 @@ public class State {
         }
         addContact(c);
         String number = PhoneNumber.format(c.getPhoneNumber());
-        Sms sms = dataStore.addMessageToConversation(number, smsMsg.getContent(), senderOfMsg, smsMsg.getTimeStamp());
+        Sms sms = dataStore.addMessageToConversation(number, smsMsg.getContent(), senderOfMsg, smsMsg.getTimeMillis());
         addSmsToGui(number, sms);
         stateChanged = true;
     }
@@ -145,7 +152,7 @@ public class State {
         });
     }
 
-    public void send(final GeneratedMessage msg) {
+    public void send(final HermesMessage msg) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -171,7 +178,7 @@ public class State {
     }
 
     private void requestContacts() {
-        send(MessageHelper.createSyncContacts());
+        send(new SyncContactsMessage());
     }
 
     synchronized private void writeDataStore() {
@@ -205,7 +212,6 @@ public class State {
                             disconnect();
                         }
                     });
-                    new SetupOnlyListener(server, handler, 0).listen();
                     commScheduler.start();
                 } catch (IOException e) {
                     Logger.log(e);

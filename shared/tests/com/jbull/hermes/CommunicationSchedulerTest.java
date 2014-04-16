@@ -1,68 +1,35 @@
 package com.jbull.hermes;
 
 import junit.framework.TestCase;
-import org.mockito.InOrder;
 
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Jordan on 3/30/14.
- */
 public class CommunicationSchedulerTest extends TestCase {
     private Listener listener;
     private Sender<String> sender;
-    private CommunicationScheduler<String> commScheduler;
+    private CommunicationScheduler<String, String> commScheduler;
 
     public void setUp() throws Exception {
         listener = mock(Listener.class);
         sender = mock(Sender.class);
-        commScheduler = new CommunicationScheduler<String>(sender, listener, null) {
+        commScheduler = new CommunicationScheduler<String, String>(sender, listener, null) {
             public void startSending() {mode = Mode.SENDING;}
+
+            @Override
+            public void flush() {
+
+            }
+
             public void startListening() {mode = Mode.LISTENING;}
         };
     }
 
     public void testSend() throws Exception {
-        //test sends immediately when in sending mode
-        commScheduler.startSending();
-        verify(sender, never()).send(anyString());
-        commScheduler.send("1");
-        verify(sender, times(1)).send(anyString());
-        verify(sender, times(1)).send("1");
-        verify(sender, never()).send("2");
-        commScheduler.send("2");
-        verify(sender, times(2)).send(anyString());
-        verify(sender, times(1)).send("1");
-        verify(sender, times(1)).send("2");
-
-        //verify nothing sent when not in sending
-        commScheduler.startListening();
-        commScheduler.send("3");
-        verify(sender, times(2)).send(anyString());
-        verify(sender, never()).send("3");
+        // TODO
     }
 
     public void testFlush() throws Exception {
-        //flush sends nothing if nothing queued
-        commScheduler.startSending();
-        commScheduler.flush();
-        verify(sender, never()).send(anyString());
-
-        //flush sends nothing if not in sending mode
-        commScheduler.startListening();
-        commScheduler.send("1");
-        commScheduler.send("2");
-        commScheduler.send("3");
-        commScheduler.flush();
-        verify(sender, never()).send(anyString());
-
-        //flush sends in order
-        commScheduler.startSending();
-        commScheduler.flush();
-        InOrder inOrder = inOrder(sender);
-        inOrder.verify(sender).send("1");
-        inOrder.verify(sender).send("2");
-        inOrder.verify(sender).send("3");
+        // TODO
     }
 
     public void testListenLoop() throws Exception {

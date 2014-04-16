@@ -1,14 +1,16 @@
 package com.jbull.hermes.desktop;
 
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
+import com.jbull.hermes.messages.HermesMessage;
+import com.jbull.hermes.messages.ModeMessage;
+import com.jbull.hermes.messages.Packet;
 
 import java.io.IOException;
 
 
-public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
+public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<HermesMessage, Packet> {
 
-    public ListenFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable disconnectCallback) {
+    public ListenFavoredCommunicationScheduler(Sender<Packet> sender, Listener listener, Runnable disconnectCallback) {
         super(sender, listener, disconnectCallback);
     }
 
@@ -27,10 +29,19 @@ public class ListenFavoredCommunicationScheduler extends CommunicationScheduler<
 
     @Override
     public void startSending() {
+        queue.add(new ModeMessage(System.currentTimeMillis(), System.currentTimeMillis(), false));
+        flush();
+        mode = Mode.LISTENING;
+    }
+
+    @Override
+    synchronized public void flush() {
+        Packet packet = new Packet();
         try {
-            flush();
-            mode = Mode.LISTENING;
-            sender.send(MessageHelper.createModeMessage(false, 0));
+            while (!queue.isEmpty() && isSending()) {
+                packet.addMessage(queue.remove());
+            }
+            sender.send(packet);
         } catch (IOException e) {
             Logger.log(e);
             disconnect();
