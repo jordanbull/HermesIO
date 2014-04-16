@@ -60,6 +60,7 @@ public class InstructionHandler extends MessageReactor {
                         packet.addMessage(contactMessage);
                     }
                     commScheduler.send(packet);
+                    Logger.log("All contacts sent");
                 } catch (IOException e) {
                     Logger.log(e);
                 }

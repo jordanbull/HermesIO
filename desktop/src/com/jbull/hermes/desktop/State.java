@@ -48,7 +48,7 @@ public class State {
         this.commCenter = commCenter;
         commCenter.setState(this);
         final File f = new File(State.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        File file = new File(f.getParent()+DATA_STORE_FILENAME);
+        File file = new File(f.getParent()+"/"+DATA_STORE_FILENAME);
         pathToDataStore = file.getAbsolutePath();
         Logger.log(pathToDataStore);
         if (file.exists()) {
@@ -177,6 +177,13 @@ public class State {
     }
 
     private void requestContacts() {
+        while (commScheduler == null) {
+            try {
+                Thread.sleep(100); //avoid nullpointer
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         send(new SyncContactsMessage());
     }
 

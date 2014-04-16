@@ -48,7 +48,7 @@ public class ContactView extends HBox {
         }
         numberLabel.setText(contact.getPhoneNumber());
         nameLabel.setText(contact.getDisplayName());
-        if (contact.getImageData().length > 0) {
+        if (contact.getImageData() != null && contact.getImageData().length > 0) {
             final Image img = new Image(new ByteArrayInputStream(contact.getImageData()));
             image.setImage(img);
         } else {

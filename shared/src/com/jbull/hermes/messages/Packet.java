@@ -57,6 +57,8 @@ public class Packet extends HermesMessage<ProtobufRep.Packet> {
             setupMessages.add((SetupMessage) msg);
         } else if (msg instanceof SyncContactsMessage) {
             syncContactsMessages.add((SyncContactsMessage) msg);
+        } else if (msg instanceof Packet) {
+            packets.add((Packet) msg);
         } else {
             throw new MessageSerializationException("Attempting to add an unknown message type: " + msg.getClass().toString());
         }
