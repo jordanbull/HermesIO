@@ -55,6 +55,7 @@ public abstract class CommunicationScheduler<T, P> {
     }
 
     public void disconnect() {
+        stop();
         disconnectCallback.run();
     }
 

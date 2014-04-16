@@ -3,7 +3,7 @@ package com.jbull.hermes.messages;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 public class Header {
-    public static final int LENGTH = new Packet().getHeader(1).length;
+    public static final int LENGTH = new Packet().getHeader(1).toBytes().length;
 
     private final int msgNum;
     private final int length;

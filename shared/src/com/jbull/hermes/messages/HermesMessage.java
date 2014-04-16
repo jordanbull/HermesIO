@@ -1,13 +1,13 @@
 package com.jbull.hermes.messages;
 
-import com.google.protobuf.GeneratedMessageLite;
+import com.google.protobuf.AbstractMessageLite;
 
 import java.lang.reflect.Constructor;
 
-public abstract class HermesMessage<T extends GeneratedMessageLite> {
+public abstract class HermesMessage<T extends AbstractMessageLite> {
     public abstract T getProtobufRep();
 
-    public static <T extends GeneratedMessageLite, C extends HermesMessage<T>> C createFromProtobufRep(T protobufRep, Class<C> c) {
+    public static <T extends AbstractMessageLite, C extends HermesMessage<T>> C createFromProtobufRep(T protobufRep, Class<C> c) {
         try {
             Constructor<C> constr = c.getDeclaredConstructor(new Class[0]);
             constr.setAccessible(true);

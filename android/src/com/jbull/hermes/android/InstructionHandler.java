@@ -4,17 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.telephony.SmsManager;
-import com.google.protobuf.GeneratedMessage;
-import com.jbull.hermes.Message;
-import com.jbull.hermes.MessageHelper;
+import com.jbull.hermes.Logger;
 import com.jbull.hermes.MessageReactor;
+import com.jbull.hermes.messages.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * The InstructionHandler is given messages sent from the server and handles them on the client side
  */
-public class InstructionHandler implements MessageReactor {
+public class InstructionHandler extends MessageReactor {
 
     private final Context context;
     private SendFavoredCommunicationScheduler commScheduler;
@@ -23,46 +23,46 @@ public class InstructionHandler implements MessageReactor {
         this.context = context;
     }
 
-    @Override
-    public boolean executeMessage(Message.Header.Type type, GeneratedMessage msg) {
-        if (type == Message.Header.Type.SMSMESSAGE) {
-            Message.SmsMessage sms = (Message.SmsMessage) msg;
-            sendSms(sms);
-            return true;
-        } else if (type == Message.Header.Type.MODE) {
-            Message.Mode mode = (Message.Mode) msg;
-            assert mode.getServerSend() == false;
-            return false;
-        } else if (type == Message.Header.Type.SYNCCONTACTS) {
-            sendAllContacts();
-            return true;
-        }
-        // TODO: should not reach this point. exception?
-        throw new RuntimeException("Should not reach this point");
-    }
-
-    public void sendSms(Message.SmsMessage sms) {
+    public void executeSms(SmsMessage sms) {
         SmsManager smsManager = SmsManager.getDefault();
         ArrayList<String> msgParts = smsManager.divideMessage(sms.getContent());
-        for (Message.Contact recipent : sms.getRecipentsList()) {
-            smsManager.sendMultipartTextMessage(recipent.getPhoneNumber(), null, msgParts, null, null);
-            ContentValues values = new ContentValues();
-            values.put("address", recipent.getPhoneNumber());
-            values.put("body", sms.getContent());
-            context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
-        }
+        smsManager.sendMultipartTextMessage(sms.getRecipient().getPhoneNumber(), null, msgParts, null, null);
+        ContentValues values = new ContentValues();
+        values.put("address", sms.getRecipient().getPhoneNumber());
+        values.put("body", sms.getContent());
+        context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+    }
+
+    public void executeSetup(SetupMessage setup) {}
+
+    public void executeContact(ContactMessage contactMessage) {}
+
+    public void executeSyncContacts(SyncContactsMessage syncContactsMessage) {
+        sendAllContacts();
+    }
+
+    public boolean executeMode(ModeMessage modeMessage) {
+        return modeMessage.isServerSend();
     }
 
     public void setCommunicationScheduler(SendFavoredCommunicationScheduler scheduler) {
         this.commScheduler = scheduler;
     }
 
-    public void sendAllContacts() {
+    private void sendAllContacts() {
         //do in background
         new Thread(new Runnable() {
             @Override
             public void run() {
-                commScheduler.send(MessageHelper.createBatchContacts(Contacts.getContacts(context)));
+                Packet packet = new Packet();
+                try {
+                    for (ContactMessage contactMessage : Contacts.getContacts(context)) {
+                        packet.addMessage(contactMessage);
+                    }
+                    commScheduler.send(packet);
+                } catch (IOException e) {
+                    Logger.log(e);
+                }
             }
         }).start();
     }

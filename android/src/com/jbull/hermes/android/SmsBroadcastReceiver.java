@@ -9,15 +9,13 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import com.google.protobuf.ByteString;
-import com.jbull.hermes.Message;
-import com.jbull.hermes.MessageHelper;
+import com.jbull.hermes.Logger;
+import com.jbull.hermes.messages.ContactMessage;
+import com.jbull.hermes.messages.HermesMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 
 public class SmsBroadcastReceiver extends BroadcastReceiver{
@@ -25,6 +23,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
     private final SmsManager SMS = SmsManager.getDefault();
     private SendFavoredCommunicationScheduler commScheduler;
     private Context context;
+
+    private ContactMessage me = new ContactMessage("number", "name");
 
     public SmsBroadcastReceiver(SendFavoredCommunicationScheduler commScheduler) {
         super();
@@ -43,15 +43,15 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                         final Object[] pdusObj = (Object[]) bundle.get("pdus");
                         String body = "";
                         SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[0]);
-                        final Message.Contact sender = getContactByNumber(currentMessage.getOriginatingAddress());
+                        final ContactMessage sender = getContactByNumber(currentMessage.getOriginatingAddress());
                         final long timeMs = currentMessage.getTimestampMillis();
                         for (int i = 0; i < pdusObj.length; i++) {
                             currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
                             body += currentMessage.getDisplayMessageBody();
                         }
-                        Message.SmsMessage msg = MessageHelper.createSmsMessage(sender, body, timeMs, new ArrayList<Message.Contact>(), true);
-                        commScheduler.send(msg);
-                        Log.w("Hermes", "sms sent");
+                        HermesMessage sms = new com.jbull.hermes.messages.SmsMessage(sender, me, body, timeMs);
+                        commScheduler.send(sms);
+                        Logger.log("sms sent");
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
@@ -62,11 +62,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                 }).start();
             }
         } catch (Exception e) {
-            Log.e("Hermes", "Exception smsReceiver" , e);
+            Logger.log(e);
         }
     }
 
-    public Message.Contact getContactByNumber(String phoneNumber) {
+    public ContactMessage getContactByNumber(String phoneNumber) {
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
         ContentResolver cr = context.getContentResolver();
         Cursor cur = cr.query(
@@ -80,7 +80,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
         String contactId = cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup._ID));
         String name = cur.getString(cur.getColumnIndex(PhoneLookup.DISPLAY_NAME));
 
-        ByteString imageData = null;
+        byte[] imageData = null;
         Uri photoUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, Long.parseLong(contactId));
         InputStream input = Contacts.openContactPhotoInputStream(context.getContentResolver(), photoUri);
         if (input != null) {
@@ -92,13 +92,13 @@ public class SmsBroadcastReceiver extends BroadcastReceiver{
                     buffer.write(data, 0, nRead);
                 }
                 buffer.flush();
-                imageData = ByteString.copyFrom(buffer.toByteArray());
+                imageData = buffer.toByteArray();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         cur.close();
-        return MessageHelper.createContact(name, phoneNumber, imageData, null);
+        return new ContactMessage(phoneNumber, name, imageData);
     }
 
 

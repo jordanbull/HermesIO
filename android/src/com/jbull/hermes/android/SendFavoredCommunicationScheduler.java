@@ -1,17 +1,18 @@
 package com.jbull.hermes.android;
 
-import android.util.Log;
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.*;
+import com.jbull.hermes.messages.HermesMessage;
+import com.jbull.hermes.messages.ModeMessage;
+import com.jbull.hermes.messages.Packet;
 
 import java.io.IOException;
 
 
-public class SendFavoredCommunicationScheduler extends CommunicationScheduler<GeneratedMessage> {
+public class SendFavoredCommunicationScheduler extends CommunicationScheduler<HermesMessage, Packet> {
     private final Runnable startListenTimer;
     private int sendWindowMillis;
 
-    public SendFavoredCommunicationScheduler(Sender<GeneratedMessage> sender, Listener listener, Runnable startListenTimer, Runnable disconnectCalback, int sendWindowMillis) {
+    public SendFavoredCommunicationScheduler(Sender<Packet> sender, Listener listener, Runnable startListenTimer, Runnable disconnectCalback, int sendWindowMillis) {
         super(sender, listener, disconnectCalback);
         this.sendWindowMillis = sendWindowMillis;
         this.startListenTimer = startListenTimer;
@@ -34,17 +35,26 @@ public class SendFavoredCommunicationScheduler extends CommunicationScheduler<Ge
     }
 
     @Override
-    synchronized public void startListening() {
+    public void flush() {
+        Packet packet = new Packet();
         try {
-            mode = Mode.LISTENING;
-            sender.send(MessageHelper.createModeMessage(true, 0));
-            listenLoop();
-            if (running && !isStopped())
-                startSending();
+            while (!queue.isEmpty() && isSending()) {
+                packet.addMessage(queue.remove());
+            }
+            sender.send(packet);
         } catch (IOException e) {
-            Log.e("HermesIO", "", e);
+            Logger.log(e);
             disconnect();
         }
+    }
+
+    @Override
+    synchronized public void startListening() {
+        send(new ModeMessage(System.currentTimeMillis(), System.currentTimeMillis(), true));
+        mode = Mode.LISTENING;
+        listenLoop();
+        if (running && !isStopped())
+            startSending();
     }
 
 

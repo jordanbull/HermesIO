@@ -1,5 +1,5 @@
 option java_package = "com.jbull.hermes.messages";
-option optimize_for = LITE_RUNTIME;
+//option optimize_for = LITE_RUNTIME;
 
 message Packet {
   required fixed32 msgNum = 1;
@@ -8,6 +8,7 @@ message Packet {
   repeated Contact contact = 4;
   repeated Mode mode = 5;
   repeated SyncContacts syncContacts = 6;
+  repeated Packet packet = 7;
 }
 
 message Setup {

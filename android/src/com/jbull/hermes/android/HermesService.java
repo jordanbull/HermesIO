@@ -13,7 +13,11 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
-import com.jbull.hermes.*;
+import com.jbull.hermes.Connection;
+import com.jbull.hermes.MessageListener;
+import com.jbull.hermes.MessageSender;
+import com.jbull.hermes.TCPClient;
+import com.jbull.hermes.messages.SetupMessage;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,7 +67,7 @@ public class HermesService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                commManager.send(MessageHelper.createSetupMessage(SEND_PERIOD));
+                commManager.send(new SetupMessage(SEND_PERIOD));
                 commManager.start();
                 //sendStartListenTimer();
             }
@@ -83,7 +87,10 @@ public class HermesService extends Service {
         Intent connectedIntent = new Intent("com.jbull.hermes");
         connectedIntent.putExtra("connected", false);
         getApplicationContext().sendBroadcast(connectedIntent);
-        unregisterReceiver(smsBroadcastReceiver);
+        if (smsBroadcastReceiver != null) {
+            unregisterReceiver(smsBroadcastReceiver);
+            smsBroadcastReceiver = null;
+        }
         if (pendInt != null) {
             AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
             alarmManager.cancel(pendInt);

@@ -6,10 +6,10 @@ package com.jbull.hermes.messages;
 public final class ProtobufRep {
   private ProtobufRep() {}
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistryLite registry) {
+      com.google.protobuf.ExtensionRegistry registry) {
   }
   public interface PacketOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required fixed32 msgNum = 1;
     /**
@@ -35,6 +35,16 @@ public final class ProtobufRep {
      * <code>repeated .Setup setup = 2;</code>
      */
     int getSetupCount();
+    /**
+     * <code>repeated .Setup setup = 2;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder> 
+        getSetupOrBuilderList();
+    /**
+     * <code>repeated .Setup setup = 2;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder getSetupOrBuilder(
+        int index);
 
     // repeated .Sms sms = 3;
     /**
@@ -50,6 +60,16 @@ public final class ProtobufRep {
      * <code>repeated .Sms sms = 3;</code>
      */
     int getSmsCount();
+    /**
+     * <code>repeated .Sms sms = 3;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder> 
+        getSmsOrBuilderList();
+    /**
+     * <code>repeated .Sms sms = 3;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder getSmsOrBuilder(
+        int index);
 
     // repeated .Contact contact = 4;
     /**
@@ -65,6 +85,16 @@ public final class ProtobufRep {
      * <code>repeated .Contact contact = 4;</code>
      */
     int getContactCount();
+    /**
+     * <code>repeated .Contact contact = 4;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> 
+        getContactOrBuilderList();
+    /**
+     * <code>repeated .Contact contact = 4;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getContactOrBuilder(
+        int index);
 
     // repeated .Mode mode = 5;
     /**
@@ -80,6 +110,16 @@ public final class ProtobufRep {
      * <code>repeated .Mode mode = 5;</code>
      */
     int getModeCount();
+    /**
+     * <code>repeated .Mode mode = 5;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder> 
+        getModeOrBuilderList();
+    /**
+     * <code>repeated .Mode mode = 5;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder getModeOrBuilder(
+        int index);
 
     // repeated .SyncContacts syncContacts = 6;
     /**
@@ -95,19 +135,54 @@ public final class ProtobufRep {
      * <code>repeated .SyncContacts syncContacts = 6;</code>
      */
     int getSyncContactsCount();
+    /**
+     * <code>repeated .SyncContacts syncContacts = 6;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder> 
+        getSyncContactsOrBuilderList();
+    /**
+     * <code>repeated .SyncContacts syncContacts = 6;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder getSyncContactsOrBuilder(
+        int index);
+
+    // repeated .Packet packet = 7;
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet> 
+        getPacketList();
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.Packet getPacket(int index);
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    int getPacketCount();
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder> 
+        getPacketOrBuilderList();
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder getPacketOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Packet}
    */
   public static final class Packet extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements PacketOrBuilder {
     // Use Packet.newBuilder() to construct.
-    private Packet(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Packet(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Packet(boolean noInit) {}
+    private Packet(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Packet defaultInstance;
     public static Packet getDefaultInstance() {
@@ -118,12 +193,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Packet(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -133,7 +216,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -184,6 +267,14 @@ public final class ProtobufRep {
               syncContacts_.add(input.readMessage(com.jbull.hermes.messages.ProtobufRep.SyncContacts.PARSER, extensionRegistry));
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                packet_ = new java.util.ArrayList<com.jbull.hermes.messages.ProtobufRep.Packet>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              packet_.add(input.readMessage(com.jbull.hermes.messages.ProtobufRep.Packet.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -207,9 +298,25 @@ public final class ProtobufRep {
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           syncContacts_ = java.util.Collections.unmodifiableList(syncContacts_);
         }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          packet_ = java.util.Collections.unmodifiableList(packet_);
+        }
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Packet_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Packet_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Packet.class, com.jbull.hermes.messages.ProtobufRep.Packet.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Packet> PARSER =
         new com.google.protobuf.AbstractParser<Packet>() {
       public Packet parsePartialFrom(
@@ -422,6 +529,42 @@ public final class ProtobufRep {
       return syncContacts_.get(index);
     }
 
+    // repeated .Packet packet = 7;
+    public static final int PACKET_FIELD_NUMBER = 7;
+    private java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet> packet_;
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    public java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet> getPacketList() {
+      return packet_;
+    }
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder> 
+        getPacketOrBuilderList() {
+      return packet_;
+    }
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    public int getPacketCount() {
+      return packet_.size();
+    }
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.Packet getPacket(int index) {
+      return packet_.get(index);
+    }
+    /**
+     * <code>repeated .Packet packet = 7;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder getPacketOrBuilder(
+        int index) {
+      return packet_.get(index);
+    }
+
     private void initFields() {
       msgNum_ = 0;
       setup_ = java.util.Collections.emptyList();
@@ -429,6 +572,7 @@ public final class ProtobufRep {
       contact_ = java.util.Collections.emptyList();
       mode_ = java.util.Collections.emptyList();
       syncContacts_ = java.util.Collections.emptyList();
+      packet_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -463,6 +607,12 @@ public final class ProtobufRep {
           return false;
         }
       }
+      for (int i = 0; i < getPacketCount(); i++) {
+        if (!getPacket(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -488,6 +638,10 @@ public final class ProtobufRep {
       for (int i = 0; i < syncContacts_.size(); i++) {
         output.writeMessage(6, syncContacts_.get(i));
       }
+      for (int i = 0; i < packet_.size(); i++) {
+        output.writeMessage(7, packet_.get(i));
+      }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -520,6 +674,11 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, syncContacts_.get(i));
       }
+      for (int i = 0; i < packet_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, packet_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -591,19 +750,49 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Packet}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Packet, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Packet_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Packet_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Packet.class, com.jbull.hermes.messages.ProtobufRep.Packet.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Packet.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSetupFieldBuilder();
+          getSmsFieldBuilder();
+          getContactFieldBuilder();
+          getModeFieldBuilder();
+          getSyncContactsFieldBuilder();
+          getPacketFieldBuilder();
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -613,21 +802,52 @@ public final class ProtobufRep {
         super.clear();
         msgNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        setup_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-        sms_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        contact_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000008);
-        mode_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000010);
-        syncContacts_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        if (setupBuilder_ == null) {
+          setup_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          setupBuilder_.clear();
+        }
+        if (smsBuilder_ == null) {
+          sms_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          smsBuilder_.clear();
+        }
+        if (contactBuilder_ == null) {
+          contact_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          contactBuilder_.clear();
+        }
+        if (modeBuilder_ == null) {
+          mode_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          modeBuilder_.clear();
+        }
+        if (syncContactsBuilder_ == null) {
+          syncContacts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          syncContactsBuilder_.clear();
+        }
+        if (packetBuilder_ == null) {
+          packet_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          packetBuilder_.clear();
+        }
         return this;
       }
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Packet_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Packet getDefaultInstanceForType() {
@@ -650,33 +870,72 @@ public final class ProtobufRep {
           to_bitField0_ |= 0x00000001;
         }
         result.msgNum_ = msgNum_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          setup_ = java.util.Collections.unmodifiableList(setup_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (setupBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            setup_ = java.util.Collections.unmodifiableList(setup_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.setup_ = setup_;
+        } else {
+          result.setup_ = setupBuilder_.build();
         }
-        result.setup_ = setup_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          sms_ = java.util.Collections.unmodifiableList(sms_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (smsBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            sms_ = java.util.Collections.unmodifiableList(sms_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.sms_ = sms_;
+        } else {
+          result.sms_ = smsBuilder_.build();
         }
-        result.sms_ = sms_;
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          contact_ = java.util.Collections.unmodifiableList(contact_);
-          bitField0_ = (bitField0_ & ~0x00000008);
+        if (contactBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            contact_ = java.util.Collections.unmodifiableList(contact_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.contact_ = contact_;
+        } else {
+          result.contact_ = contactBuilder_.build();
         }
-        result.contact_ = contact_;
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          mode_ = java.util.Collections.unmodifiableList(mode_);
-          bitField0_ = (bitField0_ & ~0x00000010);
+        if (modeBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            mode_ = java.util.Collections.unmodifiableList(mode_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.mode_ = mode_;
+        } else {
+          result.mode_ = modeBuilder_.build();
         }
-        result.mode_ = mode_;
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
-          syncContacts_ = java.util.Collections.unmodifiableList(syncContacts_);
-          bitField0_ = (bitField0_ & ~0x00000020);
+        if (syncContactsBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            syncContacts_ = java.util.Collections.unmodifiableList(syncContacts_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.syncContacts_ = syncContacts_;
+        } else {
+          result.syncContacts_ = syncContactsBuilder_.build();
         }
-        result.syncContacts_ = syncContacts_;
+        if (packetBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            packet_ = java.util.Collections.unmodifiableList(packet_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.packet_ = packet_;
+        } else {
+          result.packet_ = packetBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Packet) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Packet)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Packet other) {
@@ -684,56 +943,163 @@ public final class ProtobufRep {
         if (other.hasMsgNum()) {
           setMsgNum(other.getMsgNum());
         }
-        if (!other.setup_.isEmpty()) {
-          if (setup_.isEmpty()) {
-            setup_ = other.setup_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureSetupIsMutable();
-            setup_.addAll(other.setup_);
+        if (setupBuilder_ == null) {
+          if (!other.setup_.isEmpty()) {
+            if (setup_.isEmpty()) {
+              setup_ = other.setup_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSetupIsMutable();
+              setup_.addAll(other.setup_);
+            }
+            onChanged();
           }
-          
-        }
-        if (!other.sms_.isEmpty()) {
-          if (sms_.isEmpty()) {
-            sms_ = other.sms_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureSmsIsMutable();
-            sms_.addAll(other.sms_);
+        } else {
+          if (!other.setup_.isEmpty()) {
+            if (setupBuilder_.isEmpty()) {
+              setupBuilder_.dispose();
+              setupBuilder_ = null;
+              setup_ = other.setup_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              setupBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSetupFieldBuilder() : null;
+            } else {
+              setupBuilder_.addAllMessages(other.setup_);
+            }
           }
-          
         }
-        if (!other.contact_.isEmpty()) {
-          if (contact_.isEmpty()) {
-            contact_ = other.contact_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-          } else {
-            ensureContactIsMutable();
-            contact_.addAll(other.contact_);
+        if (smsBuilder_ == null) {
+          if (!other.sms_.isEmpty()) {
+            if (sms_.isEmpty()) {
+              sms_ = other.sms_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureSmsIsMutable();
+              sms_.addAll(other.sms_);
+            }
+            onChanged();
           }
-          
-        }
-        if (!other.mode_.isEmpty()) {
-          if (mode_.isEmpty()) {
-            mode_ = other.mode_;
-            bitField0_ = (bitField0_ & ~0x00000010);
-          } else {
-            ensureModeIsMutable();
-            mode_.addAll(other.mode_);
+        } else {
+          if (!other.sms_.isEmpty()) {
+            if (smsBuilder_.isEmpty()) {
+              smsBuilder_.dispose();
+              smsBuilder_ = null;
+              sms_ = other.sms_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              smsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSmsFieldBuilder() : null;
+            } else {
+              smsBuilder_.addAllMessages(other.sms_);
+            }
           }
-          
         }
-        if (!other.syncContacts_.isEmpty()) {
-          if (syncContacts_.isEmpty()) {
-            syncContacts_ = other.syncContacts_;
-            bitField0_ = (bitField0_ & ~0x00000020);
-          } else {
-            ensureSyncContactsIsMutable();
-            syncContacts_.addAll(other.syncContacts_);
+        if (contactBuilder_ == null) {
+          if (!other.contact_.isEmpty()) {
+            if (contact_.isEmpty()) {
+              contact_ = other.contact_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureContactIsMutable();
+              contact_.addAll(other.contact_);
+            }
+            onChanged();
           }
-          
+        } else {
+          if (!other.contact_.isEmpty()) {
+            if (contactBuilder_.isEmpty()) {
+              contactBuilder_.dispose();
+              contactBuilder_ = null;
+              contact_ = other.contact_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              contactBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getContactFieldBuilder() : null;
+            } else {
+              contactBuilder_.addAllMessages(other.contact_);
+            }
+          }
         }
+        if (modeBuilder_ == null) {
+          if (!other.mode_.isEmpty()) {
+            if (mode_.isEmpty()) {
+              mode_ = other.mode_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureModeIsMutable();
+              mode_.addAll(other.mode_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.mode_.isEmpty()) {
+            if (modeBuilder_.isEmpty()) {
+              modeBuilder_.dispose();
+              modeBuilder_ = null;
+              mode_ = other.mode_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              modeBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getModeFieldBuilder() : null;
+            } else {
+              modeBuilder_.addAllMessages(other.mode_);
+            }
+          }
+        }
+        if (syncContactsBuilder_ == null) {
+          if (!other.syncContacts_.isEmpty()) {
+            if (syncContacts_.isEmpty()) {
+              syncContacts_ = other.syncContacts_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureSyncContactsIsMutable();
+              syncContacts_.addAll(other.syncContacts_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.syncContacts_.isEmpty()) {
+            if (syncContactsBuilder_.isEmpty()) {
+              syncContactsBuilder_.dispose();
+              syncContactsBuilder_ = null;
+              syncContacts_ = other.syncContacts_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              syncContactsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSyncContactsFieldBuilder() : null;
+            } else {
+              syncContactsBuilder_.addAllMessages(other.syncContacts_);
+            }
+          }
+        }
+        if (packetBuilder_ == null) {
+          if (!other.packet_.isEmpty()) {
+            if (packet_.isEmpty()) {
+              packet_ = other.packet_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensurePacketIsMutable();
+              packet_.addAll(other.packet_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.packet_.isEmpty()) {
+            if (packetBuilder_.isEmpty()) {
+              packetBuilder_.dispose();
+              packetBuilder_ = null;
+              packet_ = other.packet_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              packetBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPacketFieldBuilder() : null;
+            } else {
+              packetBuilder_.addAllMessages(other.packet_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -762,6 +1128,12 @@ public final class ProtobufRep {
         }
         for (int i = 0; i < getModeCount(); i++) {
           if (!getMode(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getPacketCount(); i++) {
+          if (!getPacket(i).isInitialized()) {
             
             return false;
           }
@@ -808,7 +1180,7 @@ public final class ProtobufRep {
       public Builder setMsgNum(int value) {
         bitField0_ |= 0x00000001;
         msgNum_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -817,7 +1189,7 @@ public final class ProtobufRep {
       public Builder clearMsgNum() {
         bitField0_ = (bitField0_ & ~0x00000001);
         msgNum_ = 0;
-        
+        onChanged();
         return this;
       }
 
@@ -831,35 +1203,54 @@ public final class ProtobufRep {
          }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Setup, com.jbull.hermes.messages.ProtobufRep.Setup.Builder, com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder> setupBuilder_;
+
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public java.util.List<com.jbull.hermes.messages.ProtobufRep.Setup> getSetupList() {
-        return java.util.Collections.unmodifiableList(setup_);
+        if (setupBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(setup_);
+        } else {
+          return setupBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public int getSetupCount() {
-        return setup_.size();
+        if (setupBuilder_ == null) {
+          return setup_.size();
+        } else {
+          return setupBuilder_.getCount();
+        }
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Setup getSetup(int index) {
-        return setup_.get(index);
+        if (setupBuilder_ == null) {
+          return setup_.get(index);
+        } else {
+          return setupBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public Builder setSetup(
           int index, com.jbull.hermes.messages.ProtobufRep.Setup value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (setupBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSetupIsMutable();
+          setup_.set(index, value);
+          onChanged();
+        } else {
+          setupBuilder_.setMessage(index, value);
         }
-        ensureSetupIsMutable();
-        setup_.set(index, value);
-
         return this;
       }
       /**
@@ -867,21 +1258,29 @@ public final class ProtobufRep {
        */
       public Builder setSetup(
           int index, com.jbull.hermes.messages.ProtobufRep.Setup.Builder builderForValue) {
-        ensureSetupIsMutable();
-        setup_.set(index, builderForValue.build());
-
+        if (setupBuilder_ == null) {
+          ensureSetupIsMutable();
+          setup_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          setupBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public Builder addSetup(com.jbull.hermes.messages.ProtobufRep.Setup value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (setupBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSetupIsMutable();
+          setup_.add(value);
+          onChanged();
+        } else {
+          setupBuilder_.addMessage(value);
         }
-        ensureSetupIsMutable();
-        setup_.add(value);
-
         return this;
       }
       /**
@@ -889,12 +1288,16 @@ public final class ProtobufRep {
        */
       public Builder addSetup(
           int index, com.jbull.hermes.messages.ProtobufRep.Setup value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (setupBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSetupIsMutable();
+          setup_.add(index, value);
+          onChanged();
+        } else {
+          setupBuilder_.addMessage(index, value);
         }
-        ensureSetupIsMutable();
-        setup_.add(index, value);
-
         return this;
       }
       /**
@@ -902,9 +1305,13 @@ public final class ProtobufRep {
        */
       public Builder addSetup(
           com.jbull.hermes.messages.ProtobufRep.Setup.Builder builderForValue) {
-        ensureSetupIsMutable();
-        setup_.add(builderForValue.build());
-
+        if (setupBuilder_ == null) {
+          ensureSetupIsMutable();
+          setup_.add(builderForValue.build());
+          onChanged();
+        } else {
+          setupBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -912,9 +1319,13 @@ public final class ProtobufRep {
        */
       public Builder addSetup(
           int index, com.jbull.hermes.messages.ProtobufRep.Setup.Builder builderForValue) {
-        ensureSetupIsMutable();
-        setup_.add(index, builderForValue.build());
-
+        if (setupBuilder_ == null) {
+          ensureSetupIsMutable();
+          setup_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          setupBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -922,28 +1333,104 @@ public final class ProtobufRep {
        */
       public Builder addAllSetup(
           java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Setup> values) {
-        ensureSetupIsMutable();
-        super.addAll(values, setup_);
-
+        if (setupBuilder_ == null) {
+          ensureSetupIsMutable();
+          super.addAll(values, setup_);
+          onChanged();
+        } else {
+          setupBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public Builder clearSetup() {
-        setup_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-
+        if (setupBuilder_ == null) {
+          setup_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          setupBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .Setup setup = 2;</code>
        */
       public Builder removeSetup(int index) {
-        ensureSetupIsMutable();
-        setup_.remove(index);
-
+        if (setupBuilder_ == null) {
+          ensureSetupIsMutable();
+          setup_.remove(index);
+          onChanged();
+        } else {
+          setupBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Setup.Builder getSetupBuilder(
+          int index) {
+        return getSetupFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder getSetupOrBuilder(
+          int index) {
+        if (setupBuilder_ == null) {
+          return setup_.get(index);  } else {
+          return setupBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder> 
+           getSetupOrBuilderList() {
+        if (setupBuilder_ != null) {
+          return setupBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(setup_);
+        }
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Setup.Builder addSetupBuilder() {
+        return getSetupFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Setup.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Setup.Builder addSetupBuilder(
+          int index) {
+        return getSetupFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Setup.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Setup setup = 2;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Setup.Builder> 
+           getSetupBuilderList() {
+        return getSetupFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Setup, com.jbull.hermes.messages.ProtobufRep.Setup.Builder, com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder> 
+          getSetupFieldBuilder() {
+        if (setupBuilder_ == null) {
+          setupBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Setup, com.jbull.hermes.messages.ProtobufRep.Setup.Builder, com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder>(
+                  setup_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          setup_ = null;
+        }
+        return setupBuilder_;
       }
 
       // repeated .Sms sms = 3;
@@ -956,35 +1443,54 @@ public final class ProtobufRep {
          }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Sms, com.jbull.hermes.messages.ProtobufRep.Sms.Builder, com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder> smsBuilder_;
+
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public java.util.List<com.jbull.hermes.messages.ProtobufRep.Sms> getSmsList() {
-        return java.util.Collections.unmodifiableList(sms_);
+        if (smsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(sms_);
+        } else {
+          return smsBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public int getSmsCount() {
-        return sms_.size();
+        if (smsBuilder_ == null) {
+          return sms_.size();
+        } else {
+          return smsBuilder_.getCount();
+        }
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Sms getSms(int index) {
-        return sms_.get(index);
+        if (smsBuilder_ == null) {
+          return sms_.get(index);
+        } else {
+          return smsBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public Builder setSms(
           int index, com.jbull.hermes.messages.ProtobufRep.Sms value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (smsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSmsIsMutable();
+          sms_.set(index, value);
+          onChanged();
+        } else {
+          smsBuilder_.setMessage(index, value);
         }
-        ensureSmsIsMutable();
-        sms_.set(index, value);
-
         return this;
       }
       /**
@@ -992,21 +1498,29 @@ public final class ProtobufRep {
        */
       public Builder setSms(
           int index, com.jbull.hermes.messages.ProtobufRep.Sms.Builder builderForValue) {
-        ensureSmsIsMutable();
-        sms_.set(index, builderForValue.build());
-
+        if (smsBuilder_ == null) {
+          ensureSmsIsMutable();
+          sms_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          smsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public Builder addSms(com.jbull.hermes.messages.ProtobufRep.Sms value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (smsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSmsIsMutable();
+          sms_.add(value);
+          onChanged();
+        } else {
+          smsBuilder_.addMessage(value);
         }
-        ensureSmsIsMutable();
-        sms_.add(value);
-
         return this;
       }
       /**
@@ -1014,12 +1528,16 @@ public final class ProtobufRep {
        */
       public Builder addSms(
           int index, com.jbull.hermes.messages.ProtobufRep.Sms value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (smsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSmsIsMutable();
+          sms_.add(index, value);
+          onChanged();
+        } else {
+          smsBuilder_.addMessage(index, value);
         }
-        ensureSmsIsMutable();
-        sms_.add(index, value);
-
         return this;
       }
       /**
@@ -1027,9 +1545,13 @@ public final class ProtobufRep {
        */
       public Builder addSms(
           com.jbull.hermes.messages.ProtobufRep.Sms.Builder builderForValue) {
-        ensureSmsIsMutable();
-        sms_.add(builderForValue.build());
-
+        if (smsBuilder_ == null) {
+          ensureSmsIsMutable();
+          sms_.add(builderForValue.build());
+          onChanged();
+        } else {
+          smsBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1037,9 +1559,13 @@ public final class ProtobufRep {
        */
       public Builder addSms(
           int index, com.jbull.hermes.messages.ProtobufRep.Sms.Builder builderForValue) {
-        ensureSmsIsMutable();
-        sms_.add(index, builderForValue.build());
-
+        if (smsBuilder_ == null) {
+          ensureSmsIsMutable();
+          sms_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          smsBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1047,28 +1573,104 @@ public final class ProtobufRep {
        */
       public Builder addAllSms(
           java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Sms> values) {
-        ensureSmsIsMutable();
-        super.addAll(values, sms_);
-
+        if (smsBuilder_ == null) {
+          ensureSmsIsMutable();
+          super.addAll(values, sms_);
+          onChanged();
+        } else {
+          smsBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public Builder clearSms() {
-        sms_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-
+        if (smsBuilder_ == null) {
+          sms_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          smsBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .Sms sms = 3;</code>
        */
       public Builder removeSms(int index) {
-        ensureSmsIsMutable();
-        sms_.remove(index);
-
+        if (smsBuilder_ == null) {
+          ensureSmsIsMutable();
+          sms_.remove(index);
+          onChanged();
+        } else {
+          smsBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Sms.Builder getSmsBuilder(
+          int index) {
+        return getSmsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder getSmsOrBuilder(
+          int index) {
+        if (smsBuilder_ == null) {
+          return sms_.get(index);  } else {
+          return smsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder> 
+           getSmsOrBuilderList() {
+        if (smsBuilder_ != null) {
+          return smsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(sms_);
+        }
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Sms.Builder addSmsBuilder() {
+        return getSmsFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Sms.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Sms.Builder addSmsBuilder(
+          int index) {
+        return getSmsFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Sms.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Sms sms = 3;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Sms.Builder> 
+           getSmsBuilderList() {
+        return getSmsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Sms, com.jbull.hermes.messages.ProtobufRep.Sms.Builder, com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder> 
+          getSmsFieldBuilder() {
+        if (smsBuilder_ == null) {
+          smsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Sms, com.jbull.hermes.messages.ProtobufRep.Sms.Builder, com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder>(
+                  sms_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          sms_ = null;
+        }
+        return smsBuilder_;
       }
 
       // repeated .Contact contact = 4;
@@ -1081,35 +1683,54 @@ public final class ProtobufRep {
          }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> contactBuilder_;
+
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public java.util.List<com.jbull.hermes.messages.ProtobufRep.Contact> getContactList() {
-        return java.util.Collections.unmodifiableList(contact_);
+        if (contactBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(contact_);
+        } else {
+          return contactBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public int getContactCount() {
-        return contact_.size();
+        if (contactBuilder_ == null) {
+          return contact_.size();
+        } else {
+          return contactBuilder_.getCount();
+        }
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Contact getContact(int index) {
-        return contact_.get(index);
+        if (contactBuilder_ == null) {
+          return contact_.get(index);
+        } else {
+          return contactBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public Builder setContact(
           int index, com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (contactBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureContactIsMutable();
+          contact_.set(index, value);
+          onChanged();
+        } else {
+          contactBuilder_.setMessage(index, value);
         }
-        ensureContactIsMutable();
-        contact_.set(index, value);
-
         return this;
       }
       /**
@@ -1117,21 +1738,29 @@ public final class ProtobufRep {
        */
       public Builder setContact(
           int index, com.jbull.hermes.messages.ProtobufRep.Contact.Builder builderForValue) {
-        ensureContactIsMutable();
-        contact_.set(index, builderForValue.build());
-
+        if (contactBuilder_ == null) {
+          ensureContactIsMutable();
+          contact_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          contactBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public Builder addContact(com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (contactBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureContactIsMutable();
+          contact_.add(value);
+          onChanged();
+        } else {
+          contactBuilder_.addMessage(value);
         }
-        ensureContactIsMutable();
-        contact_.add(value);
-
         return this;
       }
       /**
@@ -1139,12 +1768,16 @@ public final class ProtobufRep {
        */
       public Builder addContact(
           int index, com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (contactBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureContactIsMutable();
+          contact_.add(index, value);
+          onChanged();
+        } else {
+          contactBuilder_.addMessage(index, value);
         }
-        ensureContactIsMutable();
-        contact_.add(index, value);
-
         return this;
       }
       /**
@@ -1152,9 +1785,13 @@ public final class ProtobufRep {
        */
       public Builder addContact(
           com.jbull.hermes.messages.ProtobufRep.Contact.Builder builderForValue) {
-        ensureContactIsMutable();
-        contact_.add(builderForValue.build());
-
+        if (contactBuilder_ == null) {
+          ensureContactIsMutable();
+          contact_.add(builderForValue.build());
+          onChanged();
+        } else {
+          contactBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1162,9 +1799,13 @@ public final class ProtobufRep {
        */
       public Builder addContact(
           int index, com.jbull.hermes.messages.ProtobufRep.Contact.Builder builderForValue) {
-        ensureContactIsMutable();
-        contact_.add(index, builderForValue.build());
-
+        if (contactBuilder_ == null) {
+          ensureContactIsMutable();
+          contact_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          contactBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1172,28 +1813,104 @@ public final class ProtobufRep {
        */
       public Builder addAllContact(
           java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Contact> values) {
-        ensureContactIsMutable();
-        super.addAll(values, contact_);
-
+        if (contactBuilder_ == null) {
+          ensureContactIsMutable();
+          super.addAll(values, contact_);
+          onChanged();
+        } else {
+          contactBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public Builder clearContact() {
-        contact_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000008);
-
+        if (contactBuilder_ == null) {
+          contact_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          contactBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .Contact contact = 4;</code>
        */
       public Builder removeContact(int index) {
-        ensureContactIsMutable();
-        contact_.remove(index);
-
+        if (contactBuilder_ == null) {
+          ensureContactIsMutable();
+          contact_.remove(index);
+          onChanged();
+        } else {
+          contactBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Contact.Builder getContactBuilder(
+          int index) {
+        return getContactFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getContactOrBuilder(
+          int index) {
+        if (contactBuilder_ == null) {
+          return contact_.get(index);  } else {
+          return contactBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> 
+           getContactOrBuilderList() {
+        if (contactBuilder_ != null) {
+          return contactBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(contact_);
+        }
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Contact.Builder addContactBuilder() {
+        return getContactFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Contact.Builder addContactBuilder(
+          int index) {
+        return getContactFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Contact contact = 4;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Contact.Builder> 
+           getContactBuilderList() {
+        return getContactFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> 
+          getContactFieldBuilder() {
+        if (contactBuilder_ == null) {
+          contactBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder>(
+                  contact_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          contact_ = null;
+        }
+        return contactBuilder_;
       }
 
       // repeated .Mode mode = 5;
@@ -1206,35 +1923,54 @@ public final class ProtobufRep {
          }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Mode, com.jbull.hermes.messages.ProtobufRep.Mode.Builder, com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder> modeBuilder_;
+
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public java.util.List<com.jbull.hermes.messages.ProtobufRep.Mode> getModeList() {
-        return java.util.Collections.unmodifiableList(mode_);
+        if (modeBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(mode_);
+        } else {
+          return modeBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public int getModeCount() {
-        return mode_.size();
+        if (modeBuilder_ == null) {
+          return mode_.size();
+        } else {
+          return modeBuilder_.getCount();
+        }
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Mode getMode(int index) {
-        return mode_.get(index);
+        if (modeBuilder_ == null) {
+          return mode_.get(index);
+        } else {
+          return modeBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public Builder setMode(
           int index, com.jbull.hermes.messages.ProtobufRep.Mode value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (modeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureModeIsMutable();
+          mode_.set(index, value);
+          onChanged();
+        } else {
+          modeBuilder_.setMessage(index, value);
         }
-        ensureModeIsMutable();
-        mode_.set(index, value);
-
         return this;
       }
       /**
@@ -1242,21 +1978,29 @@ public final class ProtobufRep {
        */
       public Builder setMode(
           int index, com.jbull.hermes.messages.ProtobufRep.Mode.Builder builderForValue) {
-        ensureModeIsMutable();
-        mode_.set(index, builderForValue.build());
-
+        if (modeBuilder_ == null) {
+          ensureModeIsMutable();
+          mode_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          modeBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public Builder addMode(com.jbull.hermes.messages.ProtobufRep.Mode value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (modeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureModeIsMutable();
+          mode_.add(value);
+          onChanged();
+        } else {
+          modeBuilder_.addMessage(value);
         }
-        ensureModeIsMutable();
-        mode_.add(value);
-
         return this;
       }
       /**
@@ -1264,12 +2008,16 @@ public final class ProtobufRep {
        */
       public Builder addMode(
           int index, com.jbull.hermes.messages.ProtobufRep.Mode value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (modeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureModeIsMutable();
+          mode_.add(index, value);
+          onChanged();
+        } else {
+          modeBuilder_.addMessage(index, value);
         }
-        ensureModeIsMutable();
-        mode_.add(index, value);
-
         return this;
       }
       /**
@@ -1277,9 +2025,13 @@ public final class ProtobufRep {
        */
       public Builder addMode(
           com.jbull.hermes.messages.ProtobufRep.Mode.Builder builderForValue) {
-        ensureModeIsMutable();
-        mode_.add(builderForValue.build());
-
+        if (modeBuilder_ == null) {
+          ensureModeIsMutable();
+          mode_.add(builderForValue.build());
+          onChanged();
+        } else {
+          modeBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1287,9 +2039,13 @@ public final class ProtobufRep {
        */
       public Builder addMode(
           int index, com.jbull.hermes.messages.ProtobufRep.Mode.Builder builderForValue) {
-        ensureModeIsMutable();
-        mode_.add(index, builderForValue.build());
-
+        if (modeBuilder_ == null) {
+          ensureModeIsMutable();
+          mode_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          modeBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1297,28 +2053,104 @@ public final class ProtobufRep {
        */
       public Builder addAllMode(
           java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Mode> values) {
-        ensureModeIsMutable();
-        super.addAll(values, mode_);
-
+        if (modeBuilder_ == null) {
+          ensureModeIsMutable();
+          super.addAll(values, mode_);
+          onChanged();
+        } else {
+          modeBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public Builder clearMode() {
-        mode_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000010);
-
+        if (modeBuilder_ == null) {
+          mode_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          modeBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .Mode mode = 5;</code>
        */
       public Builder removeMode(int index) {
-        ensureModeIsMutable();
-        mode_.remove(index);
-
+        if (modeBuilder_ == null) {
+          ensureModeIsMutable();
+          mode_.remove(index);
+          onChanged();
+        } else {
+          modeBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Mode.Builder getModeBuilder(
+          int index) {
+        return getModeFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder getModeOrBuilder(
+          int index) {
+        if (modeBuilder_ == null) {
+          return mode_.get(index);  } else {
+          return modeBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder> 
+           getModeOrBuilderList() {
+        if (modeBuilder_ != null) {
+          return modeBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(mode_);
+        }
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Mode.Builder addModeBuilder() {
+        return getModeFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Mode.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Mode.Builder addModeBuilder(
+          int index) {
+        return getModeFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Mode.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Mode mode = 5;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Mode.Builder> 
+           getModeBuilderList() {
+        return getModeFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Mode, com.jbull.hermes.messages.ProtobufRep.Mode.Builder, com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder> 
+          getModeFieldBuilder() {
+        if (modeBuilder_ == null) {
+          modeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Mode, com.jbull.hermes.messages.ProtobufRep.Mode.Builder, com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder>(
+                  mode_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          mode_ = null;
+        }
+        return modeBuilder_;
       }
 
       // repeated .SyncContacts syncContacts = 6;
@@ -1331,35 +2163,54 @@ public final class ProtobufRep {
          }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.SyncContacts, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder, com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder> syncContactsBuilder_;
+
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public java.util.List<com.jbull.hermes.messages.ProtobufRep.SyncContacts> getSyncContactsList() {
-        return java.util.Collections.unmodifiableList(syncContacts_);
+        if (syncContactsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(syncContacts_);
+        } else {
+          return syncContactsBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public int getSyncContactsCount() {
-        return syncContacts_.size();
+        if (syncContactsBuilder_ == null) {
+          return syncContacts_.size();
+        } else {
+          return syncContactsBuilder_.getCount();
+        }
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.SyncContacts getSyncContacts(int index) {
-        return syncContacts_.get(index);
+        if (syncContactsBuilder_ == null) {
+          return syncContacts_.get(index);
+        } else {
+          return syncContactsBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public Builder setSyncContacts(
           int index, com.jbull.hermes.messages.ProtobufRep.SyncContacts value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (syncContactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyncContactsIsMutable();
+          syncContacts_.set(index, value);
+          onChanged();
+        } else {
+          syncContactsBuilder_.setMessage(index, value);
         }
-        ensureSyncContactsIsMutable();
-        syncContacts_.set(index, value);
-
         return this;
       }
       /**
@@ -1367,21 +2218,29 @@ public final class ProtobufRep {
        */
       public Builder setSyncContacts(
           int index, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder builderForValue) {
-        ensureSyncContactsIsMutable();
-        syncContacts_.set(index, builderForValue.build());
-
+        if (syncContactsBuilder_ == null) {
+          ensureSyncContactsIsMutable();
+          syncContacts_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          syncContactsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public Builder addSyncContacts(com.jbull.hermes.messages.ProtobufRep.SyncContacts value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (syncContactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyncContactsIsMutable();
+          syncContacts_.add(value);
+          onChanged();
+        } else {
+          syncContactsBuilder_.addMessage(value);
         }
-        ensureSyncContactsIsMutable();
-        syncContacts_.add(value);
-
         return this;
       }
       /**
@@ -1389,12 +2248,16 @@ public final class ProtobufRep {
        */
       public Builder addSyncContacts(
           int index, com.jbull.hermes.messages.ProtobufRep.SyncContacts value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (syncContactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyncContactsIsMutable();
+          syncContacts_.add(index, value);
+          onChanged();
+        } else {
+          syncContactsBuilder_.addMessage(index, value);
         }
-        ensureSyncContactsIsMutable();
-        syncContacts_.add(index, value);
-
         return this;
       }
       /**
@@ -1402,9 +2265,13 @@ public final class ProtobufRep {
        */
       public Builder addSyncContacts(
           com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder builderForValue) {
-        ensureSyncContactsIsMutable();
-        syncContacts_.add(builderForValue.build());
-
+        if (syncContactsBuilder_ == null) {
+          ensureSyncContactsIsMutable();
+          syncContacts_.add(builderForValue.build());
+          onChanged();
+        } else {
+          syncContactsBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1412,9 +2279,13 @@ public final class ProtobufRep {
        */
       public Builder addSyncContacts(
           int index, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder builderForValue) {
-        ensureSyncContactsIsMutable();
-        syncContacts_.add(index, builderForValue.build());
-
+        if (syncContactsBuilder_ == null) {
+          ensureSyncContactsIsMutable();
+          syncContacts_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          syncContactsBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -1422,28 +2293,344 @@ public final class ProtobufRep {
        */
       public Builder addAllSyncContacts(
           java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.SyncContacts> values) {
-        ensureSyncContactsIsMutable();
-        super.addAll(values, syncContacts_);
-
+        if (syncContactsBuilder_ == null) {
+          ensureSyncContactsIsMutable();
+          super.addAll(values, syncContacts_);
+          onChanged();
+        } else {
+          syncContactsBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public Builder clearSyncContacts() {
-        syncContacts_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
-
+        if (syncContactsBuilder_ == null) {
+          syncContacts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          syncContactsBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .SyncContacts syncContacts = 6;</code>
        */
       public Builder removeSyncContacts(int index) {
-        ensureSyncContactsIsMutable();
-        syncContacts_.remove(index);
-
+        if (syncContactsBuilder_ == null) {
+          ensureSyncContactsIsMutable();
+          syncContacts_.remove(index);
+          onChanged();
+        } else {
+          syncContactsBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder getSyncContactsBuilder(
+          int index) {
+        return getSyncContactsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder getSyncContactsOrBuilder(
+          int index) {
+        if (syncContactsBuilder_ == null) {
+          return syncContacts_.get(index);  } else {
+          return syncContactsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder> 
+           getSyncContactsOrBuilderList() {
+        if (syncContactsBuilder_ != null) {
+          return syncContactsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(syncContacts_);
+        }
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder addSyncContactsBuilder() {
+        return getSyncContactsFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.SyncContacts.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder addSyncContactsBuilder(
+          int index) {
+        return getSyncContactsFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.SyncContacts.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SyncContacts syncContacts = 6;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder> 
+           getSyncContactsBuilderList() {
+        return getSyncContactsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.SyncContacts, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder, com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder> 
+          getSyncContactsFieldBuilder() {
+        if (syncContactsBuilder_ == null) {
+          syncContactsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.SyncContacts, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder, com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder>(
+                  syncContacts_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          syncContacts_ = null;
+        }
+        return syncContactsBuilder_;
+      }
+
+      // repeated .Packet packet = 7;
+      private java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet> packet_ =
+        java.util.Collections.emptyList();
+      private void ensurePacketIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          packet_ = new java.util.ArrayList<com.jbull.hermes.messages.ProtobufRep.Packet>(packet_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Packet, com.jbull.hermes.messages.ProtobufRep.Packet.Builder, com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder> packetBuilder_;
+
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet> getPacketList() {
+        if (packetBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(packet_);
+        } else {
+          return packetBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public int getPacketCount() {
+        if (packetBuilder_ == null) {
+          return packet_.size();
+        } else {
+          return packetBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Packet getPacket(int index) {
+        if (packetBuilder_ == null) {
+          return packet_.get(index);
+        } else {
+          return packetBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder setPacket(
+          int index, com.jbull.hermes.messages.ProtobufRep.Packet value) {
+        if (packetBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePacketIsMutable();
+          packet_.set(index, value);
+          onChanged();
+        } else {
+          packetBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder setPacket(
+          int index, com.jbull.hermes.messages.ProtobufRep.Packet.Builder builderForValue) {
+        if (packetBuilder_ == null) {
+          ensurePacketIsMutable();
+          packet_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          packetBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder addPacket(com.jbull.hermes.messages.ProtobufRep.Packet value) {
+        if (packetBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePacketIsMutable();
+          packet_.add(value);
+          onChanged();
+        } else {
+          packetBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder addPacket(
+          int index, com.jbull.hermes.messages.ProtobufRep.Packet value) {
+        if (packetBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePacketIsMutable();
+          packet_.add(index, value);
+          onChanged();
+        } else {
+          packetBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder addPacket(
+          com.jbull.hermes.messages.ProtobufRep.Packet.Builder builderForValue) {
+        if (packetBuilder_ == null) {
+          ensurePacketIsMutable();
+          packet_.add(builderForValue.build());
+          onChanged();
+        } else {
+          packetBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder addPacket(
+          int index, com.jbull.hermes.messages.ProtobufRep.Packet.Builder builderForValue) {
+        if (packetBuilder_ == null) {
+          ensurePacketIsMutable();
+          packet_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          packetBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder addAllPacket(
+          java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Packet> values) {
+        if (packetBuilder_ == null) {
+          ensurePacketIsMutable();
+          super.addAll(values, packet_);
+          onChanged();
+        } else {
+          packetBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder clearPacket() {
+        if (packetBuilder_ == null) {
+          packet_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          packetBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public Builder removePacket(int index) {
+        if (packetBuilder_ == null) {
+          ensurePacketIsMutable();
+          packet_.remove(index);
+          onChanged();
+        } else {
+          packetBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Packet.Builder getPacketBuilder(
+          int index) {
+        return getPacketFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder getPacketOrBuilder(
+          int index) {
+        if (packetBuilder_ == null) {
+          return packet_.get(index);  } else {
+          return packetBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder> 
+           getPacketOrBuilderList() {
+        if (packetBuilder_ != null) {
+          return packetBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(packet_);
+        }
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Packet.Builder addPacketBuilder() {
+        return getPacketFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Packet.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Packet.Builder addPacketBuilder(
+          int index) {
+        return getPacketFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Packet.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Packet packet = 7;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Packet.Builder> 
+           getPacketBuilderList() {
+        return getPacketFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Packet, com.jbull.hermes.messages.ProtobufRep.Packet.Builder, com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder> 
+          getPacketFieldBuilder() {
+        if (packetBuilder_ == null) {
+          packetBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Packet, com.jbull.hermes.messages.ProtobufRep.Packet.Builder, com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder>(
+                  packet_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          packet_ = null;
+        }
+        return packetBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Packet)
@@ -1458,7 +2645,7 @@ public final class ProtobufRep {
   }
 
   public interface SetupOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required int32 sendPeriod = 1;
     /**
@@ -1499,14 +2686,14 @@ public final class ProtobufRep {
    * Protobuf type {@code Setup}
    */
   public static final class Setup extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements SetupOrBuilder {
     // Use Setup.newBuilder() to construct.
-    private Setup(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Setup(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Setup(boolean noInit) {}
+    private Setup(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Setup defaultInstance;
     public static Setup getDefaultInstance() {
@@ -1517,12 +2704,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Setup(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -1532,7 +2727,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -1561,9 +2756,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Setup_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Setup_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Setup.class, com.jbull.hermes.messages.ProtobufRep.Setup.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Setup> PARSER =
         new com.google.protobuf.AbstractParser<Setup>() {
       public Setup parsePartialFrom(
@@ -1685,6 +2893,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getApplicationNameBytes());
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -1705,6 +2914,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getApplicationNameBytes());
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -1776,19 +2986,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Setup}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Setup, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.SetupOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Setup_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Setup_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Setup.class, com.jbull.hermes.messages.ProtobufRep.Setup.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Setup.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -1807,6 +3041,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Setup_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Setup getDefaultInstanceForType() {
@@ -1838,7 +3077,17 @@ public final class ProtobufRep {
         }
         result.applicationName_ = applicationName_;
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Setup) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Setup)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Setup other) {
@@ -1852,8 +3101,9 @@ public final class ProtobufRep {
         if (other.hasApplicationName()) {
           bitField0_ |= 0x00000004;
           applicationName_ = other.applicationName_;
-          
+          onChanged();
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -1904,7 +3154,7 @@ public final class ProtobufRep {
       public Builder setSendPeriod(int value) {
         bitField0_ |= 0x00000001;
         sendPeriod_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -1913,7 +3163,7 @@ public final class ProtobufRep {
       public Builder clearSendPeriod() {
         bitField0_ = (bitField0_ & ~0x00000001);
         sendPeriod_ = 0;
-        
+        onChanged();
         return this;
       }
 
@@ -1937,7 +3187,7 @@ public final class ProtobufRep {
       public Builder setVersion(int value) {
         bitField0_ |= 0x00000002;
         version_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -1946,7 +3196,7 @@ public final class ProtobufRep {
       public Builder clearVersion() {
         bitField0_ = (bitField0_ & ~0x00000002);
         version_ = 1;
-        
+        onChanged();
         return this;
       }
 
@@ -1998,7 +3248,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000004;
         applicationName_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -2007,7 +3257,7 @@ public final class ProtobufRep {
       public Builder clearApplicationName() {
         bitField0_ = (bitField0_ & ~0x00000004);
         applicationName_ = getDefaultInstance().getApplicationName();
-        
+        onChanged();
         return this;
       }
       /**
@@ -2020,7 +3270,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000004;
         applicationName_ = value;
-        
+        onChanged();
         return this;
       }
 
@@ -2036,7 +3286,7 @@ public final class ProtobufRep {
   }
 
   public interface SmsOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required int64 timeStamp = 1;
     /**
@@ -2057,6 +3307,10 @@ public final class ProtobufRep {
      * <code>required .Contact sender = 2;</code>
      */
     com.jbull.hermes.messages.ProtobufRep.Contact getSender();
+    /**
+     * <code>required .Contact sender = 2;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getSenderOrBuilder();
 
     // required string content = 3;
     /**
@@ -2082,19 +3336,23 @@ public final class ProtobufRep {
      * <code>required .Contact recipient = 4;</code>
      */
     com.jbull.hermes.messages.ProtobufRep.Contact getRecipient();
+    /**
+     * <code>required .Contact recipient = 4;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getRecipientOrBuilder();
   }
   /**
    * Protobuf type {@code Sms}
    */
   public static final class Sms extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements SmsOrBuilder {
     // Use Sms.newBuilder() to construct.
-    private Sms(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Sms(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Sms(boolean noInit) {}
+    private Sms(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Sms defaultInstance;
     public static Sms getDefaultInstance() {
@@ -2105,12 +3363,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Sms(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2120,7 +3386,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -2170,9 +3436,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Sms_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Sms_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Sms.class, com.jbull.hermes.messages.ProtobufRep.Sms.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Sms> PARSER =
         new com.google.protobuf.AbstractParser<Sms>() {
       public Sms parsePartialFrom(
@@ -2218,6 +3497,12 @@ public final class ProtobufRep {
      * <code>required .Contact sender = 2;</code>
      */
     public com.jbull.hermes.messages.ProtobufRep.Contact getSender() {
+      return sender_;
+    }
+    /**
+     * <code>required .Contact sender = 2;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getSenderOrBuilder() {
       return sender_;
     }
 
@@ -2279,6 +3564,12 @@ public final class ProtobufRep {
     public com.jbull.hermes.messages.ProtobufRep.Contact getRecipient() {
       return recipient_;
     }
+    /**
+     * <code>required .Contact recipient = 4;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getRecipientOrBuilder() {
+      return recipient_;
+    }
 
     private void initFields() {
       timeStamp_ = 0L;
@@ -2334,6 +3625,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, recipient_);
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -2358,6 +3650,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, recipient_);
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -2429,19 +3722,45 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Sms}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Sms, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.SmsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Sms_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Sms_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Sms.class, com.jbull.hermes.messages.ProtobufRep.Sms.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Sms.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSenderFieldBuilder();
+          getRecipientFieldBuilder();
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -2451,17 +3770,30 @@ public final class ProtobufRep {
         super.clear();
         timeStamp_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        sender_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+        if (senderBuilder_ == null) {
+          sender_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+        } else {
+          senderBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
         content_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        recipient_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+        if (recipientBuilder_ == null) {
+          recipient_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+        } else {
+          recipientBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Sms_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Sms getDefaultInstanceForType() {
@@ -2487,7 +3819,11 @@ public final class ProtobufRep {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.sender_ = sender_;
+        if (senderBuilder_ == null) {
+          result.sender_ = sender_;
+        } else {
+          result.sender_ = senderBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -2495,9 +3831,23 @@ public final class ProtobufRep {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.recipient_ = recipient_;
+        if (recipientBuilder_ == null) {
+          result.recipient_ = recipient_;
+        } else {
+          result.recipient_ = recipientBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Sms) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Sms)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Sms other) {
@@ -2511,11 +3861,12 @@ public final class ProtobufRep {
         if (other.hasContent()) {
           bitField0_ |= 0x00000004;
           content_ = other.content_;
-          
+          onChanged();
         }
         if (other.hasRecipient()) {
           mergeRecipient(other.getRecipient());
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -2586,7 +3937,7 @@ public final class ProtobufRep {
       public Builder setTimeStamp(long value) {
         bitField0_ |= 0x00000001;
         timeStamp_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -2595,12 +3946,14 @@ public final class ProtobufRep {
       public Builder clearTimeStamp() {
         bitField0_ = (bitField0_ & ~0x00000001);
         timeStamp_ = 0L;
-        
+        onChanged();
         return this;
       }
 
       // required .Contact sender = 2;
       private com.jbull.hermes.messages.ProtobufRep.Contact sender_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> senderBuilder_;
       /**
        * <code>required .Contact sender = 2;</code>
        */
@@ -2611,17 +3964,25 @@ public final class ProtobufRep {
        * <code>required .Contact sender = 2;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Contact getSender() {
-        return sender_;
+        if (senderBuilder_ == null) {
+          return sender_;
+        } else {
+          return senderBuilder_.getMessage();
+        }
       }
       /**
        * <code>required .Contact sender = 2;</code>
        */
       public Builder setSender(com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (senderBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          sender_ = value;
+          onChanged();
+        } else {
+          senderBuilder_.setMessage(value);
         }
-        sender_ = value;
-
         bitField0_ |= 0x00000002;
         return this;
       }
@@ -2630,8 +3991,12 @@ public final class ProtobufRep {
        */
       public Builder setSender(
           com.jbull.hermes.messages.ProtobufRep.Contact.Builder builderForValue) {
-        sender_ = builderForValue.build();
-
+        if (senderBuilder_ == null) {
+          sender_ = builderForValue.build();
+          onChanged();
+        } else {
+          senderBuilder_.setMessage(builderForValue.build());
+        }
         bitField0_ |= 0x00000002;
         return this;
       }
@@ -2639,14 +4004,18 @@ public final class ProtobufRep {
        * <code>required .Contact sender = 2;</code>
        */
       public Builder mergeSender(com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (((bitField0_ & 0x00000002) == 0x00000002) &&
-            sender_ != com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance()) {
-          sender_ =
-            com.jbull.hermes.messages.ProtobufRep.Contact.newBuilder(sender_).mergeFrom(value).buildPartial();
+        if (senderBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              sender_ != com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance()) {
+            sender_ =
+              com.jbull.hermes.messages.ProtobufRep.Contact.newBuilder(sender_).mergeFrom(value).buildPartial();
+          } else {
+            sender_ = value;
+          }
+          onChanged();
         } else {
-          sender_ = value;
+          senderBuilder_.mergeFrom(value);
         }
-
         bitField0_ |= 0x00000002;
         return this;
       }
@@ -2654,10 +4023,48 @@ public final class ProtobufRep {
        * <code>required .Contact sender = 2;</code>
        */
       public Builder clearSender() {
-        sender_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
-
+        if (senderBuilder_ == null) {
+          sender_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+          onChanged();
+        } else {
+          senderBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
+      }
+      /**
+       * <code>required .Contact sender = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Contact.Builder getSenderBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getSenderFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .Contact sender = 2;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getSenderOrBuilder() {
+        if (senderBuilder_ != null) {
+          return senderBuilder_.getMessageOrBuilder();
+        } else {
+          return sender_;
+        }
+      }
+      /**
+       * <code>required .Contact sender = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> 
+          getSenderFieldBuilder() {
+        if (senderBuilder_ == null) {
+          senderBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder>(
+                  sender_,
+                  getParentForChildren(),
+                  isClean());
+          sender_ = null;
+        }
+        return senderBuilder_;
       }
 
       // required string content = 3;
@@ -2708,7 +4115,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000004;
         content_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -2717,7 +4124,7 @@ public final class ProtobufRep {
       public Builder clearContent() {
         bitField0_ = (bitField0_ & ~0x00000004);
         content_ = getDefaultInstance().getContent();
-        
+        onChanged();
         return this;
       }
       /**
@@ -2730,12 +4137,14 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000004;
         content_ = value;
-        
+        onChanged();
         return this;
       }
 
       // required .Contact recipient = 4;
       private com.jbull.hermes.messages.ProtobufRep.Contact recipient_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> recipientBuilder_;
       /**
        * <code>required .Contact recipient = 4;</code>
        */
@@ -2746,17 +4155,25 @@ public final class ProtobufRep {
        * <code>required .Contact recipient = 4;</code>
        */
       public com.jbull.hermes.messages.ProtobufRep.Contact getRecipient() {
-        return recipient_;
+        if (recipientBuilder_ == null) {
+          return recipient_;
+        } else {
+          return recipientBuilder_.getMessage();
+        }
       }
       /**
        * <code>required .Contact recipient = 4;</code>
        */
       public Builder setRecipient(com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (recipientBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          recipient_ = value;
+          onChanged();
+        } else {
+          recipientBuilder_.setMessage(value);
         }
-        recipient_ = value;
-
         bitField0_ |= 0x00000008;
         return this;
       }
@@ -2765,8 +4182,12 @@ public final class ProtobufRep {
        */
       public Builder setRecipient(
           com.jbull.hermes.messages.ProtobufRep.Contact.Builder builderForValue) {
-        recipient_ = builderForValue.build();
-
+        if (recipientBuilder_ == null) {
+          recipient_ = builderForValue.build();
+          onChanged();
+        } else {
+          recipientBuilder_.setMessage(builderForValue.build());
+        }
         bitField0_ |= 0x00000008;
         return this;
       }
@@ -2774,14 +4195,18 @@ public final class ProtobufRep {
        * <code>required .Contact recipient = 4;</code>
        */
       public Builder mergeRecipient(com.jbull.hermes.messages.ProtobufRep.Contact value) {
-        if (((bitField0_ & 0x00000008) == 0x00000008) &&
-            recipient_ != com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance()) {
-          recipient_ =
-            com.jbull.hermes.messages.ProtobufRep.Contact.newBuilder(recipient_).mergeFrom(value).buildPartial();
+        if (recipientBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              recipient_ != com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance()) {
+            recipient_ =
+              com.jbull.hermes.messages.ProtobufRep.Contact.newBuilder(recipient_).mergeFrom(value).buildPartial();
+          } else {
+            recipient_ = value;
+          }
+          onChanged();
         } else {
-          recipient_ = value;
+          recipientBuilder_.mergeFrom(value);
         }
-
         bitField0_ |= 0x00000008;
         return this;
       }
@@ -2789,10 +4214,48 @@ public final class ProtobufRep {
        * <code>required .Contact recipient = 4;</code>
        */
       public Builder clearRecipient() {
-        recipient_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
-
+        if (recipientBuilder_ == null) {
+          recipient_ = com.jbull.hermes.messages.ProtobufRep.Contact.getDefaultInstance();
+          onChanged();
+        } else {
+          recipientBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
+      }
+      /**
+       * <code>required .Contact recipient = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Contact.Builder getRecipientBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getRecipientFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .Contact recipient = 4;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder getRecipientOrBuilder() {
+        if (recipientBuilder_ != null) {
+          return recipientBuilder_.getMessageOrBuilder();
+        } else {
+          return recipient_;
+        }
+      }
+      /**
+       * <code>required .Contact recipient = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder> 
+          getRecipientFieldBuilder() {
+        if (recipientBuilder_ == null) {
+          recipientBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Contact, com.jbull.hermes.messages.ProtobufRep.Contact.Builder, com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder>(
+                  recipient_,
+                  getParentForChildren(),
+                  isClean());
+          recipient_ = null;
+        }
+        return recipientBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Sms)
@@ -2807,7 +4270,7 @@ public final class ProtobufRep {
   }
 
   public interface ContactOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required string phoneNumber = 1;
     /**
@@ -2853,14 +4316,14 @@ public final class ProtobufRep {
    * Protobuf type {@code Contact}
    */
   public static final class Contact extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements ContactOrBuilder {
     // Use Contact.newBuilder() to construct.
-    private Contact(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Contact(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Contact(boolean noInit) {}
+    private Contact(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Contact defaultInstance;
     public static Contact getDefaultInstance() {
@@ -2871,12 +4334,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Contact(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2886,7 +4357,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -2915,9 +4386,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Contact_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Contact_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Contact.class, com.jbull.hermes.messages.ProtobufRep.Contact.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Contact> PARSER =
         new com.google.protobuf.AbstractParser<Contact>() {
       public Contact parsePartialFrom(
@@ -3066,6 +4550,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, image_);
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -3086,6 +4571,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, image_);
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -3157,19 +4643,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Contact}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Contact, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.ContactOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Contact_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Contact_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Contact.class, com.jbull.hermes.messages.ProtobufRep.Contact.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Contact.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -3188,6 +4698,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Contact_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Contact getDefaultInstanceForType() {
@@ -3219,7 +4734,17 @@ public final class ProtobufRep {
         }
         result.image_ = image_;
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Contact) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Contact)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Contact other) {
@@ -3227,16 +4752,17 @@ public final class ProtobufRep {
         if (other.hasPhoneNumber()) {
           bitField0_ |= 0x00000001;
           phoneNumber_ = other.phoneNumber_;
-          
+          onChanged();
         }
         if (other.hasName()) {
           bitField0_ |= 0x00000002;
           name_ = other.name_;
-          
+          onChanged();
         }
         if (other.hasImage()) {
           setImage(other.getImage());
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -3315,7 +4841,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000001;
         phoneNumber_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3324,7 +4850,7 @@ public final class ProtobufRep {
       public Builder clearPhoneNumber() {
         bitField0_ = (bitField0_ & ~0x00000001);
         phoneNumber_ = getDefaultInstance().getPhoneNumber();
-        
+        onChanged();
         return this;
       }
       /**
@@ -3337,7 +4863,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000001;
         phoneNumber_ = value;
-        
+        onChanged();
         return this;
       }
 
@@ -3389,7 +4915,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000002;
         name_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3398,7 +4924,7 @@ public final class ProtobufRep {
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
         name_ = getDefaultInstance().getName();
-        
+        onChanged();
         return this;
       }
       /**
@@ -3411,7 +4937,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000002;
         name_ = value;
-        
+        onChanged();
         return this;
       }
 
@@ -3438,7 +4964,7 @@ public final class ProtobufRep {
   }
   bitField0_ |= 0x00000004;
         image_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3447,7 +4973,7 @@ public final class ProtobufRep {
       public Builder clearImage() {
         bitField0_ = (bitField0_ & ~0x00000004);
         image_ = getDefaultInstance().getImage();
-        
+        onChanged();
         return this;
       }
 
@@ -3463,7 +4989,7 @@ public final class ProtobufRep {
   }
 
   public interface ModeOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required int64 lastUpdate = 1;
     /**
@@ -3507,14 +5033,14 @@ public final class ProtobufRep {
    * Protobuf type {@code Mode}
    */
   public static final class Mode extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements ModeOrBuilder {
     // Use Mode.newBuilder() to construct.
-    private Mode(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Mode(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Mode(boolean noInit) {}
+    private Mode(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Mode defaultInstance;
     public static Mode getDefaultInstance() {
@@ -3525,12 +5051,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Mode(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -3540,7 +5074,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -3569,9 +5103,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Mode_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Mode_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Mode.class, com.jbull.hermes.messages.ProtobufRep.Mode.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Mode> PARSER =
         new com.google.protobuf.AbstractParser<Mode>() {
       public Mode parsePartialFrom(
@@ -3682,6 +5229,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, serverSend_);
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -3702,6 +5250,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, serverSend_);
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -3773,19 +5322,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Mode}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Mode, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.ModeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Mode_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Mode_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Mode.class, com.jbull.hermes.messages.ProtobufRep.Mode.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Mode.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -3804,6 +5377,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Mode_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Mode getDefaultInstanceForType() {
@@ -3835,7 +5413,17 @@ public final class ProtobufRep {
         }
         result.serverSend_ = serverSend_;
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Mode) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Mode)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Mode other) {
@@ -3849,6 +5437,7 @@ public final class ProtobufRep {
         if (other.hasServerSend()) {
           setServerSend(other.getServerSend());
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -3919,7 +5508,7 @@ public final class ProtobufRep {
       public Builder setLastUpdate(long value) {
         bitField0_ |= 0x00000001;
         lastUpdate_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3932,7 +5521,7 @@ public final class ProtobufRep {
       public Builder clearLastUpdate() {
         bitField0_ = (bitField0_ & ~0x00000001);
         lastUpdate_ = 0L;
-        
+        onChanged();
         return this;
       }
 
@@ -3956,7 +5545,7 @@ public final class ProtobufRep {
       public Builder setCurrentTimestamp(long value) {
         bitField0_ |= 0x00000002;
         currentTimestamp_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3965,7 +5554,7 @@ public final class ProtobufRep {
       public Builder clearCurrentTimestamp() {
         bitField0_ = (bitField0_ & ~0x00000002);
         currentTimestamp_ = 0L;
-        
+        onChanged();
         return this;
       }
 
@@ -3989,7 +5578,7 @@ public final class ProtobufRep {
       public Builder setServerSend(boolean value) {
         bitField0_ |= 0x00000004;
         serverSend_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -3998,7 +5587,7 @@ public final class ProtobufRep {
       public Builder clearServerSend() {
         bitField0_ = (bitField0_ & ~0x00000004);
         serverSend_ = false;
-        
+        onChanged();
         return this;
       }
 
@@ -4014,20 +5603,20 @@ public final class ProtobufRep {
   }
 
   public interface SyncContactsOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
   }
   /**
    * Protobuf type {@code SyncContacts}
    */
   public static final class SyncContacts extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements SyncContactsOrBuilder {
     // Use SyncContacts.newBuilder() to construct.
-    private SyncContacts(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private SyncContacts(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private SyncContacts(boolean noInit) {}
+    private SyncContacts(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final SyncContacts defaultInstance;
     public static SyncContacts getDefaultInstance() {
@@ -4038,11 +5627,19 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private SyncContacts(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4052,7 +5649,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -4066,9 +5663,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_SyncContacts_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_SyncContacts_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.SyncContacts.class, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<SyncContacts> PARSER =
         new com.google.protobuf.AbstractParser<SyncContacts>() {
       public SyncContacts parsePartialFrom(
@@ -4098,6 +5708,7 @@ public final class ProtobufRep {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -4106,6 +5717,7 @@ public final class ProtobufRep {
       if (size != -1) return size;
 
       size = 0;
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -4177,19 +5789,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code SyncContacts}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.SyncContacts, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.SyncContactsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_SyncContacts_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_SyncContacts_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.SyncContacts.class, com.jbull.hermes.messages.ProtobufRep.SyncContacts.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.SyncContacts.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -4202,6 +5838,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_SyncContacts_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.SyncContacts getDefaultInstanceForType() {
@@ -4218,11 +5859,22 @@ public final class ProtobufRep {
 
       public com.jbull.hermes.messages.ProtobufRep.SyncContacts buildPartial() {
         com.jbull.hermes.messages.ProtobufRep.SyncContacts result = new com.jbull.hermes.messages.ProtobufRep.SyncContacts(this);
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.SyncContacts) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.SyncContacts)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.SyncContacts other) {
         if (other == com.jbull.hermes.messages.ProtobufRep.SyncContacts.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -4260,7 +5912,7 @@ public final class ProtobufRep {
   }
 
   public interface HeaderOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required fixed32 msgNum = 1;
     /**
@@ -4286,14 +5938,14 @@ public final class ProtobufRep {
    * Protobuf type {@code Header}
    */
   public static final class Header extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements HeaderOrBuilder {
     // Use Header.newBuilder() to construct.
-    private Header(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Header(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Header(boolean noInit) {}
+    private Header(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Header defaultInstance;
     public static Header getDefaultInstance() {
@@ -4304,12 +5956,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Header(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4319,7 +5979,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -4343,9 +6003,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Header_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Header_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Header.class, com.jbull.hermes.messages.ProtobufRep.Header.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Header> PARSER =
         new com.google.protobuf.AbstractParser<Header>() {
       public Header parsePartialFrom(
@@ -4424,6 +6097,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeFixed32(2, length_);
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -4440,6 +6114,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(2, length_);
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -4511,19 +6186,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Header}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Header, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.HeaderOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.HeaderOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Header_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Header_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Header.class, com.jbull.hermes.messages.ProtobufRep.Header.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Header.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -4540,6 +6239,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Header_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Header getDefaultInstanceForType() {
@@ -4567,7 +6271,17 @@ public final class ProtobufRep {
         }
         result.length_ = length_;
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Header) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Header)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Header other) {
@@ -4578,6 +6292,7 @@ public final class ProtobufRep {
         if (other.hasLength()) {
           setLength(other.getLength());
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -4632,7 +6347,7 @@ public final class ProtobufRep {
       public Builder setMsgNum(int value) {
         bitField0_ |= 0x00000001;
         msgNum_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -4641,7 +6356,7 @@ public final class ProtobufRep {
       public Builder clearMsgNum() {
         bitField0_ = (bitField0_ & ~0x00000001);
         msgNum_ = 0;
-        
+        onChanged();
         return this;
       }
 
@@ -4665,7 +6380,7 @@ public final class ProtobufRep {
       public Builder setLength(int value) {
         bitField0_ |= 0x00000002;
         length_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -4674,7 +6389,7 @@ public final class ProtobufRep {
       public Builder clearLength() {
         bitField0_ = (bitField0_ & ~0x00000002);
         length_ = 0;
-        
+        onChanged();
         return this;
       }
 
@@ -4690,7 +6405,7 @@ public final class ProtobufRep {
   }
 
   public interface AckOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
+      extends com.google.protobuf.MessageOrBuilder {
 
     // required fixed32 msgNum = 1;
     /**
@@ -4706,14 +6421,14 @@ public final class ProtobufRep {
    * Protobuf type {@code Ack}
    */
   public static final class Ack extends
-      com.google.protobuf.GeneratedMessageLite
+      com.google.protobuf.GeneratedMessage
       implements AckOrBuilder {
     // Use Ack.newBuilder() to construct.
-    private Ack(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+    private Ack(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
-
+      this.unknownFields = builder.getUnknownFields();
     }
-    private Ack(boolean noInit) {}
+    private Ack(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
     private static final Ack defaultInstance;
     public static Ack getDefaultInstance() {
@@ -4724,12 +6439,20 @@ public final class ProtobufRep {
       return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
     private Ack(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4739,7 +6462,7 @@ public final class ProtobufRep {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input,
+              if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -4758,9 +6481,22 @@ public final class ProtobufRep {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Ack_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Ack_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Ack.class, com.jbull.hermes.messages.ProtobufRep.Ack.Builder.class);
+    }
+
     public static com.google.protobuf.Parser<Ack> PARSER =
         new com.google.protobuf.AbstractParser<Ack>() {
       public Ack parsePartialFrom(
@@ -4815,6 +6551,7 @@ public final class ProtobufRep {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeFixed32(1, msgNum_);
       }
+      getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -4827,6 +6564,7 @@ public final class ProtobufRep {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(1, msgNum_);
       }
+      size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
@@ -4898,19 +6636,43 @@ public final class ProtobufRep {
     }
     public Builder toBuilder() { return newBuilder(this); }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code Ack}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.jbull.hermes.messages.ProtobufRep.Ack, Builder>
-        implements com.jbull.hermes.messages.ProtobufRep.AckOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.AckOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Ack_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Ack_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Ack.class, com.jbull.hermes.messages.ProtobufRep.Ack.Builder.class);
+      }
+
       // Construct using com.jbull.hermes.messages.ProtobufRep.Ack.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
       private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
       }
       private static Builder create() {
         return new Builder();
@@ -4925,6 +6687,11 @@ public final class ProtobufRep {
 
       public Builder clone() {
         return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Ack_descriptor;
       }
 
       public com.jbull.hermes.messages.ProtobufRep.Ack getDefaultInstanceForType() {
@@ -4948,7 +6715,17 @@ public final class ProtobufRep {
         }
         result.msgNum_ = msgNum_;
         result.bitField0_ = to_bitField0_;
+        onBuilt();
         return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Ack) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Ack)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
       }
 
       public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Ack other) {
@@ -4956,6 +6733,7 @@ public final class ProtobufRep {
         if (other.hasMsgNum()) {
           setMsgNum(other.getMsgNum());
         }
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
@@ -5006,7 +6784,7 @@ public final class ProtobufRep {
       public Builder setMsgNum(int value) {
         bitField0_ |= 0x00000001;
         msgNum_ = value;
-        
+        onChanged();
         return this;
       }
       /**
@@ -5015,7 +6793,7 @@ public final class ProtobufRep {
       public Builder clearMsgNum() {
         bitField0_ = (bitField0_ & ~0x00000001);
         msgNum_ = 0;
-        
+        onChanged();
         return this;
       }
 
@@ -5030,8 +6808,132 @@ public final class ProtobufRep {
     // @@protoc_insertion_point(class_scope:Ack)
   }
 
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Packet_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Packet_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Setup_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Setup_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Sms_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Sms_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Contact_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Contact_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Mode_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Mode_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_SyncContacts_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SyncContacts_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Header_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Header_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ack_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Ack_fieldAccessorTable;
 
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
+    return descriptor;
+  }
+  private static com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
   static {
+    java.lang.String[] descriptorData = {
+      "\n\022protobuf_rep.proto\"\260\001\n\006Packet\022\016\n\006msgNu" +
+      "m\030\001 \002(\007\022\025\n\005setup\030\002 \003(\0132\006.Setup\022\021\n\003sms\030\003 " +
+      "\003(\0132\004.Sms\022\031\n\007contact\030\004 \003(\0132\010.Contact\022\023\n\004" +
+      "mode\030\005 \003(\0132\005.Mode\022#\n\014syncContacts\030\006 \003(\0132" +
+      "\r.SyncContacts\022\027\n\006packet\030\007 \003(\0132\007.Packet\"" +
+      "R\n\005Setup\022\022\n\nsendPeriod\030\001 \002(\005\022\022\n\007version\030" +
+      "\002 \001(\005:\0011\022!\n\017applicationName\030\003 \001(\t:\010Herme" +
+      "sIO\"`\n\003Sms\022\021\n\ttimeStamp\030\001 \002(\003\022\030\n\006sender\030" +
+      "\002 \002(\0132\010.Contact\022\017\n\007content\030\003 \002(\t\022\033\n\treci" +
+      "pient\030\004 \002(\0132\010.Contact\";\n\007Contact\022\023\n\013phon",
+      "eNumber\030\001 \002(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005image\030\003 \001" +
+      "(\014\"H\n\004Mode\022\022\n\nlastUpdate\030\001 \002(\003\022\030\n\020curren" +
+      "tTimestamp\030\002 \002(\003\022\022\n\nserverSend\030\003 \002(\010\"\016\n\014" +
+      "SyncContacts\"(\n\006Header\022\016\n\006msgNum\030\001 \002(\007\022\016" +
+      "\n\006length\030\002 \002(\007\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\007B\033\n" +
+      "\031com.jbull.hermes.messages"
+    };
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+        public com.google.protobuf.ExtensionRegistry assignDescriptors(
+            com.google.protobuf.Descriptors.FileDescriptor root) {
+          descriptor = root;
+          internal_static_Packet_descriptor =
+            getDescriptor().getMessageTypes().get(0);
+          internal_static_Packet_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Packet_descriptor,
+              new java.lang.String[] { "MsgNum", "Setup", "Sms", "Contact", "Mode", "SyncContacts", "Packet", });
+          internal_static_Setup_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_Setup_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Setup_descriptor,
+              new java.lang.String[] { "SendPeriod", "Version", "ApplicationName", });
+          internal_static_Sms_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_Sms_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Sms_descriptor,
+              new java.lang.String[] { "TimeStamp", "Sender", "Content", "Recipient", });
+          internal_static_Contact_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_Contact_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Contact_descriptor,
+              new java.lang.String[] { "PhoneNumber", "Name", "Image", });
+          internal_static_Mode_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_Mode_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Mode_descriptor,
+              new java.lang.String[] { "LastUpdate", "CurrentTimestamp", "ServerSend", });
+          internal_static_SyncContacts_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_SyncContacts_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_SyncContacts_descriptor,
+              new java.lang.String[] { });
+          internal_static_Header_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_Header_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Header_descriptor,
+              new java.lang.String[] { "MsgNum", "Length", });
+          internal_static_Ack_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_Ack_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Ack_descriptor,
+              new java.lang.String[] { "MsgNum", });
+          return null;
+        }
+      };
+    com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        }, assigner);
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -1,12 +1,12 @@
 package com.jbull.hermes.messages;
 
-import com.google.protobuf.GeneratedMessageLite;
+import com.google.protobuf.AbstractMessageLite;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Packet {
+public class Packet extends HermesMessage<ProtobufRep.Packet> {
     int msgNum;
     ArrayList<SmsMessage> smsMessages = new ArrayList<SmsMessage>();
     ArrayList<ContactMessage> contactMessages = new ArrayList<ContactMessage>();
@@ -14,18 +14,13 @@ public class Packet {
     ArrayList<ModeMessage> modeMessages = new ArrayList<ModeMessage>(1);
     ArrayList<SyncContactsMessage> syncContactsMessages = new ArrayList<SyncContactsMessage>(1);
 
-    private ProtobufRep.Packet protobufRep;
-
-    private ProtobufRep.Packet constructProtobufRep() {
-        return ProtobufRep.Packet.newBuilder()
-                .setMsgNum(msgNum)
-                .addAllSms(createProtobufs(smsMessages, ProtobufRep.Sms.class))
-                .addAllContact(createProtobufs(contactMessages, ProtobufRep.Contact.class))
-                .addAllSetup(createProtobufs(setupMessages, ProtobufRep.Setup.class))
-                .addAllMode(createProtobufs(modeMessages, ProtobufRep.Mode.class))
-                .addAllSyncContacts(createProtobufs(syncContactsMessages, ProtobufRep.SyncContacts.class))
-                .build();
+    public ArrayList<Packet> getPackets() {
+        return packets;
     }
+
+    ArrayList<Packet> packets = new ArrayList<Packet>();
+
+    private ProtobufRep.Packet protobufRep;
 
     public byte[] getBytes() throws MessageSerializationException {
         if (protobufRep == null) {
@@ -36,7 +31,7 @@ public class Packet {
 
     public Header getHeader(int msgNum) {
         setMsgNum(msgNum);
-        protobufRep = constructProtobufRep();
+        protobufRep = getProtobufRep();
         return new Header(msgNum, protobufRep.getSerializedSize());
     }
 
@@ -44,12 +39,7 @@ public class Packet {
         try {
             ProtobufRep.Packet proto = ProtobufRep.Packet.parseFrom(byteRep);
             Packet packet = new Packet();
-            packet.msgNum = proto.getMsgNum();
-            packet.smsMessages.addAll(fromProtobufs(proto.getSmsList(), SmsMessage.class));
-            packet.syncContactsMessages.addAll(fromProtobufs(proto.getSyncContactsList(), SyncContactsMessage.class));
-            packet.setupMessages.addAll(fromProtobufs(proto.getSetupList(), SetupMessage.class));
-            packet.modeMessages.addAll(fromProtobufs(proto.getModeList(), ModeMessage.class));
-            packet.contactMessages.addAll(fromProtobufs(proto.getContactList(), ContactMessage.class));
+            packet.fromProtobufRep(proto);
             return packet;
         } catch (InvalidProtocolBufferException e) {
             throw new MessageSerializationException("Error deserializing Packet.", e);
@@ -76,7 +66,7 @@ public class Packet {
         this.msgNum = msgNum;
     }
 
-    private static <T extends HermesMessage, P extends GeneratedMessageLite> ArrayList<P> createProtobufs(ArrayList<T> data, Class<P> c) {
+    private static <T extends HermesMessage, P extends AbstractMessageLite> ArrayList<P> createProtobufs(ArrayList<T> data, Class<P> c) {
         ArrayList<P> outList = new ArrayList<P>(data.size());
         for (T item : data) {
             outList.add((P) item.getProtobufRep());
@@ -84,7 +74,7 @@ public class Packet {
         return outList;
     }
 
-    private static <T extends HermesMessage, P extends GeneratedMessageLite> ArrayList<T> fromProtobufs(List<P> data, Class<T> c) {
+    private static <T extends HermesMessage, P extends AbstractMessageLite> ArrayList<T> fromProtobufs(List<P> data, Class<T> c) {
         ArrayList<T> outList = new ArrayList<T>(data.size());
         for (P item : data) {
             outList.add((T) HermesMessage.createFromProtobufRep(item, c));
@@ -114,5 +104,30 @@ public class Packet {
 
     public ArrayList<SyncContactsMessage> getSyncContactsMessages() {
         return syncContactsMessages;
+    }
+
+    @Override
+    public ProtobufRep.Packet getProtobufRep() {
+        return ProtobufRep.Packet.newBuilder()
+                .setMsgNum(msgNum)
+                .addAllSms(createProtobufs(smsMessages, ProtobufRep.Sms.class))
+                .addAllContact(createProtobufs(contactMessages, ProtobufRep.Contact.class))
+                .addAllSetup(createProtobufs(setupMessages, ProtobufRep.Setup.class))
+                .addAllMode(createProtobufs(modeMessages, ProtobufRep.Mode.class))
+                .addAllSyncContacts(createProtobufs(syncContactsMessages, ProtobufRep.SyncContacts.class))
+                .addAllPacket(createProtobufs(packets, ProtobufRep.Packet.class))
+                .build();
+    }
+
+    @Override
+    public Packet fromProtobufRep(ProtobufRep.Packet protobufRep) {
+        msgNum = protobufRep.getMsgNum();
+        smsMessages.addAll(fromProtobufs(protobufRep.getSmsList(), SmsMessage.class));
+        syncContactsMessages.addAll(fromProtobufs(protobufRep.getSyncContactsList(), SyncContactsMessage.class));
+        setupMessages.addAll(fromProtobufs(protobufRep.getSetupList(), SetupMessage.class));
+        modeMessages.addAll(fromProtobufs(protobufRep.getModeList(), ModeMessage.class));
+        contactMessages.addAll(fromProtobufs(protobufRep.getContactList(), ContactMessage.class));
+        packets.addAll(fromProtobufs(protobufRep.getPacketList(), Packet.class));
+        return this;
     }
 }

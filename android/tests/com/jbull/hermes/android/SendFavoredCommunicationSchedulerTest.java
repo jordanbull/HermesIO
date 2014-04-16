@@ -1,21 +1,22 @@
 package com.jbull.hermes.android;
 
-import com.jbull.hermes.*;
+import com.jbull.hermes.MessageListener;
+import com.jbull.hermes.MessageSender;
+import com.jbull.hermes.Mode;
+import com.jbull.hermes.messages.Packet;
+import com.jbull.hermes.messages.SetupMessage;
 import junit.framework.TestCase;
 import org.mockito.InOrder;
 
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Jordan on 3/30/14.
- */
 public class SendFavoredCommunicationSchedulerTest extends TestCase {
 
     private MessageSender sender;
     private MessageListener listener;
     private int sendWindow;
     private SendFavoredCommunicationScheduler commScheduler;
-    private Message.SetupMessage msg;
+    private SetupMessage msg;
     private Runnable startListen;
 
     public void setUp() throws Exception {
@@ -29,7 +30,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         };
         sendWindow = -1;
         commScheduler = new SendFavoredCommunicationScheduler(sender, listener, startListen, null, sendWindow);
-        msg = MessageHelper.createSetupMessage(0);
+        msg = new SetupMessage(0);
     }
 
     public void testStart() throws Exception {
@@ -53,7 +54,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         when(listener.listen()).thenReturn(Mode.STOPPED);
         commScheduler.start();
         InOrder inOrder = inOrder(sender, listener);
-        inOrder.verify(sender, times(1)).send(msg);
+        inOrder.verify(sender, times(1)).send(any(Packet.class));
         inOrder.verify(listener, times(1)).listen();
 
         //alternate send and listen
@@ -64,7 +65,7 @@ public class SendFavoredCommunicationSchedulerTest extends TestCase {
         when(listener.listen()).thenReturn(Mode.SENDING).thenReturn(Mode.STOPPED);
         commScheduler.start();
         inOrder = inOrder(sender, listener);
-        inOrder.verify(sender, times(1)).send(msg);
+        inOrder.verify(sender, times(1)).send(any(Packet.class));
         inOrder.verify(listener, times(2)).listen();
     }
 

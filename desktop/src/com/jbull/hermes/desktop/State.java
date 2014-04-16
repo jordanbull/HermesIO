@@ -1,6 +1,5 @@
 package com.jbull.hermes.desktop;
 
-import com.google.protobuf.GeneratedMessage;
 import com.jbull.hermes.Logger;
 import com.jbull.hermes.MessageListener;
 import com.jbull.hermes.MessageSender;
@@ -240,6 +239,11 @@ public class State {
         commCenter.setConnectionStatusLabel(true);
         lastHeartBeat = System.currentTimeMillis();
         rcvWindow = 2*sendPeriod+timeoutConstant;
+        try {
+            server.setTimeout(rcvWindow);
+        } catch (SocketException e) {
+            Logger.log(e);
+        }
     }
 
     public void updateTimeout() {
