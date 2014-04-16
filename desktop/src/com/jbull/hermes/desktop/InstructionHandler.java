@@ -25,6 +25,12 @@ public class InstructionHandler extends MessageReactor {
     }
 
     @Override
+    protected void executeDisconnect(DisconnectMessage msg) {
+        Logger.log("received: DisconnectMessage");
+        state.disconnect();
+    }
+
+    @Override
     protected boolean executeMode(ModeMessage msg) {
         state.updateTimeout();
         return !msg.isServerSend();

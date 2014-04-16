@@ -27,6 +27,9 @@ public abstract class MessageReactor {
         for (Packet p : packet.getPackets()) {
             executeMessage(p);
         }
+        for (DisconnectMessage msg : packet.getDisconnectMessages()) {
+            executeDisconnect(msg);
+        }
 
         // Mode must be last since it can return
         for (ModeMessage msg : packet.getModeMessages()) {
@@ -35,6 +38,8 @@ public abstract class MessageReactor {
         }
         return true;
     }
+
+    protected abstract void executeDisconnect(DisconnectMessage msg);
 
     protected abstract boolean executeMode(ModeMessage msg);
 

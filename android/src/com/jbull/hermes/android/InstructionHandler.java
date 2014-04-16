@@ -41,6 +41,11 @@ public class InstructionHandler extends MessageReactor {
         sendAllContacts();
     }
 
+    @Override
+    protected void executeDisconnect(DisconnectMessage msg) {
+        // TODO: requires passing in state that contains all methods
+    }
+
     public boolean executeMode(ModeMessage modeMessage) {
         return modeMessage.isServerSend();
     }

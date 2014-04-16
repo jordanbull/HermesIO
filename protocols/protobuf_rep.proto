@@ -9,6 +9,7 @@ message Packet {
   repeated Mode mode = 5;
   repeated SyncContacts syncContacts = 6;
   repeated Packet packet = 7;
+  repeated Disconnect disconnect = 8;
 }
 
 message Setup {
@@ -37,6 +38,9 @@ message Mode {
 }
 
 message SyncContacts {
+}
+
+message Disconnect {
 }
 
 message Header {

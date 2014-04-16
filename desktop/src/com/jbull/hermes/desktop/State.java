@@ -28,6 +28,8 @@ public class State {
     private String pathToDataStore;
     private final long SECONDS_BETWEEN_SAVES = 5;
 
+    private boolean connected = false;
+
     private int timeoutMillis = 0;
     private int timeoutConstant = 5000;
     private int numRetries = 1;
@@ -228,21 +230,24 @@ public class State {
         commThread.start();
     }
 
-    private void disconnect() {
-        Logger.log("Disconnected at " + Long.toString(System.currentTimeMillis()));
-        commCenter.setConnectionStatusLabel(false);
-        commScheduler.stop();
-        try {
-            server.close();
-            timeoutMillis = 0;
-            initCommunication();
-        } catch (IOException e) {
-            Logger.log(e);
+    public void disconnect() {
+        if (connected) {
+            connected = false;
+            Logger.log("Disconnected at " + Long.toString(System.currentTimeMillis()));
+            commCenter.setConnectionStatusLabel(false);
+            commScheduler.stop();
+            try {
+                server.close();
+                timeoutMillis = 0;
+                initCommunication();
+            } catch (IOException e) {
+                Logger.log(e);
+            }
         }
-
     }
 
     public void connected(int sendPeriod) {
+        connected = true;
         commCenter.setConnectionStatusLabel(true);
         lastHeartBeat = System.currentTimeMillis();
         rcvWindow = 2*sendPeriod+timeoutConstant;

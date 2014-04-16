@@ -170,6 +170,31 @@ public final class ProtobufRep {
      */
     com.jbull.hermes.messages.ProtobufRep.PacketOrBuilder getPacketOrBuilder(
         int index);
+
+    // repeated .Disconnect disconnect = 8;
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect> 
+        getDisconnectList();
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.Disconnect getDisconnect(int index);
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    int getDisconnectCount();
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder> 
+        getDisconnectOrBuilderList();
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder getDisconnectOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Packet}
@@ -275,6 +300,14 @@ public final class ProtobufRep {
               packet_.add(input.readMessage(com.jbull.hermes.messages.ProtobufRep.Packet.PARSER, extensionRegistry));
               break;
             }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                disconnect_ = new java.util.ArrayList<com.jbull.hermes.messages.ProtobufRep.Disconnect>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              disconnect_.add(input.readMessage(com.jbull.hermes.messages.ProtobufRep.Disconnect.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -300,6 +333,9 @@ public final class ProtobufRep {
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           packet_ = java.util.Collections.unmodifiableList(packet_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          disconnect_ = java.util.Collections.unmodifiableList(disconnect_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -565,6 +601,42 @@ public final class ProtobufRep {
       return packet_.get(index);
     }
 
+    // repeated .Disconnect disconnect = 8;
+    public static final int DISCONNECT_FIELD_NUMBER = 8;
+    private java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect> disconnect_;
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    public java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect> getDisconnectList() {
+      return disconnect_;
+    }
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder> 
+        getDisconnectOrBuilderList() {
+      return disconnect_;
+    }
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    public int getDisconnectCount() {
+      return disconnect_.size();
+    }
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.Disconnect getDisconnect(int index) {
+      return disconnect_.get(index);
+    }
+    /**
+     * <code>repeated .Disconnect disconnect = 8;</code>
+     */
+    public com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder getDisconnectOrBuilder(
+        int index) {
+      return disconnect_.get(index);
+    }
+
     private void initFields() {
       msgNum_ = 0;
       setup_ = java.util.Collections.emptyList();
@@ -573,6 +645,7 @@ public final class ProtobufRep {
       mode_ = java.util.Collections.emptyList();
       syncContacts_ = java.util.Collections.emptyList();
       packet_ = java.util.Collections.emptyList();
+      disconnect_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -641,6 +714,9 @@ public final class ProtobufRep {
       for (int i = 0; i < packet_.size(); i++) {
         output.writeMessage(7, packet_.get(i));
       }
+      for (int i = 0; i < disconnect_.size(); i++) {
+        output.writeMessage(8, disconnect_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -677,6 +753,10 @@ public final class ProtobufRep {
       for (int i = 0; i < packet_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, packet_.get(i));
+      }
+      for (int i = 0; i < disconnect_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, disconnect_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -792,6 +872,7 @@ public final class ProtobufRep {
           getModeFieldBuilder();
           getSyncContactsFieldBuilder();
           getPacketFieldBuilder();
+          getDisconnectFieldBuilder();
         }
       }
       private static Builder create() {
@@ -837,6 +918,12 @@ public final class ProtobufRep {
           bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           packetBuilder_.clear();
+        }
+        if (disconnectBuilder_ == null) {
+          disconnect_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          disconnectBuilder_.clear();
         }
         return this;
       }
@@ -923,6 +1010,15 @@ public final class ProtobufRep {
           result.packet_ = packet_;
         } else {
           result.packet_ = packetBuilder_.build();
+        }
+        if (disconnectBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            disconnect_ = java.util.Collections.unmodifiableList(disconnect_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.disconnect_ = disconnect_;
+        } else {
+          result.disconnect_ = disconnectBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1096,6 +1192,32 @@ public final class ProtobufRep {
                    getPacketFieldBuilder() : null;
             } else {
               packetBuilder_.addAllMessages(other.packet_);
+            }
+          }
+        }
+        if (disconnectBuilder_ == null) {
+          if (!other.disconnect_.isEmpty()) {
+            if (disconnect_.isEmpty()) {
+              disconnect_ = other.disconnect_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensureDisconnectIsMutable();
+              disconnect_.addAll(other.disconnect_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.disconnect_.isEmpty()) {
+            if (disconnectBuilder_.isEmpty()) {
+              disconnectBuilder_.dispose();
+              disconnectBuilder_ = null;
+              disconnect_ = other.disconnect_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              disconnectBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getDisconnectFieldBuilder() : null;
+            } else {
+              disconnectBuilder_.addAllMessages(other.disconnect_);
             }
           }
         }
@@ -2631,6 +2753,246 @@ public final class ProtobufRep {
           packet_ = null;
         }
         return packetBuilder_;
+      }
+
+      // repeated .Disconnect disconnect = 8;
+      private java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect> disconnect_ =
+        java.util.Collections.emptyList();
+      private void ensureDisconnectIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          disconnect_ = new java.util.ArrayList<com.jbull.hermes.messages.ProtobufRep.Disconnect>(disconnect_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Disconnect, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder, com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder> disconnectBuilder_;
+
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect> getDisconnectList() {
+        if (disconnectBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(disconnect_);
+        } else {
+          return disconnectBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public int getDisconnectCount() {
+        if (disconnectBuilder_ == null) {
+          return disconnect_.size();
+        } else {
+          return disconnectBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect getDisconnect(int index) {
+        if (disconnectBuilder_ == null) {
+          return disconnect_.get(index);
+        } else {
+          return disconnectBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder setDisconnect(
+          int index, com.jbull.hermes.messages.ProtobufRep.Disconnect value) {
+        if (disconnectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDisconnectIsMutable();
+          disconnect_.set(index, value);
+          onChanged();
+        } else {
+          disconnectBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder setDisconnect(
+          int index, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder builderForValue) {
+        if (disconnectBuilder_ == null) {
+          ensureDisconnectIsMutable();
+          disconnect_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          disconnectBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder addDisconnect(com.jbull.hermes.messages.ProtobufRep.Disconnect value) {
+        if (disconnectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDisconnectIsMutable();
+          disconnect_.add(value);
+          onChanged();
+        } else {
+          disconnectBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder addDisconnect(
+          int index, com.jbull.hermes.messages.ProtobufRep.Disconnect value) {
+        if (disconnectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDisconnectIsMutable();
+          disconnect_.add(index, value);
+          onChanged();
+        } else {
+          disconnectBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder addDisconnect(
+          com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder builderForValue) {
+        if (disconnectBuilder_ == null) {
+          ensureDisconnectIsMutable();
+          disconnect_.add(builderForValue.build());
+          onChanged();
+        } else {
+          disconnectBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder addDisconnect(
+          int index, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder builderForValue) {
+        if (disconnectBuilder_ == null) {
+          ensureDisconnectIsMutable();
+          disconnect_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          disconnectBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder addAllDisconnect(
+          java.lang.Iterable<? extends com.jbull.hermes.messages.ProtobufRep.Disconnect> values) {
+        if (disconnectBuilder_ == null) {
+          ensureDisconnectIsMutable();
+          super.addAll(values, disconnect_);
+          onChanged();
+        } else {
+          disconnectBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder clearDisconnect() {
+        if (disconnectBuilder_ == null) {
+          disconnect_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          disconnectBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public Builder removeDisconnect(int index) {
+        if (disconnectBuilder_ == null) {
+          ensureDisconnectIsMutable();
+          disconnect_.remove(index);
+          onChanged();
+        } else {
+          disconnectBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder getDisconnectBuilder(
+          int index) {
+        return getDisconnectFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder getDisconnectOrBuilder(
+          int index) {
+        if (disconnectBuilder_ == null) {
+          return disconnect_.get(index);  } else {
+          return disconnectBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public java.util.List<? extends com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder> 
+           getDisconnectOrBuilderList() {
+        if (disconnectBuilder_ != null) {
+          return disconnectBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(disconnect_);
+        }
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder addDisconnectBuilder() {
+        return getDisconnectFieldBuilder().addBuilder(
+            com.jbull.hermes.messages.ProtobufRep.Disconnect.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder addDisconnectBuilder(
+          int index) {
+        return getDisconnectFieldBuilder().addBuilder(
+            index, com.jbull.hermes.messages.ProtobufRep.Disconnect.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Disconnect disconnect = 8;</code>
+       */
+      public java.util.List<com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder> 
+           getDisconnectBuilderList() {
+        return getDisconnectFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.jbull.hermes.messages.ProtobufRep.Disconnect, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder, com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder> 
+          getDisconnectFieldBuilder() {
+        if (disconnectBuilder_ == null) {
+          disconnectBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.jbull.hermes.messages.ProtobufRep.Disconnect, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder, com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder>(
+                  disconnect_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          disconnect_ = null;
+        }
+        return disconnectBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Packet)
@@ -5911,6 +6273,315 @@ public final class ProtobufRep {
     // @@protoc_insertion_point(class_scope:SyncContacts)
   }
 
+  public interface DisconnectOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Disconnect}
+   */
+  public static final class Disconnect extends
+      com.google.protobuf.GeneratedMessage
+      implements DisconnectOrBuilder {
+    // Use Disconnect.newBuilder() to construct.
+    private Disconnect(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Disconnect(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Disconnect defaultInstance;
+    public static Disconnect getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Disconnect getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Disconnect(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Disconnect_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.jbull.hermes.messages.ProtobufRep.internal_static_Disconnect_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.jbull.hermes.messages.ProtobufRep.Disconnect.class, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Disconnect> PARSER =
+        new com.google.protobuf.AbstractParser<Disconnect>() {
+      public Disconnect parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Disconnect(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Disconnect> getParserForType() {
+      return PARSER;
+    }
+
+    private void initFields() {
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.jbull.hermes.messages.ProtobufRep.Disconnect parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.jbull.hermes.messages.ProtobufRep.Disconnect prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Disconnect}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.jbull.hermes.messages.ProtobufRep.DisconnectOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Disconnect_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Disconnect_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.jbull.hermes.messages.ProtobufRep.Disconnect.class, com.jbull.hermes.messages.ProtobufRep.Disconnect.Builder.class);
+      }
+
+      // Construct using com.jbull.hermes.messages.ProtobufRep.Disconnect.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.jbull.hermes.messages.ProtobufRep.internal_static_Disconnect_descriptor;
+      }
+
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect getDefaultInstanceForType() {
+        return com.jbull.hermes.messages.ProtobufRep.Disconnect.getDefaultInstance();
+      }
+
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect build() {
+        com.jbull.hermes.messages.ProtobufRep.Disconnect result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.jbull.hermes.messages.ProtobufRep.Disconnect buildPartial() {
+        com.jbull.hermes.messages.ProtobufRep.Disconnect result = new com.jbull.hermes.messages.ProtobufRep.Disconnect(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.jbull.hermes.messages.ProtobufRep.Disconnect) {
+          return mergeFrom((com.jbull.hermes.messages.ProtobufRep.Disconnect)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.jbull.hermes.messages.ProtobufRep.Disconnect other) {
+        if (other == com.jbull.hermes.messages.ProtobufRep.Disconnect.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.jbull.hermes.messages.ProtobufRep.Disconnect parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.jbull.hermes.messages.ProtobufRep.Disconnect) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Disconnect)
+    }
+
+    static {
+      defaultInstance = new Disconnect(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Disconnect)
+  }
+
   public interface HeaderOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -6839,6 +7510,11 @@ public final class ProtobufRep {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_SyncContacts_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Disconnect_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Disconnect_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Header_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6857,22 +7533,23 @@ public final class ProtobufRep {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022protobuf_rep.proto\"\260\001\n\006Packet\022\016\n\006msgNu" +
+      "\n\022protobuf_rep.proto\"\321\001\n\006Packet\022\016\n\006msgNu" +
       "m\030\001 \002(\007\022\025\n\005setup\030\002 \003(\0132\006.Setup\022\021\n\003sms\030\003 " +
       "\003(\0132\004.Sms\022\031\n\007contact\030\004 \003(\0132\010.Contact\022\023\n\004" +
       "mode\030\005 \003(\0132\005.Mode\022#\n\014syncContacts\030\006 \003(\0132" +
-      "\r.SyncContacts\022\027\n\006packet\030\007 \003(\0132\007.Packet\"" +
-      "R\n\005Setup\022\022\n\nsendPeriod\030\001 \002(\005\022\022\n\007version\030" +
-      "\002 \001(\005:\0011\022!\n\017applicationName\030\003 \001(\t:\010Herme" +
-      "sIO\"`\n\003Sms\022\021\n\ttimeStamp\030\001 \002(\003\022\030\n\006sender\030" +
-      "\002 \002(\0132\010.Contact\022\017\n\007content\030\003 \002(\t\022\033\n\treci" +
-      "pient\030\004 \002(\0132\010.Contact\";\n\007Contact\022\023\n\013phon",
-      "eNumber\030\001 \002(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005image\030\003 \001" +
-      "(\014\"H\n\004Mode\022\022\n\nlastUpdate\030\001 \002(\003\022\030\n\020curren" +
-      "tTimestamp\030\002 \002(\003\022\022\n\nserverSend\030\003 \002(\010\"\016\n\014" +
-      "SyncContacts\"(\n\006Header\022\016\n\006msgNum\030\001 \002(\007\022\016" +
-      "\n\006length\030\002 \002(\007\"\025\n\003Ack\022\016\n\006msgNum\030\001 \002(\007B\033\n" +
-      "\031com.jbull.hermes.messages"
+      "\r.SyncContacts\022\027\n\006packet\030\007 \003(\0132\007.Packet\022" +
+      "\037\n\ndisconnect\030\010 \003(\0132\013.Disconnect\"R\n\005Setu" +
+      "p\022\022\n\nsendPeriod\030\001 \002(\005\022\022\n\007version\030\002 \001(\005:\001" +
+      "1\022!\n\017applicationName\030\003 \001(\t:\010HermesIO\"`\n\003" +
+      "Sms\022\021\n\ttimeStamp\030\001 \002(\003\022\030\n\006sender\030\002 \002(\0132\010" +
+      ".Contact\022\017\n\007content\030\003 \002(\t\022\033\n\trecipient\030\004",
+      " \002(\0132\010.Contact\";\n\007Contact\022\023\n\013phoneNumber" +
+      "\030\001 \002(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005image\030\003 \001(\014\"H\n\004M" +
+      "ode\022\022\n\nlastUpdate\030\001 \002(\003\022\030\n\020currentTimest" +
+      "amp\030\002 \002(\003\022\022\n\nserverSend\030\003 \002(\010\"\016\n\014SyncCon" +
+      "tacts\"\014\n\nDisconnect\"(\n\006Header\022\016\n\006msgNum\030" +
+      "\001 \002(\007\022\016\n\006length\030\002 \002(\007\"\025\n\003Ack\022\016\n\006msgNum\030\001" +
+      " \002(\007B\033\n\031com.jbull.hermes.messages"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6884,7 +7561,7 @@ public final class ProtobufRep {
           internal_static_Packet_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Packet_descriptor,
-              new java.lang.String[] { "MsgNum", "Setup", "Sms", "Contact", "Mode", "SyncContacts", "Packet", });
+              new java.lang.String[] { "MsgNum", "Setup", "Sms", "Contact", "Mode", "SyncContacts", "Packet", "Disconnect", });
           internal_static_Setup_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_Setup_fieldAccessorTable = new
@@ -6915,14 +7592,20 @@ public final class ProtobufRep {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SyncContacts_descriptor,
               new java.lang.String[] { });
-          internal_static_Header_descriptor =
+          internal_static_Disconnect_descriptor =
             getDescriptor().getMessageTypes().get(6);
+          internal_static_Disconnect_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Disconnect_descriptor,
+              new java.lang.String[] { });
+          internal_static_Header_descriptor =
+            getDescriptor().getMessageTypes().get(7);
           internal_static_Header_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Header_descriptor,
               new java.lang.String[] { "MsgNum", "Length", });
           internal_static_Ack_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_Ack_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Ack_descriptor,

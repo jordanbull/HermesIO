@@ -14,6 +14,12 @@ public class Packet extends HermesMessage<ProtobufRep.Packet> {
     ArrayList<ModeMessage> modeMessages = new ArrayList<ModeMessage>(1);
     ArrayList<SyncContactsMessage> syncContactsMessages = new ArrayList<SyncContactsMessage>(1);
 
+    public ArrayList<DisconnectMessage> getDisconnectMessages() {
+        return disconnectMessages;
+    }
+
+    ArrayList<DisconnectMessage> disconnectMessages = new ArrayList<DisconnectMessage>(1);
+
     public ArrayList<Packet> getPackets() {
         return packets;
     }
@@ -59,6 +65,8 @@ public class Packet extends HermesMessage<ProtobufRep.Packet> {
             syncContactsMessages.add((SyncContactsMessage) msg);
         } else if (msg instanceof Packet) {
             packets.add((Packet) msg);
+        } else if (msg instanceof DisconnectMessage) {
+            disconnectMessages.add((DisconnectMessage) msg);
         } else {
             throw new MessageSerializationException("Attempting to add an unknown message type: " + msg.getClass().toString());
         }
@@ -118,6 +126,7 @@ public class Packet extends HermesMessage<ProtobufRep.Packet> {
                 .addAllMode(createProtobufs(modeMessages, ProtobufRep.Mode.class))
                 .addAllSyncContacts(createProtobufs(syncContactsMessages, ProtobufRep.SyncContacts.class))
                 .addAllPacket(createProtobufs(packets, ProtobufRep.Packet.class))
+                .addAllDisconnect(createProtobufs(disconnectMessages, ProtobufRep.Disconnect.class))
                 .build();
     }
 
@@ -130,6 +139,7 @@ public class Packet extends HermesMessage<ProtobufRep.Packet> {
         modeMessages.addAll(fromProtobufs(protobufRep.getModeList(), ModeMessage.class));
         contactMessages.addAll(fromProtobufs(protobufRep.getContactList(), ContactMessage.class));
         packets.addAll(fromProtobufs(protobufRep.getPacketList(), Packet.class));
+        disconnectMessages.addAll(fromProtobufs(protobufRep.getDisconnectList(), DisconnectMessage.class));
         return this;
     }
 }

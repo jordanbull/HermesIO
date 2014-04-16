@@ -17,6 +17,7 @@ import com.jbull.hermes.Connection;
 import com.jbull.hermes.MessageListener;
 import com.jbull.hermes.MessageSender;
 import com.jbull.hermes.TCPClient;
+import com.jbull.hermes.messages.DisconnectMessage;
 import com.jbull.hermes.messages.SetupMessage;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,6 +79,7 @@ public class HermesService extends Service {
     }
 
     public void disconnect() {
+        commManager.send(new DisconnectMessage());
         if (wifiLock.isHeld()) {
             wifiLock.release();
         }
