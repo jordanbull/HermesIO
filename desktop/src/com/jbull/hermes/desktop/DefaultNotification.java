@@ -10,25 +10,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.PopupControl;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 
 
-public class DefaultNotification extends GridPane implements Notification {
+public class DefaultNotification extends VBox implements Notification {
     private PopupControl popup = null;
 
     private static PopupControl currentPopup = null;
 
-    @FXML ImageView senderIcon;
-    @FXML Label senderLabel;
+    @FXML Label subjectLabel;
     @FXML Label contentLabel;
     private static Stage stage;
 
@@ -51,10 +47,8 @@ public class DefaultNotification extends GridPane implements Notification {
             throw new RuntimeException(exception);
         }
 
-        senderLabel.setText(sender);
+        subjectLabel.setText(sender);
         contentLabel.setText(content);
-        if (imgData != null)
-            senderIcon.setImage(new Image(new ByteArrayInputStream(imgData)));
 
         popup = new PopupControl();
         popup.setX(0);
@@ -94,18 +88,6 @@ public class DefaultNotification extends GridPane implements Notification {
             currentPopup.hide();
         }
         currentPopup = popup;
-    }
-
-    @FXML
-    public void dismiss() {
-        popup.hide();
-        stage.hide();
-    }
-
-    @FXML
-    public void reply() {
-        dismiss();
-        //TODO
     }
 
     @Override

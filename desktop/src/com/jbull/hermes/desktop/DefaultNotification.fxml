@@ -3,65 +3,23 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: rgba(10,10,10,0.8); -fx-background-radius: 5;" type="GridPane" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-    <ImageView fx:id="senderImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
-      <image>
-        <!-- place holder -->
-      </image>
-    </ImageView>
-    <VBox maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" prefWidth="400.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-      <children>
-        <Label fx:id="senderLabel" text="message" textAlignment="LEFT" textFill="WHITE" wrapText="true">
-          <font>
-            <Font name="System Bold" size="13.0" />
-          </font>
-        </Label>
-        <Label fx:id="contentLabel" text="details" textAlignment="LEFT" textFill="WHITE" wrapText="true">
-          <font>
-            <Font size="12.0" />
-          </font>
-        </Label>
-      </children>
-    </VBox>
-    <HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1">
-      <children>
-        <HBox fx:id="actionParent" alignment="CENTER">
-          <HBox.margin>
-            <Insets />
-          </HBox.margin>
-        </HBox>
-        <Pane maxWidth="+Infinity" HBox.hgrow="ALWAYS" />
-        <Button fx:id="replyButton" cancelButton="true" minWidth="80.0" mnemonicParsing="false" onAction="#reply" text="Reply" HBox.hgrow="NEVER">
-          <HBox.margin>
-            <Insets />
-          </HBox.margin>
-        </Button>
-        <HBox fx:id="okParent" alignment="CENTER">
-          <children>
-            <Button fx:id="okButton" minWidth="80.0" mnemonicParsing="false" onAction="#dismiss" text="Ok" HBox.hgrow="NEVER">
-              <HBox.margin>
-                <Insets left="14.0" />
-              </HBox.margin>
-            </Button>
-          </children>
-        </HBox>
-      </children>
-    </HBox>
-  </children>
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" />
-    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="+Infinity" minWidth="-Infinity" />
-  </columnConstraints>
-  <padding>
-    <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-  </padding>
-  <rowConstraints>
-    <RowConstraints maxHeight="+Infinity" minHeight="-Infinity" valignment="CENTER" vgrow="ALWAYS" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
-  </rowConstraints>
+<fx:root maxHeight="200.0" maxWidth="-Infinity" minWidth="400.0" prefWidth="400.0" spacing="7.0" style="-fx-background-color: rgba(15,15,15,.8); -fx-background-radius: 6;" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<children>
+<Label fx:id="subjectLabel" maxWidth="1.7976931348623157E308" text="message" textAlignment="LEFT" textFill="WHITE" wrapText="true" VBox.vgrow="NEVER">
+<font>
+<Font name="System Bold" size="13.0" />
+</font>
+</Label>
+<Label fx:id="contentLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="details" textAlignment="LEFT" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
+<font>
+<Font size="12.0" />
+</font>
+</Label>
+</children>
+<padding>
+<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+</padding>
 </fx:root>
