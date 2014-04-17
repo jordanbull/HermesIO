@@ -29,6 +29,7 @@ public class CommunicationCenter extends BorderPane {
     @FXML AnchorPane messagingPane;
     @FXML TextField contactSearch;
     @FXML Label connectionStatusLabel;
+    @FXML Label extraInfoLabel;
 
     private final String CONNECTED = "Connected";
     private final String DISCONNECTED = "Disconnected";
@@ -75,7 +76,6 @@ public class CommunicationCenter extends BorderPane {
                 if (oldValue != null) {
                     oldValue.deselect();
                 }
-                //TODO contactsList.set(defaultList)
             }
         });
 
@@ -165,6 +165,15 @@ public class CommunicationCenter extends BorderPane {
 
     public void notify(String subject, String body, byte[] imageData) {
         notification.notify(subject, body, imageData);
+    }
+
+    public void setExtraInfo(final String str) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                extraInfoLabel.setText(str);
+            }
+        });
     }
 
     public class TimeSortedContacts extends ModifiableObservableListBase<ContactView> {

@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class State {
 
     private final String DATA_STORE_FILENAME = "data.ser";
+    private final String SYNCING_CONTACTS_TEXT = "Syncing Contacts...";
+
     private String pathToDataStore;
     private final long SECONDS_BETWEEN_SAVES = 5;
 
@@ -44,6 +46,7 @@ public class State {
     public boolean stateChanged = false;
     private CommunicationCenter commCenter;
     private TCPServer server;
+    private boolean requestingContacts;
 
 
     public State(CommunicationCenter commCenter) {
@@ -111,6 +114,10 @@ public class State {
     }
 
     public void addContact(ContactMessage cMsg) {
+        if (requestingContacts) {
+            requestingContacts = false;
+            commCenter.setExtraInfo("");
+        }
         String number = PhoneNumber.format(cMsg.getPhoneNumber());
         Contact contact = dataStore.addContact(number, cMsg.getDisplayName(), cMsg.getImageData(), false);
         if (contact != null) {
@@ -179,6 +186,7 @@ public class State {
     }
 
     private void requestContacts() {
+        requestingContacts = true;
         while (commScheduler == null) {
             try {
                 Thread.sleep(100); //avoid nullpointer
@@ -233,6 +241,10 @@ public class State {
     public void disconnect() {
         if (connected) {
             connected = false;
+            if (requestingContacts) {
+                requestingContacts = false;
+                commCenter.setExtraInfo("");
+            }
             Logger.log("Disconnected at " + Long.toString(System.currentTimeMillis()));
             commCenter.setConnectionStatusLabel(false);
             commScheduler.stop();
@@ -247,6 +259,9 @@ public class State {
     }
 
     public void connected(int sendPeriod) {
+        if (requestingContacts) {
+            commCenter.setExtraInfo(SYNCING_CONTACTS_TEXT);
+        }
         connected = true;
         commCenter.setConnectionStatusLabel(true);
         lastHeartBeat = System.currentTimeMillis();

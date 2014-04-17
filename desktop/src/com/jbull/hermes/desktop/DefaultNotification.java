@@ -91,8 +91,8 @@ public class DefaultNotification extends VBox implements Notification {
     }
 
     @Override
-    public boolean notify(String sender, String content, byte[] imageData) {
-        new DefaultNotification(sender, content, imageData).show();
+    public boolean notify(String subject, String content, byte[] imageData) {
+        new DefaultNotification(subject, content, imageData).show();
         return true;
     }
 }

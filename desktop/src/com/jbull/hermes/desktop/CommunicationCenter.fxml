@@ -21,9 +21,9 @@
 </HBox.margin>
 <font>
 <Font name="System Bold" size="13.0" />
-</font></Label><Label fx:id="connectionStatusLabel" maxWidth="1.7976931348623157E308" text="Disconnected" textFill="#00d045" HBox.hgrow="ALWAYS">
+</font></Label><Label fx:id="connectionStatusLabel" maxWidth="1.7976931348623157E308" prefHeight="16.0" prefWidth="112.0" text="Disconnected" textFill="#00d045" HBox.hgrow="NEVER">
 <HBox.margin>
 <Insets left="3.0" />
-</HBox.margin></Label>
+</HBox.margin></Label><Label fx:id="extraInfoLabel" maxWidth="1.7976931348623157E308" textFill="#00d045" HBox.hgrow="ALWAYS" />
 </children></HBox>
 </bottom></fx:root>
