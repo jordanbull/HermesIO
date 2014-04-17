@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" type="GridPane" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: rgba(10,10,10,0.8); -fx-background-radius: 5;" type="GridPane" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <ImageView fx:id="senderImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
       <image>
@@ -16,12 +16,12 @@
     </ImageView>
     <VBox maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" prefWidth="400.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
       <children>
-        <Label fx:id="senderLabel" text="message" textAlignment="LEFT" wrapText="true">
+        <Label fx:id="senderLabel" text="message" textAlignment="LEFT" textFill="WHITE" wrapText="true">
           <font>
             <Font name="System Bold" size="13.0" />
           </font>
         </Label>
-        <Label fx:id="contentLabel" text="details" textAlignment="LEFT" wrapText="true">
+        <Label fx:id="contentLabel" text="details" textAlignment="LEFT" textFill="WHITE" wrapText="true">
           <font>
             <Font size="12.0" />
           </font>
