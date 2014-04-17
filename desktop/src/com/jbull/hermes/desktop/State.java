@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 
 public class State {
+    private static final int MESSAGE_VERSION = 2;
+    private static final int MIN_MESSAGE_VERSION = 2;
 
     private final String DATA_STORE_FILENAME = "data.ser";
     private final String SYNCING_CONTACTS_TEXT = "Syncing Contacts...";
@@ -258,7 +260,14 @@ public class State {
         }
     }
 
-    public void connected(int sendPeriod) {
+    public void connected(int sendPeriod, int messageVersionNumber) {
+        if (messageVersionNumber < MIN_MESSAGE_VERSION) {
+            commCenter.systemNotify("Android Update Required", "The Android app is using a messaging version that is lower than the minimum version required for this desktop app.", null);
+        } else if (messageVersionNumber < MESSAGE_VERSION) {
+            commCenter.systemNotify("Android Update Advisable", "The Android app is using a messaging version that is lower than the preferred version. Some features may not be supported.", null);
+        } else if (messageVersionNumber > MESSAGE_VERSION) {
+            commCenter.systemNotify("Desktop Update Advisable", "The Desktop app is using a messaging version that is lower than the Android version. It may be incompatible.", null);
+        }
         if (requestingContacts) {
             commCenter.setExtraInfo(SYNCING_CONTACTS_TEXT);
         }
@@ -293,7 +302,7 @@ public class State {
     }
 
     public void notify(String subject, String body, byte[] imageData) {
-        commCenter.notify(subject, body, imageData);
+        commCenter.messageNotify(subject, body, imageData);
     }
 
     public void close() throws IOException {

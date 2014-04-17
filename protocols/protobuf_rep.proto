@@ -14,7 +14,7 @@ message Packet {
 
 message Setup {
   required int32 sendPeriod = 1;
-  optional int32 version = 2 [default = 1];
+  optional int32 version = 2 [default = 2];
   optional string applicationName = 3 [default = "HermesIO"];
 }
 

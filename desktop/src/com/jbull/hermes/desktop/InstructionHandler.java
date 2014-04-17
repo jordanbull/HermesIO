@@ -14,7 +14,7 @@ public class InstructionHandler extends MessageReactor {
 
     protected void executeSetup(SetupMessage msg) {
         Logger.log("received: SetupMessage");
-        state.connected(msg.getSendPeriod());
+        state.connected(msg.getSendPeriod(), msg.getVersion());
     }
 
     @Override

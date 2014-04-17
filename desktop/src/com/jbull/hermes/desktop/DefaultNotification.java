@@ -64,7 +64,7 @@ public class DefaultNotification extends VBox implements Notification {
         KeyFrame kfEnd   = new KeyFrame(Duration.millis(500), fadeOutEnd);
 
         Timeline timeline = new Timeline(kfBegin, kfEnd);
-        timeline.setDelay(Duration.millis(5000));
+        timeline.setDelay(Duration.millis(10000));
         timeline.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

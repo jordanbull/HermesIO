@@ -25,6 +25,7 @@ import java.util.LinkedList;
 
 
 public class CommunicationCenter extends BorderPane {
+    private final Notification systemNotification;
     @FXML ListView<ContactView> contactsList;
     @FXML AnchorPane messagingPane;
     @FXML TextField contactSearch;
@@ -36,10 +37,11 @@ public class CommunicationCenter extends BorderPane {
 
     private State state;
     private TimeSortedContacts timeSortedContacts = new TimeSortedContacts();
-    private Notification notification;
+    private Notification messageNotification;
 
-    public CommunicationCenter(Notification notification) throws IOException {
-        this.notification = notification;
+    public CommunicationCenter(Notification messageNotification, Notification systemNotification) throws IOException {
+        this.messageNotification = messageNotification;
+        this.systemNotification = systemNotification;
         URL resource = getClass().getResource("CommunicationCenter.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setRoot(this);
@@ -163,8 +165,22 @@ public class CommunicationCenter extends BorderPane {
         });
     }
 
-    public void notify(String subject, String body, byte[] imageData) {
-        notification.notify(subject, body, imageData);
+    public void messageNotify(final String subject, final String body, final byte[] imageData) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messageNotification.notify(subject, body, imageData);
+            }
+        });
+    }
+
+    public void systemNotify(final String subject, final String body, final byte[] imageData) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                systemNotification.notify(subject, body, imageData);
+            }
+        });
     }
 
     public void setExtraInfo(final String str) {

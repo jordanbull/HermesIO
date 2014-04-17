@@ -3019,13 +3019,13 @@ public final class ProtobufRep {
      */
     int getSendPeriod();
 
-    // optional int32 version = 2 [default = 1];
+    // optional int32 version = 2 [default = 2];
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>optional int32 version = 2 [default = 2];</code>
      */
     boolean hasVersion();
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>optional int32 version = 2 [default = 2];</code>
      */
     int getVersion();
 
@@ -3166,17 +3166,17 @@ public final class ProtobufRep {
       return sendPeriod_;
     }
 
-    // optional int32 version = 2 [default = 1];
+    // optional int32 version = 2 [default = 2];
     public static final int VERSION_FIELD_NUMBER = 2;
     private int version_;
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>optional int32 version = 2 [default = 2];</code>
      */
     public boolean hasVersion() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 version = 2 [default = 1];</code>
+     * <code>optional int32 version = 2 [default = 2];</code>
      */
     public int getVersion() {
       return version_;
@@ -3227,7 +3227,7 @@ public final class ProtobufRep {
 
     private void initFields() {
       sendPeriod_ = 0;
-      version_ = 1;
+      version_ = 2;
       applicationName_ = "HermesIO";
     }
     private byte memoizedIsInitialized = -1;
@@ -3394,7 +3394,7 @@ public final class ProtobufRep {
         super.clear();
         sendPeriod_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        version_ = 1;
+        version_ = 2;
         bitField0_ = (bitField0_ & ~0x00000002);
         applicationName_ = "HermesIO";
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3529,22 +3529,22 @@ public final class ProtobufRep {
         return this;
       }
 
-      // optional int32 version = 2 [default = 1];
-      private int version_ = 1;
+      // optional int32 version = 2 [default = 2];
+      private int version_ = 2;
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 2];</code>
        */
       public boolean hasVersion() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 2];</code>
        */
       public int getVersion() {
         return version_;
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 2];</code>
        */
       public Builder setVersion(int value) {
         bitField0_ |= 0x00000002;
@@ -3553,11 +3553,11 @@ public final class ProtobufRep {
         return this;
       }
       /**
-       * <code>optional int32 version = 2 [default = 1];</code>
+       * <code>optional int32 version = 2 [default = 2];</code>
        */
       public Builder clearVersion() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        version_ = 1;
+        version_ = 2;
         onChanged();
         return this;
       }
@@ -7540,7 +7540,7 @@ public final class ProtobufRep {
       "\r.SyncContacts\022\027\n\006packet\030\007 \003(\0132\007.Packet\022" +
       "\037\n\ndisconnect\030\010 \003(\0132\013.Disconnect\"R\n\005Setu" +
       "p\022\022\n\nsendPeriod\030\001 \002(\005\022\022\n\007version\030\002 \001(\005:\001" +
-      "1\022!\n\017applicationName\030\003 \001(\t:\010HermesIO\"`\n\003" +
+      "2\022!\n\017applicationName\030\003 \001(\t:\010HermesIO\"`\n\003" +
       "Sms\022\021\n\ttimeStamp\030\001 \002(\003\022\030\n\006sender\030\002 \002(\0132\010" +
       ".Contact\022\017\n\007content\030\003 \002(\t\022\033\n\trecipient\030\004",
       " \002(\0132\010.Contact\";\n\007Contact\022\023\n\013phoneNumber" +
