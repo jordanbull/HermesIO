@@ -102,12 +102,8 @@ public class ConversationView extends BorderPane {
                     Robot robot = new Robot();
                     switch ( keyEvent.getCode() ) {
                         case TAB :
-
                             if (!keyEvent.isShiftDown()) {
-                                robot.keyPress(java.awt.event.KeyEvent.VK_SHIFT);
-                                robot.keyPress(java.awt.event.KeyEvent.VK_TAB);
-                                robot.keyRelease(java.awt.event.KeyEvent.VK_TAB);
-                                robot.keyRelease(java.awt.event.KeyEvent.VK_SHIFT);
+                                sendButton.requestFocus();
                                 keyEvent.consume();
                                 break;
                             }

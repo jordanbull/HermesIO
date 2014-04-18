@@ -11,3 +11,4 @@ mac/data.ser
 *.apk
 *.jks
 Test.java
+out
